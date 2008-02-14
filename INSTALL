@@ -1,16 +1,25 @@
-Building jprefctl from source:
+Building jwordpress from source:
 ------------------------------
 
 First read the attached COPYING file before using this software anywhere. It's
 free, but not as in free willy.
 
 In order to install, you need java and ant. Ant is available from
-http://ant.apache.org/ .
+http://ant.apache.org/ . I compiled it via Java 6, it may work with Java 5 but
+some classes in commons library are incompatible, so you'll have to figure it
+out.
 
 ant make-clidist :
     This will create a zip file that contains the jar file and the wrapper
     script for running the command line interface. Try './jwordpress -?'
     for a list of command line options.
+
+ant compilelib :
+    This will create a jar file that contains the API, not the CLI, which can
+    be used for linking other Java code.
+
+ant javadoc :
+    This will generate javadocs under doc/ directory.
 
 ant install :
     This will install files to /usr/bin by default, you can change the
@@ -22,4 +31,4 @@ explanation here.
 
 --
 Can Bican <can@bican.net>
-2008/02/12
+2008/02/14
