@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="init" name="${projectname}">
+  <property file="project.properties" />
+  <property file="/home/can/Lib/gc.properties" />
+  <target name="init">
+    <mkdir dir="bin" />
+    <mkdir dir="lib" />
+  </target>
+  <target name="initlib" depends="init">
+    <copy includeemptydirs="false" todir="bin">
+      <fileset dir="src" excludes="**/Main.java,**/configuration/*"/>
+    </copy>
+  </target>
+  <target name="initcli" depends="init">
+    <copy includeemptydirs="false" todir="bin">
+      <fileset dir="src"/>
+    </copy>
+  </target>
+  <target name="clean">
+    <delete dir="bin" />
+    <delete file="${projectname}-${VERSION}.jar" />
+    <delete file="${projectname}-${VERSION}-src.zip" />
+    <delete file="${projectname}-${VERSION}.zip" />
+    <delete dir="deploy"/>
+  </target>
+    <target name="cleanall" depends="clean">
+    <delete dir="lib" />
+    <delete dir="ant" />
+    </target>
+  <target name="commoncompile">
+    <javac debug="true" srcdir="bin" sourcepath="bin" classpath="bin"/>
+  </target>
+  <target name="compilelib" depends="clean,initlib,get-libdeps,commoncompile">
+        <jar destfile="${projectname}-${VERSION}.jar">
+      <fileset dir="bin">
+        <include name="**/*.class" />
+        <include name="**/XmlRpcMessages*" />
+      </fileset>
+    </jar>
+  </target>
+  <target name="compilecli" depends="clean,initcli,get-clideps,commoncompile">
+    <manifest file="bin/manifest.mf">
+      <attribute name="Main-Class" value="net.bican.${projectname}.Main" />
+        </manifest>
+    <jar destfile="${projectname}-${VERSION}-cli.jar" manifest="bin/manifest.mf">
+      <fileset dir="bin">
+        <include name="**/*.class" />
+        <include name="**/XmlRpcMessages*" />
+        <include name="**/*.dtd" />
+        <include name="**/*.properties" />
+      </fileset>
+    </jar>
+  </target>
+  <target name="get-libdeps">
+    <get dest="${libdir}/xmlrpc-client-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/xmlrpc-client-1.1.jar" />
+    <unjar src="${libdir}/xmlrpc-client-1.1.jar" dest="bin" />
+  </target>
+  <target name="get-clideps" depends="get-libdeps">
+    <get dest="${libdir}/commons-logging-api.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-logging-api.jar" />
+    <unjar src="${libdir}/commons-logging-api.jar" dest="bin" />
+    <get dest="${libdir}/commons-collections-3.2.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-collections-3.2.jar" />
+    <unjar src="${libdir}/commons-collections-3.2.jar" dest="bin" />
+    <get dest="${libdir}/commons-lang-2.3.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-lang-2.3.jar" />
+    <unjar src="${libdir}/commons-lang-2.3.jar" dest="bin" />
+    <get dest="${libdir}/commons-configuration-1.5.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-configuration-1.5.jar" />
+    <unjar src="${libdir}/commons-configuration-1.5.jar" dest="bin" />
+    <get dest="${libdir}/commons-cli-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-cli-1.1.jar" />
+    <unjar src="${libdir}/commons-cli-1.1.jar" dest="bin" />
+  </target>
+</project>

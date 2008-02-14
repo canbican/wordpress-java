@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="/home/can/Lib/xmlrpc-client-1.1.jar" destdir="doc" doctitle="Wordpress-java" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.bican.wordpress.bridges,net.bican.wordpress" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
-            <link href="file:/home/can/Documents/Dev/wordpress-java/doc/"/>
-            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-        </javadoc>
-    </target>
-</project>
