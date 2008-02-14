@@ -107,7 +107,7 @@
       <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
     </javadoc>
   </target>
-  <target name="make-dist" depends="clean">
+  <target name="make-dist">
     <delete file="${projectname}-${VERSION}-src.zip" />
     <mkdir dir="deploy/${srcdistdir}" />
     <copy todir="deploy/${srcdistdir}">
@@ -122,11 +122,12 @@
     <zip level="9" destfile="${projectname}-${VERSION}-src.zip" basedir="deploy"/>
     <delete dir="deploy" />
   </target>
-  <target name="upload" depends="compilelib, make-clidist" description="Upload the distribution to google code">
+  <target name="upload" depends="compilelib, make-clidist, make-dist" description="Upload the distribution to google code">
     <mkdir dir="${antdir}" />
     <get dest="${antdir}/ant-googlecode.jar" usetimestamp="true" ignoreerrors="true" src="http://ant-googlecode.googlecode.com/files/ant-googlecode-0.0.0test.jar" />
     <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="${antdir}/ant-googlecode.jar" name="gcupload"/>
-    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.jar" summary="${projectname} version ${VERSION} library release" />
-    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.zip" summary="${projectname} version ${VERSION} CLI and API interface release" />
+    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.jar" targetfilename="${projectname}-${VERSION}.jar" summary="${projectname} version ${VERSION} library release" />
+    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.zip" targetfilename="${projectname}-${VERSION}.zip" summary="${projectname} version ${VERSION} CLI and API interface release" />
+    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}-src.zip" targetfilename="${projectname}-${VERSION}-src.zip" summary="${projectname} version ${VERSION} sources" />
     </target>
 </project>
