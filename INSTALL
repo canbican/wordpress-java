@@ -1,0 +1,25 @@
+Building jprefctl from source:
+------------------------------
+
+First read the attached COPYING file before using this software anywhere. It's
+free, but not as in free willy.
+
+In order to install, you need java and ant. Ant is available from
+http://ant.apache.org/ .
+
+ant make-clidist :
+    This will create a zip file that contains the jar file and the wrapper
+    script for running the command line interface. Try './jwordpress -?'
+    for a list of command line options.
+
+ant install :
+    This will install files to /usr/bin by default, you can change the
+    installation prefix by 'ant -Dinstallprefix=(somewhereelse) install'.
+
+There are other ant targets, but I suspect anyone ever needs to use them. Feel
+free to browse build.xml and let me know anything bizarre that requires
+explanation here.
+
+--
+Can Bican <can@bican.net>
+2008/02/12

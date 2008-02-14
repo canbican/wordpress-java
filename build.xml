@@ -18,6 +18,7 @@
   </target>
   <target name="clean">
     <delete dir="bin" />
+    <delete file="${projectname}-${VERSION}-cli.jar" />
     <delete file="${projectname}-${VERSION}.jar" />
     <delete file="${projectname}-${VERSION}-src.zip" />
     <delete file="${projectname}-${VERSION}.zip" />
@@ -30,7 +31,7 @@
   <target name="commoncompile">
     <javac debug="true" srcdir="bin" sourcepath="bin" classpath="bin"/>
   </target>
-  <target name="compilelib" depends="clean,initlib,get-libdeps,commoncompile">
+  <target name="compilelib" depends="initlib,get-libdeps,commoncompile">
         <jar destfile="${projectname}-${VERSION}.jar">
       <fileset dir="bin">
         <include name="**/*.class" />
@@ -38,9 +39,9 @@
       </fileset>
     </jar>
   </target>
-  <target name="compilecli" depends="clean,initcli,get-clideps,commoncompile">
+  <target name="compilecli" depends="initcli,get-clideps,commoncompile">
     <manifest file="bin/manifest.mf">
-      <attribute name="Main-Class" value="net.bican.${projectname}.Main" />
+      <attribute name="Main-Class" value="net.bican.wordpress.Main" />
         </manifest>
     <jar destfile="${projectname}-${VERSION}-cli.jar" manifest="bin/manifest.mf">
       <fileset dir="bin">
@@ -51,7 +52,7 @@
       </fileset>
     </jar>
   </target>
-  <target name="get-libdeps">
+  <target name="get-libdeps" depends="init">
     <get dest="${libdir}/xmlrpc-client-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/xmlrpc-client-1.1.jar" />
     <unjar src="${libdir}/xmlrpc-client-1.1.jar" dest="bin" />
   </target>
@@ -66,5 +67,44 @@
     <unjar src="${libdir}/commons-configuration-1.5.jar" dest="bin" />
     <get dest="${libdir}/commons-cli-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-cli-1.1.jar" />
     <unjar src="${libdir}/commons-cli-1.1.jar" dest="bin" />
+  </target>
+  <target name="make-clidist" depends="compilecli">
+    <delete file="${projectname}-${VERSION}.zip" />
+    <mkdir dir="deploy/${projectname}-${VERSION}" />
+    <copy todir="deploy/${projectname}-${VERSION}">
+      <filelist dir="." files="${projectname}-${VERSION}-cli.jar" />
+      <filelist dir="." files="COPYING" />
+    </copy>
+    <copy todir="deploy/${projectname}-${VERSION}">
+      <filterset>
+        <filter token="VERSION" value="${VERSION}" />
+        <filter token="JARDIR" value="./" />
+        <filter token="CLITOKEN" value="-cli" />
+      </filterset>
+      <filelist dir="." files="${projectname}" />
+    </copy>
+    <zip level="9" destfile="${projectname}-${VERSION}.zip">
+      <zipfileset dir="deploy" includes="**/${projectname}-${VERSION}-cli.jar" filemode="644"/>
+      <zipfileset dir="deploy" includes="**/${projectname}" filemode="755"/>
+      <zipfileset dir="deploy" includes="**/COPYING" filemode="644" />
+    </zip>
+    <delete dir="deploy" />
+  </target>
+  <target name="install" depends="compilecli">
+    <copy overwrite="true" file="${projectname}-${VERSION}-cli.jar" tofile="${installprefix}/lib/${projectname}-${VERSION}.jar"/>
+    <copy overwrite="true" todir="${installprefix}/bin">
+      <filterset>
+        <filter token="VERSION" value="${VERSION}" />
+        <filter token="JARDIR" value="../lib/" />
+        <filter token="CLITOKEN" value="" />
+      </filterset>
+      <filelist dir="." files="${projectname}" />
+    </copy>
+    <chmod perm="u=rwx,go=rx" file="${installprefix}/bin/${projectname}" />
+  </target>
+  <target name="javadoc" depends="get-clideps">
+    <javadoc access="public" author="true" classpath="lib/xmlrpc-client-1.1.jar:lib/commons-logging-api.jar:lib/commons-lang-2.3.jar:lib/commons-configuration-1.5.jar:lib/commons-collections-3.2.jar:lib/commons-cli-1.1.jar" destdir="doc" doctitle="Wordpress-java" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.bican.wordpress,net.bican.wordpress.configuration" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
+      <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+    </javadoc>
   </target>
 </project>

@@ -1,0 +1,108 @@
+#!/bin/bash
+
+######## CONFIGURE ########
+JAVA_PROGRAM_DIR=""				# use full path to java bin dir, ex. "/usr/java/j2sdk1.4.2/bin/"
+###########################
+
+MSG0="Loading JUploadr:"
+MSG1="Starting JUploadr..."
+MSG2="Java exec found in "
+MSG3="OOPS, your java version is too old "
+MSG4="You need to upgrade to JRE 1.4.x or newer from http://java.sun.com"
+MSG5="Suitable java version found "
+MSG6="Configuring environment..."
+MSG7="OOPS, you don't seem to have a valid JRE "
+MSG8="OOPS, unable to locate java exec in "
+MSG9=" hierarchy"
+MSG10="Java exec not found in PATH, starting auto-search..."
+MSG11="Java exec found in PATH. Verifying..."
+
+look_for_java()
+{
+  JAVADIR=/usr/java
+  IFS=$'\n'
+  potential_java_dirs=(`ls -1 "$JAVADIR" | sort | tac`)
+  IFS=
+  for D in "${potential_java_dirs[@]}"; do
+    if [[ -d "$JAVADIR/$D" && -x "$JAVADIR/$D/bin/java" ]]; then
+      JAVA_PROGRAM_DIR="$JAVADIR/$D/bin/"
+      if check_version ; then
+        return 0
+      else
+        return 1
+      fi
+    fi
+  done
+  echo $MSG8 "${JAVADIR}/" $MSG9 ; echo $MSG4
+  return 1
+}
+
+check_version()
+{
+  JAVA_HEADER=`${JAVA_PROGRAM_DIR}java -version 2>&1 | head -n 1`
+  JAVA_IMPL=`echo ${JAVA_HEADER} | cut -f1 -d' '`
+  if [ "$JAVA_IMPL" = "java" ] ; then
+    VERSION=`echo ${JAVA_HEADER} | sed "s/java version \"\(.*\)\"/\1/"`
+    if echo $VERSION | grep "^1.[0-4]" ; then
+      echo $MSG3 "[${JAVA_PROGRAM_DIR}java = ${VERSION}]" ; echo $MSG4
+      return 1
+    else
+      return 0	      
+    fi
+  else
+    echo $MSG7 "[${JAVA_PROGRAM_DIR}java = ${JAVA_IMPL}]" ; echo $MSG4
+    return 1
+  fi
+}
+
+# locate and test the java executable
+if [ "$JAVA_PROGRAM_DIR" == "" ]; then
+  if ! command -v java &>/dev/null; then
+    if ! look_for_java ; then
+      exit 1
+    fi
+  else
+    if ! check_version ; then
+      if ! look_for_java ; then
+        exit 1
+      fi
+    fi
+  fi
+fi
+
+# get the app dir
+
+##SCRIPT DIR
+readlink(){
+  local path=$1 ll
+
+  if [ -L "$path" ]; then
+    ll="$(LC_ALL=C ls -l "$path" 2> /dev/null)" &&
+    echo "${ll/* -> }"
+  else
+    return 1
+  fi
+}
+
+script=$0
+count=0
+while [ -L "$script" ]
+do
+  script=$(readlink "$script")
+  count=`expr $count + 1`
+
+  if [ $count -gt 100 ]
+  then
+    echo "Too many symbolic links"
+    exit 1
+  fi
+done
+
+PROGRAM_DIR=`dirname $script`
+PROGRAM_DIR=`cd "$PROGRAM_DIR"; pwd`
+LIBDIR=${PROGRAM_DIR}/lib
+
+# build the classpath
+for FILE in ${LIBDIR}/*.jar; do CLASSPATH="${CLASSPATH}:${LIBDIR}/${FILE}"; done
+
+${JAVA_PROGRAM_DIR}java -jar ${PROGRAM_DIR}/@JARDIR@/jwordpress-@VERSION@@CLITOKEN@.jar "$@"

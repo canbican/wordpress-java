@@ -75,7 +75,7 @@ public class Main {
       options.addOption("oe", "editpost", true,
           "Edit post (needs --postid and --publish");
       options.addOption("od", "deletepost", true,
-          "Delete psot (needs --publish)");
+          "Delete post (needs --publish)");
       options.addOption("sm", "supportedmethods", false,
           "List supported methods");
       options.addOption("st", "supportedfilters", false,
@@ -146,6 +146,8 @@ public class Main {
                     .getOptionValue("newpost"))), config
                     .getOptionValue("publish")));
               }
+            } else {
+              showHelp(options);
             }
           } catch (MalformedURLException e) {
             System.err.println("URL \"" + config.getOptionValue("url")
