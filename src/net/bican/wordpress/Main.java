@@ -142,7 +142,7 @@ public class Main {
               if (!config.hasOption("publish")) {
                 showHelp(options);
               } else {
-                System.out.println(wp.newPage(Page.fromFile(new File(config
+                System.out.println(wp.newPost(Page.fromFile(new File(config
                     .getOptionValue("newpost"))), config
                     .getOptionValue("publish")));
               }
