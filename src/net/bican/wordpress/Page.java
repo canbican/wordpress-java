@@ -86,7 +86,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
   @SuppressWarnings("unchecked")
   private static void putVal(XmlRpcStruct s, String key, String v) {
     String value = v.trim();
-    if (value.startsWith("[")) {
+    if (v.startsWith("[")) {
       value = value.replaceFirst("\\[", "");
       value = value.replaceFirst("\\]$", "");
       value = value.replaceAll(",  *", ",");
