@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import javax.activation.MimetypesFileTypeMap;
+
 import net.bican.wordpress.configuration.WpCliConfiguration;
 
 import org.apache.commons.cli.HelpFormatter;
@@ -80,6 +82,10 @@ public class Main {
           "List supported methods");
       options.addOption("st", "supportedfilters", false,
           "List supported text filters");
+      options.addOption("mn", "newmedia", true,
+          "New media file (uses --overwrite)");
+      options.addOption("ov", "overwrite", false,
+          "Allow overwrite in uploading new media");
       try {
         WpCliConfiguration config = new WpCliConfiguration(args, options,
             Main.class);
@@ -145,6 +151,17 @@ public class Main {
                 System.out.println(wp.newPost(Page.fromFile(new File(config
                     .getOptionValue("newpost"))), config
                     .getOptionValue("publish")));
+              }
+            } else if (config.hasOption("newmedia")) {
+              String fileName = config.getOptionValue("newmedia");
+              File file = new File(fileName);
+              String mimeType = new MimetypesFileTypeMap().getContentType(file);
+              Boolean overwrite = Boolean.FALSE;
+              if (config.hasOption("overwrite"))
+                overwrite = Boolean.TRUE;
+              MediaObject result = wp.newMediaObject(mimeType, file, overwrite);
+              if (result != null) {
+                System.out.println(result);
               }
             } else {
               showHelp(options);
