@@ -33,12 +33,9 @@ public abstract class XmlRpcMapped {
   /**
    * (non-Javadoc)
    * 
-   * @param recordDelimiter
-   *          How to delimit records
-   * @param fieldDelimiter
-   *          How to delimit the key/value pairs
-   * @param showFieldName
-   *          Whether to show field name or not
+   * @param recordDelimiter How to delimit records
+   * @param fieldDelimiter How to delimit the key/value pairs
+   * @param showFieldName Whether to show field name or not
    * 
    * @see java.lang.Object#toString()
    */
@@ -64,6 +61,7 @@ public abstract class XmlRpcMapped {
    * 
    * @see java.lang.Object#toString()
    */
+  @Override
   public String toString() {
     return toGenericString("\n", ":", true);
   }
@@ -76,10 +74,8 @@ public abstract class XmlRpcMapped {
   }
 
   /**
-   * @param x
-   *          XmlRpcStruct to create the object from
+   * @param x XmlRpcStruct to create the object from
    */
-  @SuppressWarnings("unchecked")
   public void fromXmlRpcStruct(XmlRpcStruct x) {
     Field[] f = this.getClass().getDeclaredFields();
     for (Field field : f) {

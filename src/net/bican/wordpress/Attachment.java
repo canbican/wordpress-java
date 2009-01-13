@@ -33,28 +33,28 @@ class Attachment extends XmlRpcMapped {
    * @return the bits
    */
   public byte[] getBits() {
-    return bits;
+    return this.bits;
   }
 
   /**
    * @return the name
    */
   public String getName() {
-    return name;
+    return this.name;
   }
 
   /**
    * @return the overwrite
    */
   public Boolean getOverwrite() {
-    return overwrite;
+    return this.overwrite;
   }
 
   /**
    * @return the type
    */
   public String getType() {
-    return type;
+    return this.type;
   }
 
   /**

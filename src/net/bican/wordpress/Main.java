@@ -40,9 +40,8 @@ import redstone.xmlrpc.XmlRpcFault;
  */
 public class Main {
   /**
-   * @param args
-   *          execute with "-?" for an explanation of args
-   * @throws ParseException
+   * @param args execute with "-?" for an explanation of args
+   * @throws ParseException When the command line options cannot be parsed
    */
   public static void main(String[] args) throws ParseException {
     try {
@@ -86,6 +85,8 @@ public class Main {
           "New media file (uses --overwrite)");
       options.addOption("ov", "overwrite", false,
           "Allow overwrite in uploading new media");
+      options.addOption("so", "supportedstatus", false,
+          "Print supported page and post status values");
       try {
         WpCliConfiguration config = new WpCliConfiguration(args, options,
             Main.class);
@@ -163,6 +164,11 @@ public class Main {
               if (result != null) {
                 System.out.println(result);
               }
+            } else if (config.hasOption("supportedstatus")) {
+              System.out.println("Recognized status values for posts:");
+              printList(wp.getPostStatusList(), PostAndPageStatus.class, true);
+              System.out.println("\nRecognized status values for pages:");
+              printList(wp.getPageStatusList(), PostAndPageStatus.class, true);
             } else {
               showHelp(options);
             }
@@ -241,8 +247,7 @@ public class Main {
     System.out.println(o);
   }
 
-  private static void printList(List<?> r, Class<?> cl, boolean oneLiner)
-      throws XmlRpcFault {
+  private static void printList(List<?> r, Class<?> cl, boolean oneLiner) {
     boolean headerPrinted = false;
     for (Object o : r) {
       cl.cast(o);
