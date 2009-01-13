@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="init" name="${projectname}">
   <property file="project.properties" />
-  <property file="/home/can/Lib/gc.properties" />
+  <property file="/home/can/Dropbox/Devel/gc.properties" />
   <target name="init">
     <mkdir dir="bin" />
     <mkdir dir="lib" />
@@ -124,7 +124,7 @@
   </target>
   <target name="upload" depends="compilelib, make-clidist, make-dist" description="Upload the distribution to google code">
     <mkdir dir="${antdir}" />
-    <get dest="${antdir}/ant-googlecode.jar" usetimestamp="true" ignoreerrors="true" src="http://ant-googlecode.googlecode.com/files/ant-googlecode-0.0.0test.jar" />
+    <get dest="${antdir}/ant-googlecode.jar" usetimestamp="true" ignoreerrors="true" src="http://ant-googlecode.googlecode.com/files/ant-googlecode-0.0.1.jar" />
     <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="${antdir}/ant-googlecode.jar" name="gcupload"/>
     <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.jar" targetfilename="${projectname}-${VERSION}.jar" summary="${projectname} version ${VERSION} library release" />
     <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.zip" targetfilename="${projectname}-${VERSION}.zip" summary="${projectname} version ${VERSION} CLI and API interface release" />
