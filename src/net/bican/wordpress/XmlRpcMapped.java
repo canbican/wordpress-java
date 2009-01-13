@@ -52,9 +52,15 @@ public abstract class XmlRpcMapped {
       result = "";
       Field[] f = this.getClass().getDeclaredFields();
       for (Field field : f) {
+        Class<?> fType = field.getType();
         if (showFieldName)
           result += field.getName() + fieldDelimiter;
-        result += field.get(this) + recordDelimiter;
+        if (fType == Date.class) {
+          result += sdf.format(field.get(this));
+        } else {
+          result += field.get(this);
+        }
+        result += recordDelimiter;
       }
     } catch (IllegalAccessException e) {
       // ignore and skip output
@@ -93,12 +99,20 @@ public abstract class XmlRpcMapped {
         Class<?> kType = field.getType();
         if (v != null) {
           if (kType == Integer.class) {
-            Integer vInt = Integer.valueOf((String) v);
-            field.set(this, vInt);
+            if (v.getClass() != Integer.class) {
+              Integer vInt = Integer.valueOf((String) v);
+              field.set(this, vInt);
+            } else {
+              field.set(this, v);
+            }
           } else if (kType == Date.class) {
             try {
-              Date vDate = sdf.parse((String) v);
-              field.set(this, vDate);
+              if (v.getClass() != Date.class) {
+                Date vDate = sdf.parse((String) v);
+                field.set(this, vDate);
+              } else {
+                field.set(this, v);
+              }
             } catch (ParseException e) {
               throw new IllegalArgumentException(e);
             }
