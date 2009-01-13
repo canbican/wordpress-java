@@ -17,6 +17,9 @@
 package net.bican.wordpress;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import redstone.xmlrpc.XmlRpcStruct;
 
@@ -29,6 +32,9 @@ import redstone.xmlrpc.XmlRpcStruct;
  * 
  */
 public abstract class XmlRpcMapped {
+
+  private static final SimpleDateFormat sdf = new SimpleDateFormat(
+      "yyyyMMdd'T'HH:mm:ss");
 
   /**
    * (non-Javadoc)
@@ -78,14 +84,32 @@ public abstract class XmlRpcMapped {
    */
   public void fromXmlRpcStruct(XmlRpcStruct x) {
     Field[] f = this.getClass().getDeclaredFields();
+    String k = null;
+    Object v = null;
     for (Field field : f) {
       try {
-        String k = field.getName();
-        Object v = x.get(k);
-        if (v != null)
-          field.set(this, v);
+        k = field.getName();
+        v = x.get(k);
+        Class<?> kType = field.getType();
+        if (v != null) {
+          if (kType == Integer.class) {
+            Integer vInt = Integer.valueOf((String) v);
+            field.set(this, vInt);
+          } else if (kType == Date.class) {
+            try {
+              Date vDate = sdf.parse((String) v);
+              field.set(this, vDate);
+            } catch (ParseException e) {
+              throw new IllegalArgumentException(e);
+            }
+          } else {
+            field.set(this, v);
+          }
+        }
       } catch (IllegalArgumentException e) {
         try {
+          System.err.println("Warning: value \"" + v + "\" is invalid for \""
+              + k + "\", setting it to \"null\"");
           field.set(this, null);
         } catch (IllegalAccessException e1) {
           System.err.println(field.getName() + ":" + field.getType() + ":"
