@@ -21,18 +21,20 @@ package net.bican.wordpress;
  * Media Object, as the result of an upload;
  * 
  * @author Can Bican &lt;can@bican.net&gt;
- *
+ * 
  */
 public class MediaObject extends XmlRpcMapped {
   String url;
+
   String file;
+
   String type;
 
   /**
    * @return the url
    */
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   /**
@@ -46,7 +48,7 @@ public class MediaObject extends XmlRpcMapped {
    * @return the file
    */
   public String getFile() {
-    return file;
+    return this.file;
   }
 
   /**
@@ -60,7 +62,7 @@ public class MediaObject extends XmlRpcMapped {
    * @return the type
    */
   public String getType() {
-    return type;
+    return this.type;
   }
 
   /**

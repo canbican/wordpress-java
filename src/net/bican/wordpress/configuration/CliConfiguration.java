@@ -36,11 +36,9 @@ public class CliConfiguration extends BaseConfiguration {
    * 
    * generates the configuration in terms of arguments and options
    * 
-   * @param args
-   *          Command line arguments
-   * @param options
-   *          Command line options
-   * @throws ParseException
+   * @param args Command line arguments
+   * @param options Command line options
+   * @throws ParseException When the configuration cannot be parsed
    */
   public CliConfiguration(String[] args, Options options) throws ParseException {
     CommandLineParser parser = new BasicParser();

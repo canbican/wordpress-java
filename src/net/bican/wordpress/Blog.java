@@ -33,7 +33,7 @@ public class Blog extends XmlRpcMapped {
    * @return the isAdmin
    */
   public Boolean getIsAdmin() {
-    return isAdmin;
+    return this.isAdmin;
   }
 
   /**
@@ -47,7 +47,7 @@ public class Blog extends XmlRpcMapped {
    * @return the url
    */
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   /**
@@ -61,7 +61,7 @@ public class Blog extends XmlRpcMapped {
    * @return the blogid
    */
   public String getBlogid() {
-    return blogid;
+    return this.blogid;
   }
 
   /**
@@ -75,7 +75,7 @@ public class Blog extends XmlRpcMapped {
    * @return the blogName
    */
   public String getBlogName() {
-    return blogName;
+    return this.blogName;
   }
 
   /**

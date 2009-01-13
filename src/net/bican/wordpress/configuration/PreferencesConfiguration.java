@@ -30,8 +30,7 @@ import org.apache.commons.configuration.BaseConfiguration;
 public class PreferencesConfiguration extends BaseConfiguration {
 
   /**
-   * @param cl
-   *          Calling class
+   * @param cl Calling class
    */
   public PreferencesConfiguration(Class<?> cl) {
     try {

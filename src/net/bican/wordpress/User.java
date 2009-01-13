@@ -25,9 +25,13 @@ package net.bican.wordpress;
  */
 public class User extends XmlRpcMapped implements StringHeader {
   String nickname;
+
   String userid;
+
   String url;
+
   String lastname;
+
   String firstname;
 
   /**
@@ -45,12 +49,11 @@ public class User extends XmlRpcMapped implements StringHeader {
    * @return the nickname
    */
   public String getNickname() {
-    return nickname;
+    return this.nickname;
   }
 
   /**
-   * @param nickname
-   *          the nickname to set
+   * @param nickname the nickname to set
    */
   public void setNickname(String nickname) {
     this.nickname = nickname;
@@ -60,12 +63,11 @@ public class User extends XmlRpcMapped implements StringHeader {
    * @return the userid
    */
   public String getUserid() {
-    return userid;
+    return this.userid;
   }
 
   /**
-   * @param userid
-   *          the userid to set
+   * @param userid the userid to set
    */
   public void setUserid(String userid) {
     this.userid = userid;
@@ -75,12 +77,11 @@ public class User extends XmlRpcMapped implements StringHeader {
    * @return the url
    */
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   /**
-   * @param url
-   *          the url to set
+   * @param url the url to set
    */
   public void setUrl(String url) {
     this.url = url;
@@ -90,12 +91,11 @@ public class User extends XmlRpcMapped implements StringHeader {
    * @return the lastname
    */
   public String getLastname() {
-    return lastname;
+    return this.lastname;
   }
 
   /**
-   * @param lastname
-   *          the lastname to set
+   * @param lastname the lastname to set
    */
   public void setLastname(String lastname) {
     this.lastname = lastname;
@@ -105,12 +105,11 @@ public class User extends XmlRpcMapped implements StringHeader {
    * @return the firstname
    */
   public String getFirstname() {
-    return firstname;
+    return this.firstname;
   }
 
   /**
-   * @param firstname
-   *          the firstname to set
+   * @param firstname the firstname to set
    */
   public void setFirstname(String firstname) {
     this.firstname = firstname;

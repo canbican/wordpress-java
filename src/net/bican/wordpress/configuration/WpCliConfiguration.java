@@ -36,38 +36,33 @@ public class WpCliConfiguration {
   private CompositeConfiguration config = null;
 
   /**
-   * @param args
-   *          Command line arguments
-   * @param options
-   *          Command line options
-   * @param cl
-   *          Calling class
-   * @throws ParseException
+   * @param args Command line arguments
+   * @param options Command line options
+   * @param cl Calling class
+   * @throws ParseException When the configuration cannot be parsed
    */
   public WpCliConfiguration(String[] args, Options options, Class<?> cl)
       throws ParseException {
     Collection<Configuration> confs = new ArrayList<Configuration>();
     confs.add(new CliConfiguration(args, options));
     confs.add(new PreferencesConfiguration(cl));
-    config = new CompositeConfiguration(confs);
+    this.config = new CompositeConfiguration(confs);
   }
 
   /**
-   * @param key
-   *          Option key to check
+   * @param key Option key to check
    * @return <code>true</code> if the configuration contains the key
    */
   public boolean hasOption(String key) {
-    return config.containsKey(key);
+    return this.config.containsKey(key);
   }
 
   /**
-   * @param key
-   *          Option key to retrieve
+   * @param key Option key to retrieve
    * @return Value of the option key
    */
   public String getOptionValue(String key) {
-    return config.getString(key);
+    return this.config.getString(key);
   }
 
 }

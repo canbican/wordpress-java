@@ -21,18 +21,20 @@ package net.bican.wordpress;
  * Class that hold trackback information
  * 
  * @author Can Bican &lt;can@bican.net&gt;
- *
+ * 
  */
 public class Ping extends XmlRpcMapped {
   String pingTitle;
+
   String pingURL;
+
   String pingIP;
 
   /**
    * @return the pingTitle
    */
   public String getPingTitle() {
-    return pingTitle;
+    return this.pingTitle;
   }
 
   /**
@@ -46,7 +48,7 @@ public class Ping extends XmlRpcMapped {
    * @return the pingURL
    */
   public String getPingURL() {
-    return pingURL;
+    return this.pingURL;
   }
 
   /**
@@ -60,7 +62,7 @@ public class Ping extends XmlRpcMapped {
    * @return the pingIP
    */
   public String getPingIP() {
-    return pingIP;
+    return this.pingIP;
   }
 
   /**

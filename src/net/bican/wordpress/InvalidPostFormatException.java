@@ -24,5 +24,5 @@ package net.bican.wordpress;
  *
  */
 public class InvalidPostFormatException extends Exception {
-
+  // just a default exception
 }

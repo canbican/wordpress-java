@@ -25,8 +25,11 @@ package net.bican.wordpress;
  */
 class Attachment extends XmlRpcMapped {
   byte[] bits;
+
   String name;
+
   Boolean overwrite;
+
   String type;
 
   /**
@@ -58,32 +61,28 @@ class Attachment extends XmlRpcMapped {
   }
 
   /**
-   * @param bits
-   *          the bits to set
+   * @param bits the bits to set
    */
   public void setBits(byte[] bits) {
     this.bits = bits;
   }
 
   /**
-   * @param name
-   *          the name to set
+   * @param name the name to set
    */
   public void setName(String name) {
     this.name = name;
   }
 
   /**
-   * @param overwrite
-   *          the overwrite to set
+   * @param overwrite the overwrite to set
    */
   public void setOverwrite(Boolean overwrite) {
     this.overwrite = overwrite;
   }
 
   /**
-   * @param type
-   *          the type to set
+   * @param type the type to set
    */
   public void setType(String type) {
     this.type = type;
