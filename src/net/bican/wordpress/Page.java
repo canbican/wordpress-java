@@ -118,6 +118,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   Integer mt_allow_pings;
 
+  String mt_keywords;
+
   String page_id;
 
   String page_status;
@@ -204,6 +206,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public Integer getMt_allow_pings() {
     return this.mt_allow_pings;
+  }
+
+  /**
+   * @return the mt_keywords
+   */
+  public String getMt_keywords() {
+    return mt_keywords;
   }
 
   /**
@@ -381,6 +390,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setMt_allow_pings(Integer mt_allow_pings) {
     this.mt_allow_pings = mt_allow_pings;
+  }
+
+  /**
+   * @param mt_keywords the mt_keywords to set
+   */
+  public void setMt_keywords(String mt_keywords) {
+    this.mt_keywords = mt_keywords;
   }
 
   /**
