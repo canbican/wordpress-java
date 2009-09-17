@@ -65,8 +65,8 @@
     <unjar src="${libdir}/commons-lang-2.3.jar" dest="bin" />
     <get dest="${libdir}/commons-configuration-1.5.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-configuration-1.5.jar" />
     <unjar src="${libdir}/commons-configuration-1.5.jar" dest="bin" />
-    <get dest="${libdir}/commons-cli-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-cli-1.1.jar" />
-    <unjar src="${libdir}/commons-cli-1.1.jar" dest="bin" />
+    <get dest="${libdir}/commons-cli-1.2.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-cli-1.2.jar" />
+    <unjar src="${libdir}/commons-cli-1.2.jar" dest="bin" />
   </target>
   <target name="make-clidist" depends="compilecli">
     <delete file="${projectname}-${VERSION}.zip" />
@@ -103,7 +103,7 @@
     <chmod perm="u=rwx,go=rx" file="${installprefix}/bin/${projectname}" />
   </target>
   <target name="javadoc" depends="get-clideps">
-    <javadoc access="public" author="true" classpath="lib/xmlrpc-client-1.1.jar:lib/commons-logging-api.jar:lib/commons-lang-2.3.jar:lib/commons-configuration-1.5.jar:lib/commons-collections-3.2.jar:lib/commons-cli-1.1.jar" destdir="doc" doctitle="Wordpress-java" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.bican.wordpress,net.bican.wordpress.configuration" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
+    <javadoc access="public" author="true" classpath="lib/xmlrpc-client-1.1.jar:lib/commons-logging-api.jar:lib/commons-lang-2.3.jar:lib/commons-configuration-1.5.jar:lib/commons-collections-3.2.jar:lib/commons-cli-1.2.jar" destdir="doc" doctitle="Wordpress-java" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.bican.wordpress,net.bican.wordpress.configuration" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
       <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
     </javadoc>
   </target>
