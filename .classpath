@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="/home/can/Lib/commons-cli-1.1.jar" sourcepath="/home/can/Lib/commons-cli-1.1-src/src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/can/Lib/commons-configuration-1.5.jar"/>
-	<classpathentry kind="lib" path="/home/can/Lib/commons-collections-3.2.jar"/>
-	<classpathentry kind="lib" path="/home/can/Lib/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="/home/can/Lib/commons-logging-api.jar"/>
-	<classpathentry kind="lib" path="/home/can/Lib/xmlrpc-client-1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/can"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
