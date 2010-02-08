@@ -4,9 +4,6 @@
 JAVA_PROGRAM_DIR=""				# use full path to java bin dir, ex. "/usr/java/j2sdk1.4.2/bin/"
 ###########################
 
-MSG0="Loading JUploadr:"
-MSG1="Starting JUploadr..."
-MSG2="Java exec found in "
 MSG3="OOPS, your java version is too old "
 MSG4="You need to upgrade to JRE 1.4.x or newer from http://java.sun.com"
 MSG5="Suitable java version found "
