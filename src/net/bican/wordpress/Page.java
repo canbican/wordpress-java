@@ -104,6 +104,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   XmlRpcArray categories;
 
+  XmlRpcArray custom_fields;
+
   Date date_created_gmt;
 
   Date dateCreated;
@@ -525,5 +527,19 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setWp_slug(String wp_slug) {
     this.wp_slug = wp_slug;
+  }
+
+  /**
+   * @param custom_fields the custom_fields to set
+   */
+  public void setCustom_fields(XmlRpcArray custom_fields) {
+    this.custom_fields = custom_fields;
+  }
+
+  /**
+   * @return the custom_fields
+   */
+  public XmlRpcArray getCustom_fields() {
+    return custom_fields;
   }
 }
