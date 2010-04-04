@@ -110,7 +110,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   String description;
 
-  String excerpt;
+  String mt_excerpt;
 
   String link;
 
@@ -128,7 +128,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   String post_type;
 
-  String postid;
+  Integer postid;
 
   String text_more;
 
@@ -184,7 +184,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
    * @return the excerpt
    */
   public String getExcerpt() {
-    return this.excerpt;
+    return this.mt_excerpt;
   }
 
   /**
@@ -246,7 +246,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
   /**
    * @return the postid
    */
-  public String getPostid() {
+  public Integer getPostid() {
     return this.postid;
   }
 
@@ -368,7 +368,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
    * @param excerpt the excerpt to set
    */
   public void setExcerpt(String excerpt) {
-    this.excerpt = excerpt;
+    this.mt_excerpt = excerpt;
   }
 
   /**
@@ -430,7 +430,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
   /**
    * @param postid the postid to set
    */
-  public void setPostid(String postid) {
+  public void setPostid(Integer postid) {
     this.postid = postid;
   }
 
