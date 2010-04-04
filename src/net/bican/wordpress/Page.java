@@ -110,13 +110,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   String description;
 
-  String mt_excerpt;
-
   String link;
 
   Integer mt_allow_comments;
 
   Integer mt_allow_pings;
+
+  String mt_excerpt;
 
   String mt_keywords;
 
@@ -125,6 +125,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
   String page_status;
 
   String permaLink;
+
+  String post_status;
 
   String post_type;
 
@@ -234,6 +236,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public String getPermaLink() {
     return this.permaLink;
+  }
+
+  /**
+   * @return the post_status
+   */
+  public String getPost_status() {
+    return this.post_status;
   }
 
   /**
@@ -418,6 +427,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setPermaLink(String permaLink) {
     this.permaLink = permaLink;
+  }
+
+  /**
+   * @param postStatus the post_status to set
+   */
+  public void setPost_status(String postStatus) {
+    this.post_status = postStatus;
   }
 
   /**
