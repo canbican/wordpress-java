@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
@@ -84,22 +87,58 @@ public class Page extends XmlRpcMapped implements StringHeader {
   @SuppressWarnings("unchecked")
   private static void putVal(XmlRpcStruct s, String key, String v) {
     String value = v.trim();
-    if (v.startsWith("[")) {
-      value = value.replaceFirst("\\[", "");
-      value = value.replaceFirst("\\]$", "");
-      value = value.replaceAll(",  *", ",");
-      value = value.trim();
-      String[] valStr = value.split(",");
-      XmlRpcArray vals = new XmlRpcArray();
-      for (String s1 : valStr) {
-        vals.add(s1);
+    if (value.startsWith("[")) {
+      try {
+        JSONArray jArr = new JSONArray(value);
+        Class cType = jArr.get(0).getClass();
+        XmlRpcArray vals = new XmlRpcArray();
+        if (cType == String.class) {
+          for (int i = 0; i < jArr.length(); i++) {
+            vals.add(jArr.getString(i));
+          }
+        } else {
+          String className = getClassName(key);
+          Class<?> cl = Class.forName(className);
+          for (int i = 0; i < jArr.length(); i++) {
+            JSONConvertable o = (JSONConvertable) cl.newInstance();
+            o.fromJSONObject(jArr.getJSONObject(i));
+            vals.add(o);
+          }
+        }
+        s.put(key, vals);
+      } catch (JSONException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (ClassNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (InstantiationException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
       }
-      s.put(key, vals);
     } else {
       if (!"null".equalsIgnoreCase(value)) {
         s.put(key, value);
       }
     }
+  }
+
+  private static String getClassName(String key) {
+    String className = key;
+    while (className.contains("_")) {
+      int pos = className.indexOf("_");
+      Character ch = className.charAt(pos + 1);
+      char chNew = Character.toUpperCase(ch);
+      className = className.replaceFirst("_" + ch, chNew + "");
+    }
+    className = className.replaceFirst("s$", "");
+    Character ch = className.charAt(0);
+    char chNew = Character.toUpperCase(ch);
+    className = className.replaceFirst("^"+ch, chNew+"");
+    return "net.bican.wordpress."+className;
   }
 
   XmlRpcArray categories;
