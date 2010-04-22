@@ -150,8 +150,8 @@ public class Main {
                 showHelp(options);
               } else {
                 System.out.println(wp.newPost(Page.fromFile(new File(config
-                    .getOptionValue("newpost"))), config
-                    .getOptionValue("publish")));
+                    .getOptionValue("newpost"))), Boolean.valueOf(config
+                    .getOptionValue("publish"))));
               }
             } else if (config.hasOption("newmedia")) {
               String fileName = config.getOptionValue("newmedia");

@@ -62,7 +62,7 @@ public class Main {
     Page recentPost = wp.getRecentPosts(1).get(0);
     recentPost.setTitle("Test Page");
     recentPost.setDescription("Test description");
-    String result = wp.newPost(recentPost, "draft");
+    String result = wp.newPost(recentPost, false);
     System.out.println("new post page id: " + result);
     System.out.println("\nThat's all for now.");
   }

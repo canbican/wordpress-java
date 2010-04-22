@@ -165,7 +165,7 @@ interface MetaWebLogBridge {
    * @throws XmlRpcFault
    */
   String newPost(Integer blogid, String username, String password,
-      XmlRpcStruct post, String publish) throws XmlRpcFault;
+      XmlRpcStruct post, Boolean publish) throws XmlRpcFault;
 }
 
 interface MovableTypeBridge {
@@ -602,7 +602,7 @@ public class Wordpress {
    * @return Post id
    * @throws XmlRpcFault Generic exception for xml-rpc operations
    */
-  public String newPost(Page page, String publish) throws XmlRpcFault {
+  public String newPost(Page page, boolean publish) throws XmlRpcFault {
     return this.mw.newPost(0, this.username, this.password, page
         .toXmlRpcStruct(), publish);
   }
