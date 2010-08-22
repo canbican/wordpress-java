@@ -400,7 +400,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
     this.date_created_gmt = date_created_gmt;
     // one of dateCreated() and date_created_gmt() has to be null
     // or the behavior when two of them are different is undefined
-    this.dateCreated = null;
+    if (this.date_created_gmt != null)
+      this.dateCreated = null;
   }
 
   /**
@@ -410,7 +411,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
     this.dateCreated = dateCreated;
     // one of dateCreated() and date_created_gmt() has to be null
     // or the behavior when two of them are different is undefined
-    this.date_created_gmt = null;
+    if (this.dateCreated != null)
+      this.date_created_gmt = null;
   }
 
   /**
