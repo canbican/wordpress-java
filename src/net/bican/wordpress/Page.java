@@ -137,8 +137,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
     className = className.replaceFirst("s$", "");
     Character ch = className.charAt(0);
     char chNew = Character.toUpperCase(ch);
-    className = className.replaceFirst("^"+ch, chNew+"");
-    return "net.bican.wordpress."+className;
+    className = className.replaceFirst("^" + ch, chNew + "");
+    return "net.bican.wordpress." + className;
   }
 
   XmlRpcArray categories;
@@ -398,6 +398,9 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setDate_created_gmt(Date date_created_gmt) {
     this.date_created_gmt = date_created_gmt;
+    // one of dateCreated() and date_created_gmt() has to be null
+    // or the behavior when two of them are different is undefined
+    this.dateCreated = null;
   }
 
   /**
@@ -405,6 +408,9 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setDateCreated(Date dateCreated) {
     this.dateCreated = dateCreated;
+    // one of dateCreated() and date_created_gmt() has to be null
+    // or the behavior when two of them are different is undefined
+    this.date_created_gmt = null;
   }
 
   /**
