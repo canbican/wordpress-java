@@ -66,7 +66,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @return id of custom field
    */
   public String getId() {
-    return id;
+    return this.id;
   }
 
   /**
@@ -80,7 +80,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @return key of custom field
    */
   public String getKey() {
-    return key;
+    return this.key;
   }
 
   /**
@@ -94,7 +94,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @return value of custom field
    */
   public String getValue() {
-    return value;
+    return this.value;
   }
 
   /**

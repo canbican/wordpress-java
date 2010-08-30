@@ -21,12 +21,15 @@ package net.bican.wordpress;
  * Class that keeps the information on a blog for a user
  * 
  * @author Can Bican &lt;can@bican.net&gt;
- *
+ * 
  */
 public class Blog extends XmlRpcMapped {
   Boolean isAdmin;
+
   String url;
+
   String blogid;
+
   String blogName;
 
   /**

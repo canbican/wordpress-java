@@ -255,7 +255,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
    * @return the mt_keywords
    */
   public String getMt_keywords() {
-    return mt_keywords;
+    return this.mt_keywords;
   }
 
   /**
@@ -587,6 +587,6 @@ public class Page extends XmlRpcMapped implements StringHeader {
    * @return the custom_fields
    */
   public XmlRpcArray getCustom_fields() {
-    return custom_fields;
+    return this.custom_fields;
   }
 }

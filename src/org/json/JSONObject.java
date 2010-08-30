@@ -89,7 +89,7 @@ import java.util.TreeSet;
  * @author JSON.org
  * @version 2010-01-05
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings( { "unchecked", "synthetic-access" })
 public class JSONObject {
 
   /**
@@ -164,6 +164,7 @@ public class JSONObject {
       try {
         putOnce(names[i], jo.opt(names[i]));
       } catch (Exception ignore) {
+        // ??
       }
     }
   }
@@ -290,6 +291,7 @@ public class JSONObject {
       try {
         putOpt(name, c.getField(name).get(object));
       } catch (Exception ignore) {
+        // ??
       }
     }
   }
@@ -888,10 +890,11 @@ public class JSONObject {
 
             Object result = method.invoke(bean, (Object[]) null);
 
-            map.put(key, wrap(result));
+            this.map.put(key, wrap(result));
           }
         }
       } catch (Exception ignore) {
+        // ??
       }
     }
   }
@@ -1162,6 +1165,7 @@ public class JSONObject {
         try {
           return new Integer(Integer.parseInt(s.substring(2), 16));
         } catch (Exception ignore) {
+          // ??
         }
       }
       try {
@@ -1176,6 +1180,7 @@ public class JSONObject {
           }
         }
       } catch (Exception ignore) {
+        // ??
       }
     }
     return s;
@@ -1411,6 +1416,7 @@ public class JSONObject {
         }
       }
     } catch (Exception ignore) {
+      // ??
     }
     if (value instanceof Number) {
       return numberToString((Number) value);

@@ -8,6 +8,7 @@ package net.bican.wordpress;
  */
 public class PostAndPageStatus extends XmlRpcMapped implements StringHeader {
   String status;
+
   String description;
 
   /**
@@ -32,7 +33,7 @@ public class PostAndPageStatus extends XmlRpcMapped implements StringHeader {
   }
 
   /**
-   * @param description the description to set 
+   * @param description the description to set
    */
   public void setDescription(String description) {
     this.description = description;
@@ -41,6 +42,7 @@ public class PostAndPageStatus extends XmlRpcMapped implements StringHeader {
   /**
    * 
    * (non-Javadoc)
+   * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
   public String getStringHeader() {

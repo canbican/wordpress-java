@@ -85,7 +85,7 @@ public class JSONTokener {
    * @throws JSONException
    */
   public void back() throws JSONException {
-    if (usePrevious || index <= 0) {
+    if (this.usePrevious || this.index <= 0) {
       throw new JSONException("Stepping back two steps is not supported");
     }
     this.index -= 1;
@@ -118,7 +118,7 @@ public class JSONTokener {
    * @return TODO
    */
   public boolean end() {
-    return eof && !usePrevious;
+    return this.eof && !this.usePrevious;
   }
 
   /**
@@ -399,11 +399,11 @@ public class JSONTokener {
       int startIndex = this.index;
       int startCharacter = this.character;
       int startLine = this.line;
-      reader.mark(Integer.MAX_VALUE);
+      this.reader.mark(Integer.MAX_VALUE);
       do {
         c = next();
         if (c == 0) {
-          reader.reset();
+          this.reader.reset();
           this.index = startIndex;
           this.character = startCharacter;
           this.line = startLine;
@@ -434,7 +434,7 @@ public class JSONTokener {
    * @return " at {index} [character {character} line {line}]"
    */
   public String toString() {
-    return " at " + index + " [character " + this.character + " line "
+    return " at " + this.index + " [character " + this.character + " line "
         + this.line + "]";
   }
 }
