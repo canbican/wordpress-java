@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="init" name="${projectname}">
-  <property file="project.properties" />
-  <property file="/home/can/Dropbox/Devel/gc.properties" />
-  <target name="init">
-    <mkdir dir="bin" />
-    <mkdir dir="lib" />
-  </target>
-  <target name="initlib" depends="init">
-    <copy includeemptydirs="false" todir="bin">
-      <fileset dir="src" excludes="**/Main.java,**/configuration/*"/>
-    </copy>
-  </target>
-  <target name="initcli" depends="init">
-    <copy includeemptydirs="false" todir="bin">
-      <fileset dir="src"/>
-    </copy>
-  </target>
-  <target name="clean">
-    <delete dir="bin" />
-    <delete file="${projectname}-${VERSION}-cli.jar" />
-    <delete file="${projectname}-${VERSION}.jar" />
-    <delete file="${projectname}-${VERSION}-src.zip" />
-    <delete file="${projectname}-${VERSION}.zip" />
-    <delete dir="deploy"/>
-  </target>
-    <target name="cleanall" depends="clean">
-    <delete dir="lib" />
-    <delete dir="ant" />
-    </target>
-  <target name="commoncompile">
-    <javac debug="true" srcdir="bin" sourcepath="bin" classpath="bin"/>
-  </target>
-  <target name="compilelib" depends="initlib,get-libdeps,commoncompile">
-        <jar destfile="${projectname}-${VERSION}.jar">
-      <fileset dir="bin">
-        <include name="**/*.class" />
-        <include name="**/XmlRpcMessages*" />
-      </fileset>
-    </jar>
-  </target>
-  <target name="compilecli" depends="initcli,get-clideps,commoncompile">
-    <manifest file="bin/manifest.mf">
-      <attribute name="Main-Class" value="net.bican.wordpress.Main" />
-        </manifest>
-    <jar destfile="${projectname}-${VERSION}-cli.jar" manifest="bin/manifest.mf">
-      <fileset dir="bin">
-        <include name="**/*.class" />
-        <include name="**/XmlRpcMessages*" />
-        <include name="**/*.dtd" />
-        <include name="**/*.properties" />
-      </fileset>
-    </jar>
-  </target>
-  <target name="get-libdeps" depends="init">
-    <get dest="${libdir}/xmlrpc-client-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/xmlrpc-client-1.1.jar" />
-    <unjar src="${libdir}/xmlrpc-client-1.1.jar" dest="bin" />
-  </target>
-  <target name="get-clideps" depends="get-libdeps">
-    <get dest="${libdir}/commons-logging-api.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-logging-api.jar" />
-    <unjar src="${libdir}/commons-logging-api.jar" dest="bin" />
-    <get dest="${libdir}/commons-collections-3.2.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-collections-3.2.jar" />
-    <unjar src="${libdir}/commons-collections-3.2.jar" dest="bin" />
-    <get dest="${libdir}/commons-lang-2.3.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-lang-2.3.jar" />
-    <unjar src="${libdir}/commons-lang-2.3.jar" dest="bin" />
-    <get dest="${libdir}/commons-configuration-1.5.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-configuration-1.5.jar" />
-    <unjar src="${libdir}/commons-configuration-1.5.jar" dest="bin" />
-    <get dest="${libdir}/commons-cli-1.2.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-cli-1.2.jar" />
-    <unjar src="${libdir}/commons-cli-1.2.jar" dest="bin" />
-  </target>
-  <target name="make-clidist" depends="compilecli">
-    <delete file="${projectname}-${VERSION}.zip" />
-    <mkdir dir="deploy/${projectname}-${VERSION}" />
-    <copy todir="deploy/${projectname}-${VERSION}">
-      <filelist dir="." files="${projectname}-${VERSION}-cli.jar" />
-      <filelist dir="." files="COPYING" />
-    </copy>
-    <copy todir="deploy/${projectname}-${VERSION}">
-      <filterset>
-        <filter token="VERSION" value="${VERSION}" />
-        <filter token="JARDIR" value="./" />
-        <filter token="CLITOKEN" value="-cli" />
-      </filterset>
-      <filelist dir="." files="${projectname}" />
-    </copy>
-    <zip level="9" destfile="${projectname}-${VERSION}.zip">
-      <zipfileset dir="deploy" includes="**/${projectname}-${VERSION}-cli.jar" filemode="644"/>
-      <zipfileset dir="deploy" includes="**/${projectname}" filemode="755"/>
-      <zipfileset dir="deploy" includes="**/COPYING" filemode="644" />
-    </zip>
-    <delete dir="deploy" />
-  </target>
-  <target name="install" depends="compilecli">
-    <copy overwrite="true" file="${projectname}-${VERSION}-cli.jar" tofile="${installprefix}/lib/${projectname}-${VERSION}.jar"/>
-    <copy overwrite="true" todir="${installprefix}/bin">
-      <filterset>
-        <filter token="VERSION" value="${VERSION}" />
-        <filter token="JARDIR" value="../lib/" />
-        <filter token="CLITOKEN" value="" />
-      </filterset>
-      <filelist dir="." files="${projectname}" />
-    </copy>
-    <chmod perm="u=rwx,go=rx" file="${installprefix}/bin/${projectname}" />
-  </target>
-  <target name="javadoc" depends="get-clideps">
-    <javadoc access="public" author="true" classpath="lib/xmlrpc-client-1.1.jar:lib/commons-logging-api.jar:lib/commons-lang-2.3.jar:lib/commons-configuration-1.5.jar:lib/commons-collections-3.2.jar:lib/commons-cli-1.2.jar" destdir="doc" doctitle="Wordpress-java" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.bican.wordpress,net.bican.wordpress.configuration" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
-      <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-    </javadoc>
-  </target>
-  <target name="make-dist">
-    <delete file="${projectname}-${VERSION}-src.zip" />
-    <mkdir dir="deploy/${srcdistdir}" />
-    <copy todir="deploy/${srcdistdir}">
-      <filelist dir="." files="${projectname}" />
-      <filelist dir="." files="project.properties" />
-      <filelist dir="." files="build.xml" />
-      <fileset dir=".">
-        <include name="src/**/*.java" />
-      </fileset>
-      <filelist dir="." files="COPYING,INSTALL,README" />
-    </copy>
-    <zip level="9" destfile="${projectname}-${VERSION}-src.zip" basedir="deploy"/>
-    <delete dir="deploy" />
-  </target>
-  <target name="upload" depends="compilelib, make-clidist, make-dist" description="Upload the distribution to google code">
-    <mkdir dir="${antdir}" />
-    <get dest="${antdir}/ant-googlecode.jar" usetimestamp="true" ignoreerrors="true" src="http://ant-googlecode.googlecode.com/files/ant-googlecode-0.0.1.jar" />
-    <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="${antdir}/ant-googlecode.jar" name="gcupload"/>
-    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.jar" targetfilename="${projectname}-${VERSION}.jar" summary="${projectname} version ${VERSION} library release" />
-    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.zip" targetfilename="${projectname}-${VERSION}.zip" summary="${projectname} version ${VERSION} CLI and API interface release" />
-    <gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}-src.zip" targetfilename="${projectname}-${VERSION}-src.zip" summary="${projectname} version ${VERSION} sources" />
-    </target>
+	<property file="project.properties" />
+	<property file="/home/can/Dropbox/Devel/gc.properties" />
+	<target name="init">
+		<mkdir dir="bin" />
+		<mkdir dir="lib" />
+	</target>
+	<target name="initlib" depends="init">
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src" excludes="**/Main.java,**/configuration/*"/>
+		</copy>
+	</target>
+	<target name="initcli" depends="init">
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src"/>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin" />
+		<delete file="${projectname}-${VERSION}-cli.jar" />
+		<delete file="${projectname}-${VERSION}.jar" />
+		<delete file="${projectname}-${VERSION}-src.zip" />
+		<delete file="${projectname}-${VERSION}.zip" />
+		<delete dir="deploy"/>
+	</target>
+	<target name="cleanall" depends="clean">
+		<delete dir="lib" />
+		<delete dir="ant" />
+	</target>
+	<target name="commoncompile">
+		<javac debug="true" srcdir="bin" sourcepath="bin" classpath="bin" includeAntRuntime="false"/>
+	</target>
+	<target name="compilelib" depends="initlib,get-libdeps,commoncompile">
+		<jar destfile="${projectname}-${VERSION}.jar">
+			<fileset dir="bin">
+				<include name="**/*.class" />
+				<include name="**/XmlRpcMessages*" />
+			</fileset>
+		</jar>
+	</target>
+	<target name="compilecli" depends="initcli,get-clideps,commoncompile">
+		<manifest file="bin/manifest.mf">
+			<attribute name="Main-Class" value="net.bican.wordpress.Main" />
+		</manifest>
+		<jar destfile="${projectname}-${VERSION}-cli.jar" manifest="bin/manifest.mf">
+			<fileset dir="bin">
+				<include name="**/*.class" />
+				<include name="**/XmlRpcMessages*" />
+				<include name="**/*.dtd" />
+				<include name="**/*.properties" />
+			</fileset>
+		</jar>
+	</target>
+	<target name="get-libdeps" depends="init">
+		<get dest="${libdir}/xmlrpc-client-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/xmlrpc-client-1.1.jar" />
+		<unjar src="${libdir}/xmlrpc-client-1.1.jar" dest="bin" />
+	</target>
+	<target name="get-clideps" depends="get-libdeps">
+		<get dest="${libdir}/commons-logging-api.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-logging-api.jar" />
+		<unjar src="${libdir}/commons-logging-api.jar" dest="bin" />
+		<get dest="${libdir}/commons-collections-3.2.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-collections-3.2.jar" />
+		<unjar src="${libdir}/commons-collections-3.2.jar" dest="bin" />
+		<get dest="${libdir}/commons-lang-2.3.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-lang-2.3.jar" />
+		<unjar src="${libdir}/commons-lang-2.3.jar" dest="bin" />
+		<get dest="${libdir}/commons-configuration-1.5.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-configuration-1.5.jar" />
+		<unjar src="${libdir}/commons-configuration-1.5.jar" dest="bin" />
+		<get dest="${libdir}/commons-cli-1.2.jar" usetimestamp="true" ignoreerrors="true" src="${urlprefix}/commons-cli-1.2.jar" />
+		<unjar src="${libdir}/commons-cli-1.2.jar" dest="bin" />
+	</target>
+	<target name="make-clidist" depends="compilecli">
+		<delete file="${projectname}-${VERSION}.zip" />
+		<mkdir dir="deploy/${projectname}-${VERSION}" />
+		<copy todir="deploy/${projectname}-${VERSION}">
+			<filelist dir="." files="${projectname}-${VERSION}-cli.jar" />
+			<filelist dir="." files="COPYING" />
+		</copy>
+		<copy todir="deploy/${projectname}-${VERSION}">
+			<filterset>
+				<filter token="VERSION" value="${VERSION}" />
+				<filter token="JARDIR" value="./" />
+				<filter token="CLITOKEN" value="-cli" />
+			</filterset>
+			<filelist dir="." files="${projectname}" />
+		</copy>
+		<zip level="9" destfile="${projectname}-${VERSION}.zip">
+			<zipfileset dir="deploy" includes="**/${projectname}-${VERSION}-cli.jar" filemode="644"/>
+			<zipfileset dir="deploy" includes="**/${projectname}" filemode="755"/>
+			<zipfileset dir="deploy" includes="**/COPYING" filemode="644" />
+		</zip>
+		<delete dir="deploy" />
+	</target>
+	<target name="install" depends="compilecli">
+		<copy overwrite="true" file="${projectname}-${VERSION}-cli.jar" tofile="${installprefix}/lib/${projectname}-${VERSION}.jar"/>
+		<copy overwrite="true" todir="${installprefix}/bin">
+			<filterset>
+				<filter token="VERSION" value="${VERSION}" />
+				<filter token="JARDIR" value="../lib/" />
+				<filter token="CLITOKEN" value="" />
+			</filterset>
+			<filelist dir="." files="${projectname}" />
+		</copy>
+		<chmod perm="u=rwx,go=rx" file="${installprefix}/bin/${projectname}" />
+	</target>
+	<target name="javadoc" depends="get-clideps">
+		<javadoc access="public" author="true" classpath="lib/xmlrpc-client-1.1.jar:lib/commons-logging-api.jar:lib/commons-lang-2.3.jar:lib/commons-configuration-1.5.jar:lib/commons-collections-3.2.jar:lib/commons-cli-1.2.jar" destdir="doc" doctitle="Wordpress-java" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.bican.wordpress,net.bican.wordpress.configuration" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+		</javadoc>
+	</target>
+	<target name="make-dist">
+		<delete file="${projectname}-${VERSION}-src.zip" />
+		<mkdir dir="deploy/${srcdistdir}" />
+		<copy todir="deploy/${srcdistdir}">
+			<filelist dir="." files="${projectname}" />
+			<filelist dir="." files="project.properties" />
+			<filelist dir="." files="build.xml" />
+			<fileset dir=".">
+				<include name="src/**/*.java" />
+			</fileset>
+			<filelist dir="." files="COPYING,INSTALL,README" />
+		</copy>
+		<zip level="9" destfile="${projectname}-${VERSION}-src.zip" basedir="deploy"/>
+		<delete dir="deploy" />
+	</target>
+	<target name="upload" depends="compilelib, make-clidist, make-dist" description="Upload the distribution to google code">
+		<mkdir dir="${antdir}" />
+		<get dest="${antdir}/ant-googlecode.jar" usetimestamp="true" ignoreerrors="true" src="http://ant-googlecode.googlecode.com/files/ant-googlecode-0.0.1.jar" />
+		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="${antdir}/ant-googlecode.jar" name="gcupload"/>
+		<gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.jar" targetfilename="${projectname}-${VERSION}.jar" summary="${projectname} version ${VERSION} library release" />
+		<gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}.zip" targetfilename="${projectname}-${VERSION}.zip" summary="${projectname} version ${VERSION} CLI and API interface release" />
+		<gcupload username="${gc.username}" password="${gc.password}" projectname="wordpress-java" filename="${projectname}-${VERSION}-src.zip" targetfilename="${projectname}-${VERSION}-src.zip" summary="${projectname} version ${VERSION} sources" />
+	</target>
 </project>

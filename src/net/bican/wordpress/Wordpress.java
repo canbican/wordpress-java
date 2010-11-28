@@ -319,8 +319,8 @@ public class Wordpress {
    * @throws XmlRpcFault Generic exception for xml-rpc operations
    */
   public Boolean deletePage(int post_ID, String publish) throws XmlRpcFault {
-    return this.wp.deletePage(0, this.username, this.password, Integer
-        .valueOf(post_ID), publish);
+    return this.wp.deletePage(0, this.username, this.password,
+        Integer.valueOf(post_ID), publish);
   }
 
   /**
@@ -362,7 +362,7 @@ public class Wordpress {
         publish);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   private List fillFromXmlRpcArray(XmlRpcArray r, Class cl) {
     List result = null;
     try {
@@ -592,8 +592,8 @@ public class Wordpress {
    * @throws XmlRpcFault Generic exception for xml-rpc operations
    */
   public String newPage(Page post, String publish) throws XmlRpcFault {
-    return this.wp.newPage(0, this.username, this.password, post
-        .toXmlRpcStruct(), publish);
+    return this.wp.newPage(0, this.username, this.password,
+        post.toXmlRpcStruct(), publish);
   }
 
   /**
@@ -603,8 +603,8 @@ public class Wordpress {
    * @throws XmlRpcFault Generic exception for xml-rpc operations
    */
   public String newPost(Page page, boolean publish) throws XmlRpcFault {
-    return this.mw.newPost(0, this.username, this.password, page
-        .toXmlRpcStruct(), publish);
+    return this.mw.newPost(0, this.username, this.password,
+        page.toXmlRpcStruct(), publish);
   }
 
   /**
@@ -696,9 +696,150 @@ public class Wordpress {
     }
     return result;
   }
+
+  /**
+   * @param post_ID Blog Post ID
+   * @return Number of comments (approved, spam, otherwise)
+   * @throws XmlRpcFault Generic exception for xml-rpc operations
+   */
+  public CommentCount getCommentsCount(Integer post_ID) throws XmlRpcFault {
+    XmlRpcStruct struct;
+    if (post_ID != -1)
+      struct = this.wp
+          .getCommentCount(0, this.username, this.password, post_ID);
+    else
+      struct = this.wp.getCommentCount(0, this.username, this.password);
+    CommentCount cc = new CommentCount();
+    cc.fromXmlRpcStruct(struct);
+    return cc;
+  }
+
+  /**
+   * 
+   * @param status One of "approve", "hold", or "spam". Or, null to show all.
+   * @param post_id Filter comments by post_id, or null to not filter.
+   * @param number The number of comments to return, or null for the default (of
+   *          10)
+   * @param offset The offset into the set of comments to return, or null for 0
+   * @return A list of Comment objects
+   * @throws XmlRpcFault Generic exception for xml-rpc operations
+   */
+  @SuppressWarnings("unchecked")
+  public List<Comment> getComments(String status, Integer post_id,
+      Integer number, Integer offset) throws XmlRpcFault {
+
+    XmlRpcStruct filter = new XmlRpcStruct();
+
+    if (status != null) {
+      filter.put("status", status);
+    }
+
+    if (post_id != null) {
+      filter.put("post_id", post_id);
+    }
+
+    if (number != null) {
+      filter.put("number", number);
+    }
+
+    if (offset != null) {
+      filter.put("offset", offset);
+    }
+
+    XmlRpcArray r = this.wp
+        .getComments(0, this.username, this.password, filter);
+    return fillFromXmlRpcArray(r, Comment.class);
+  }
+
+  /**
+   * @param comment_id comment_id to fetch
+   * @return A Comment object
+   * @throws XmlRpcFault Generic exception for xml-rpc operations
+   */
+  public Comment getComment(Integer comment_id) throws XmlRpcFault {
+    XmlRpcStruct struct = this.wp.getComment(0, this.username, this.password,
+        comment_id);
+
+    Comment comment = new Comment();
+    comment.fromXmlRpcStruct(struct);
+
+    return comment;
+  }
+
+  /**
+   * @param post_id Post to attach the comment to.
+   * @param comment_parent Id of the parent comment (for threading)
+   * @param content Content of comment
+   * @param author Author's name
+   * @param author_url Author's URL (can be empty)
+   * @param author_email Author's Email Address
+   * @return the id for the newly created comment.
+   * @throws XmlRpcFault Generic exception for xml-rpc operations
+   */
+  @SuppressWarnings("unchecked")
+  public Integer newComment(Integer post_id, Integer comment_parent,
+      String content, String author, String author_url, String author_email)
+      throws XmlRpcFault {
+
+    XmlRpcStruct comment = new XmlRpcStruct();
+
+    if (comment_parent != null) {
+      comment.put("comment_parent", comment_parent);
+    }
+
+    comment.put("content", content);
+    if (author != null)
+      comment.put("author", author);
+    if (author_url != null)
+      comment.put("author_url", author_url);
+    if (author_email != null)
+      comment.put("author_email", author_email);
+
+    Integer comment_id = this.wp.newComment(0, this.username, this.password,
+        post_id, comment);
+
+    return comment_id;
+  }
+
+  /**
+   * @return the comment status list
+   */
+  public CommentStatusList getCommentStatusList() {
+    XmlRpcStruct csl = this.wp.getCommentStatusList(0, this.username,
+        this.password);
+    CommentStatusList result = new CommentStatusList();
+    result.fromXmlRpcStruct(csl);
+    return result;
+  }
+
+  /**
+   * @param commentID comment id to delete
+   * @return result of the operation
+   * @throws XmlRpcFault
+   */
+  public boolean deleteComment(int commentID) throws XmlRpcFault {
+    return this.wp.deleteComment(0, this.username, this.password, commentID);
+  }
+
+  /**
+   * @param comment
+   * @return Result of the operation
+   * @throws XmlRpcFault
+   */
+  public boolean editComment(Comment comment) throws XmlRpcFault {
+    Boolean r = this.wp.editComment(0, this.username, this.password,
+        comment.getComment_id(), comment);
+    return r;
+  }
 }
 
 interface WordpressBridge {
+
+  Boolean editComment(Integer blogid, String username, String password,
+      Integer comment_id, Comment comment) throws XmlRpcFault;
+
+  Boolean deleteComment(Integer blogid, String username, String password,
+      Integer comment_id) throws XmlRpcFault;
 
   /**
    * @param blogid Blog id, not used in wordpress
@@ -711,6 +852,8 @@ interface WordpressBridge {
    */
   Boolean deletePage(Integer blogid, String username, String password,
       Integer post_ID, String publish) throws XmlRpcFault;
+
+  XmlRpcStruct getCommentStatusList(int i, String username, String password);
 
   /**
    * @param blogid Blog id, not used in wordpress
@@ -816,4 +959,20 @@ interface WordpressBridge {
 
   XmlRpcStruct getPageStatusList(Integer blogid, String username,
       String password) throws XmlRpcFault;
+
+  XmlRpcStruct getCommentCount(Integer blogid, String username,
+      String password, Integer post_ID) throws XmlRpcFault;
+
+  XmlRpcStruct getCommentCount(Integer blogid, String username, String password)
+      throws XmlRpcFault;
+
+  XmlRpcArray getComments(Integer blogid, String username, String password,
+      XmlRpcStruct filter) throws XmlRpcFault;
+
+  XmlRpcStruct getComment(Integer blogid, String username, String password,
+      Integer comment_id) throws XmlRpcFault;
+
+  Integer newComment(Integer blogid, String username, String password,
+      Integer post_id, XmlRpcStruct comment) throws XmlRpcFault;
+
 }

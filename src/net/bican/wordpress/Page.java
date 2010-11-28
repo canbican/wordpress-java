@@ -21,11 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
@@ -49,96 +45,11 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public static Page fromFile(File file) throws IOException,
       InvalidPostFormatException {
-    XmlRpcStruct page = null;
-    page = new XmlRpcStruct();
     BufferedReader input = new BufferedReader(new FileReader(file));
-    String line;
-    String prevKey = null;
-    String prevValue = null;
-    Pattern keyPattern;
-    keyPattern = Pattern.compile("^[\\d\\w_]+:", Pattern.CASE_INSENSITIVE
-        | Pattern.UNICODE_CASE);
-    while ((line = input.readLine()) != null) {
-      if ((!"".equals(line)) && (!line.startsWith("#"))) {
-        Matcher m = keyPattern.matcher(line);
-        if (m.find()) {
-          if (prevKey != null) {
-            putVal(page, prevKey, prevValue);
-          }
-          String[] vals = line.split(":", 2);
-          prevKey = vals[0];
-          prevValue = vals[1];
-        } else {
-          if (prevValue != null) {
-            prevValue += line;
-          } else {
-            throw new InvalidPostFormatException();
-          }
-        }
-      }
-    }
-    if (prevKey != null)
-      putVal(page, prevKey, prevValue);
+    XmlRpcStruct page = FileParser.parseFile(input);
     Page result = new Page();
     result.fromXmlRpcStruct(page);
     return result;
-  }
-
-  @SuppressWarnings("unchecked")
-  private static void putVal(XmlRpcStruct s, String key, String v) {
-    String value = v.trim();
-    if (value.startsWith("[")) {
-      try {
-        JSONArray jArr = new JSONArray(value);
-        Class cType = jArr.get(0).getClass();
-        XmlRpcArray vals = new XmlRpcArray();
-        if (cType == String.class) {
-          for (int i = 0; i < jArr.length(); i++) {
-            vals.add(jArr.getString(i));
-          }
-        } else {
-          String className = getClassName(key);
-          Class<?> cl = Class.forName(className);
-          for (int i = 0; i < jArr.length(); i++) {
-            JSONConvertable o = (JSONConvertable) cl.newInstance();
-            o.fromJSONObject(jArr.getJSONObject(i));
-            vals.add(o);
-          }
-        }
-        s.put(key, vals);
-      } catch (JSONException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (ClassNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InstantiationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    } else {
-      if (!"null".equalsIgnoreCase(value)) {
-        s.put(key, value);
-      }
-    }
-  }
-
-  private static String getClassName(String key) {
-    String className = key;
-    while (className.contains("_")) {
-      int pos = className.indexOf("_");
-      Character ch = className.charAt(pos + 1);
-      char chNew = Character.toUpperCase(ch);
-      className = className.replaceFirst("_" + ch, chNew + "");
-    }
-    className = className.replaceFirst("s$", "");
-    Character ch = className.charAt(0);
-    char chNew = Character.toUpperCase(ch);
-    className = className.replaceFirst("^" + ch, chNew + "");
-    return "net.bican.wordpress." + className;
   }
 
   XmlRpcArray categories;

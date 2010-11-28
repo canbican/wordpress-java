@@ -17,6 +17,7 @@
 package net.bican.wordpress;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -87,6 +88,21 @@ public class Main {
           "Allow overwrite in uploading new media");
       options.addOption("so", "supportedstatus", false,
           "Print supported page and post status values");
+      options.addOption("cs", "commentstatus", false,
+          "Print comment status names for the blog");
+      options.addOption("cc", "commentcount", true,
+          "Get comment count for a post (-1 for all posts)");
+      options.addOption("ca", "newcomment", true, "New comment from file");
+      options.addOption("cd", "deletecomment", true, "Delete comment");
+      options.addOption("ce", "editcomment", true, "Edit comment from file");
+      options.addOption("cg", "getcomment", true, "Get comment");
+      options.addOption("ct", "getcomments", true, "Get comments for the post");
+      options.addOption("cs", "commentstatus", true,
+          "Comment status (for --getcomments)");
+      options.addOption("co", "commentoffset", true,
+          "Comment offset # (for --getcomments)");
+      options.addOption("cm", "commentnumber", true,
+          "Comment # (for --getcomments)");
       try {
         WpCliConfiguration config = new WpCliConfiguration(args, options,
             Main.class);
@@ -97,8 +113,8 @@ public class Main {
           System.err.println("Specify --user, --pass and --url");
         } else {
           try {
-            Wordpress wp = new Wordpress(config.getOptionValue("user"), config
-                .getOptionValue("pass"), config.getOptionValue("url"));
+            Wordpress wp = new Wordpress(config.getOptionValue("user"),
+                config.getOptionValue("pass"), config.getOptionValue("url"));
             if (config.hasOption("authors")) {
               printList(wp.getAuthors(), Author.class, true);
             } else if (config.hasOption("categories")) {
@@ -110,8 +126,8 @@ public class Main {
                 slug = "";
               if (parentId == null)
                 parentId = 0;
-              System.out.println(wp.newCategory(config
-                  .getOptionValue("newcategory"), slug, parentId));
+              System.out.println(wp.newCategory(
+                  config.getOptionValue("newcategory"), slug, parentId));
             } else if (config.hasOption("pages")) {
               printList(wp.getPages(), Page.class, false);
             } else if (config.hasOption("pagelist")) {
@@ -133,9 +149,9 @@ public class Main {
               if (!config.hasOption("publish")) {
                 showHelp(options);
               } else {
-                System.out.println(wp.newPage(Page.fromFile(new File(config
-                    .getOptionValue("newpage"))), config
-                    .getOptionValue("publish")));
+                System.out.println(wp.newPage(
+                    Page.fromFile(new File(config.getOptionValue("newpage"))),
+                    config.getOptionValue("publish")));
               }
             } else if (config.hasOption("editpage")) {
               edit(options, config, wp, "editpage", true);
@@ -149,9 +165,9 @@ public class Main {
               if (!config.hasOption("publish")) {
                 showHelp(options);
               } else {
-                System.out.println(wp.newPost(Page.fromFile(new File(config
-                    .getOptionValue("newpost"))), Boolean.valueOf(config
-                    .getOptionValue("publish"))));
+                System.out.println(wp.newPost(
+                    Page.fromFile(new File(config.getOptionValue("newpost"))),
+                    Boolean.valueOf(config.getOptionValue("publish"))));
               }
             } else if (config.hasOption("newmedia")) {
               String fileName = config.getOptionValue("newmedia");
@@ -169,6 +185,43 @@ public class Main {
               printList(wp.getPostStatusList(), PostAndPageStatus.class, true);
               System.out.println("\nRecognized status values for pages:");
               printList(wp.getPageStatusList(), PostAndPageStatus.class, true);
+            } else if (config.hasOption("commentstatus")) {
+              showCommentStatus(wp);
+            } else if (config.hasOption("commentcount")) {
+              showCommentCount(config, wp);
+            } else if (config.hasOption("newcomment")) {
+              editComment(wp, config.getOptionValue("newcomment"), "newcomment");
+            } else if (config.hasOption("editcomment")) {
+              editComment(wp, config.getOptionValue("editcomment"),
+                  "editcomment");
+            } else if (config.hasOption("deletecomment")) {
+              System.err.println(Integer.valueOf(config
+                  .getOptionValue("deletecomment")));
+              deleteComment(wp,
+                  Integer.valueOf(config.getOptionValue("deletecomment")));
+            } else if (config.hasOption("getcomment")) {
+              printComment(wp,
+                  Integer.valueOf(config.getOptionValue("getcomment")));
+            } else if (config.hasOption("getcomments")) {
+              Integer postID = Integer.valueOf(config
+                  .getOptionValue("getcomments"));
+              String commentStatus = config.getOptionValue("commentstatus");
+              Integer commentOffset;
+              try {
+                commentOffset = Integer.valueOf(config
+                    .getOptionValue("commentoffset"));
+              } catch (NumberFormatException e) {
+                commentOffset = null;
+              }
+              Integer commentNumber;
+              try {
+                commentNumber = Integer.valueOf(config
+                    .getOptionValue("commentnumber"));
+              } catch (Exception e) {
+                commentNumber = null;
+              }
+              printComments(wp, postID, commentStatus, commentOffset,
+                  commentNumber);
             } else {
               showHelp(options);
             }
@@ -190,6 +243,68 @@ public class Main {
       String reason = e.getLocalizedMessage();
       System.err.println("Operation failed, reason is: " + reason);
     }
+  }
+
+  private static void printComments(Wordpress wp, Integer postID,
+      String commentStatus, Integer commentOffset, Integer commentNumber)
+      throws XmlRpcFault {
+    List<Comment> r = wp.getComments(commentStatus, postID, commentNumber,
+        commentOffset);
+    for (Comment comment : r) {
+      System.out.println("--- BEGIN COMMENT");
+      System.out.println(comment);
+      System.out.println("--- END COMMENT");
+    }
+  }
+
+  private static void printComment(Wordpress wp, Integer commentID)
+      throws XmlRpcFault {
+    Comment r = wp.getComment(commentID);
+    System.out.println(r);
+  }
+
+  private static void deleteComment(Wordpress wp, int commentID)
+      throws XmlRpcFault {
+    boolean result = wp.deleteComment(commentID);
+    if (result)
+      System.out.println("Comment deleted.");
+    else
+      System.out.println("Comment not deleted");
+  }
+
+  private static void editComment(Wordpress wp, String fileName,
+      String operation) throws XmlRpcFault, FileNotFoundException, IOException,
+      InvalidPostFormatException {
+    Comment comment = Comment.fromFile(new File(fileName));
+    System.err.println(comment.getPost_id());
+    System.err.println(comment.getContent());
+    if (operation.equals("newcomment")) {
+      Integer r = wp.newComment(comment.getPost_id(), comment.getParent(),
+          comment.getContent(), comment.getAuthor(), comment.getAuthor_url(),
+          comment.getAuthor_email());
+      System.err.println("Comment ID: " + r);
+    } else if (operation.equals("editcomment")) {
+      Boolean r = wp.editComment(comment);
+      if (r)
+        System.err.println("Comment edited.");
+      else
+        System.err.println("Comment not edited.");
+    }
+  }
+
+  private static void showCommentCount(WpCliConfiguration config, Wordpress wp) {
+    Integer post_ID = getInteger("commentcount", config);
+    try {
+      CommentCount result = wp.getCommentsCount(post_ID);
+      System.out.println(result);
+    } catch (XmlRpcFault e) {
+      String reason = e.getLocalizedMessage();
+      System.err.println("Operation failed, reason is: " + reason);
+    }
+  }
+
+  private static void showCommentStatus(Wordpress wp) {
+    printItem(wp.getCommentStatusList(), CommentStatusList.class);
   }
 
   private static void delete(Options options, WpCliConfiguration config,
