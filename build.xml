@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="init" name="${projectname}">
 	<property file="project.properties" />
-	<property file="/home/can/Dropbox/Devel/gc.properties" />
+	<property file="/Users/can/Dropbox/Devel/gc.properties" />
 	<target name="init">
 		<mkdir dir="bin" />
 		<mkdir dir="lib" />
