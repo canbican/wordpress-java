@@ -72,7 +72,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   String mt_keywords;
 
-  String page_id;
+  Integer page_id;
 
   String page_status;
 
@@ -96,9 +96,9 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   String wp_author_id;
 
-  String wp_page_order;
+  Integer wp_page_order;
 
-  String wp_page_parent_id;
+  Integer wp_page_parent_id;
 
   String wp_page_parent_title;
 
@@ -172,7 +172,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
   /**
    * @return the page_id
    */
-  public String getPage_id() {
+  public Integer getPage_id() {
     return this.page_id;
   }
 
@@ -265,14 +265,14 @@ public class Page extends XmlRpcMapped implements StringHeader {
   /**
    * @return the wp_page_order
    */
-  public String getWp_page_order() {
+  public Integer getWp_page_order() {
     return this.wp_page_order;
   }
 
   /**
    * @return the wp_page_parent_id
    */
-  public String getWp_page_parent_id() {
+  public Integer getWp_page_parent_id() {
     return this.wp_page_parent_id;
   }
 
@@ -371,7 +371,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
   /**
    * @param page_id the page_id to set
    */
-  public void setPage_id(String page_id) {
+  public void setPage_id(Integer page_id) {
     this.page_id = page_id;
   }
 
@@ -455,14 +455,14 @@ public class Page extends XmlRpcMapped implements StringHeader {
   /**
    * @param wp_page_order the wp_page_order to set
    */
-  public void setWp_page_order(String wp_page_order) {
+  public void setWp_page_order(Integer wp_page_order) {
     this.wp_page_order = wp_page_order;
   }
 
   /**
    * @param wp_page_parent_id the wp_page_parent_id to set
    */
-  public void setWp_page_parent_id(String wp_page_parent_id) {
+  public void setWp_page_parent_id(Integer wp_page_parent_id) {
     this.wp_page_parent_id = wp_page_parent_id;
   }
 
