@@ -22,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 
-
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
@@ -72,6 +71,8 @@ public class Page extends XmlRpcMapped implements StringHeader {
 
   String mt_keywords;
 
+  String mt_text_more;
+
   Integer page_id;
 
   String page_status;
@@ -83,8 +84,6 @@ public class Page extends XmlRpcMapped implements StringHeader {
   String post_type;
 
   Integer postid;
-
-  String text_more;
 
   String title;
 
@@ -111,6 +110,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public XmlRpcArray getCategories() {
     return this.categories;
+  }
+
+  /**
+   * @return the custom_fields
+   */
+  public XmlRpcArray getCustom_fields() {
+    return this.custom_fields;
   }
 
   /**
@@ -170,6 +176,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
   }
 
   /**
+   * @return text_more
+   */
+  public String getMt_text_more() {
+    return this.mt_text_more;
+  }
+
+  /**
    * @return the page_id
    */
   public Integer getPage_id() {
@@ -218,13 +231,6 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public String getStringHeader() {
     return ""; // this is not a tabulated list
-  }
-
-  /**
-   * @return the text_more
-   */
-  public String getText_more() {
-    return this.text_more;
   }
 
   /**
@@ -305,6 +311,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
   }
 
   /**
+   * @param custom_fields the custom_fields to set
+   */
+  public void setCustom_fields(XmlRpcArray custom_fields) {
+    this.custom_fields = custom_fields;
+  }
+
+  /**
    * @param date_created_gmt the date_created_gmt to set
    */
   public void setDate_created_gmt(Date date_created_gmt) {
@@ -369,6 +382,13 @@ public class Page extends XmlRpcMapped implements StringHeader {
   }
 
   /**
+   * @param mt_text_more to set
+   */
+  public void setMt_text_more(String mt_text_more) {
+    this.mt_text_more = mt_text_more;
+  }
+
+  /**
    * @param page_id the page_id to set
    */
   public void setPage_id(Integer page_id) {
@@ -408,13 +428,6 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setPostid(Integer postid) {
     this.postid = postid;
-  }
-
-  /**
-   * @param text_more the text_more to set
-   */
-  public void setText_more(String text_more) {
-    this.text_more = text_more;
   }
 
   /**
@@ -485,19 +498,5 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setWp_slug(String wp_slug) {
     this.wp_slug = wp_slug;
-  }
-
-  /**
-   * @param custom_fields the custom_fields to set
-   */
-  public void setCustom_fields(XmlRpcArray custom_fields) {
-    this.custom_fields = custom_fields;
-  }
-
-  /**
-   * @return the custom_fields
-   */
-  public XmlRpcArray getCustom_fields() {
-    return this.custom_fields;
   }
 }
