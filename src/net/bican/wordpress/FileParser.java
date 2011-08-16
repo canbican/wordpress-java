@@ -111,7 +111,6 @@ public class FileParser {
           s.put(key, vals);
         }
       } catch (JSONException e) {
-        System.err.println("-----");
         // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (ClassNotFoundException e) {
