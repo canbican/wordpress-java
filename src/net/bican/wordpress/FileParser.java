@@ -92,23 +92,26 @@ public class FileParser {
     if (value.startsWith("[")) {
       try {
         JSONArray jArr = new JSONArray(value);
-        Class cType = jArr.get(0).getClass();
-        XmlRpcArray vals = new XmlRpcArray();
-        if (cType == String.class) {
-          for (int i = 0; i < jArr.length(); i++) {
-            vals.add(jArr.getString(i));
+        if (jArr.length() > 0) {
+          Class cType = jArr.get(0).getClass();
+          XmlRpcArray vals = new XmlRpcArray();
+          if (cType == String.class) {
+            for (int i = 0; i < jArr.length(); i++) {
+              vals.add(jArr.getString(i));
+            }
+          } else {
+            String className = FileParser.getClassName(key);
+            Class<?> cl = Class.forName(className);
+            for (int i = 0; i < jArr.length(); i++) {
+              JSONConvertable o = (JSONConvertable) cl.newInstance();
+              o.fromJSONObject(jArr.getJSONObject(i));
+              vals.add(o);
+            }
           }
-        } else {
-          String className = FileParser.getClassName(key);
-          Class<?> cl = Class.forName(className);
-          for (int i = 0; i < jArr.length(); i++) {
-            JSONConvertable o = (JSONConvertable) cl.newInstance();
-            o.fromJSONObject(jArr.getJSONObject(i));
-            vals.add(o);
-          }
+          s.put(key, vals);
         }
-        s.put(key, vals);
       } catch (JSONException e) {
+        System.err.println("-----");
         // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (ClassNotFoundException e) {
