@@ -102,4 +102,4 @@ LIBDIR=${PROGRAM_DIR}/lib
 # build the classpath
 for FILE in ${LIBDIR}/*.jar; do CLASSPATH="${CLASSPATH}:${LIBDIR}/${FILE}"; done
 
-${JAVA_PROGRAM_DIR}java -jar ${PROGRAM_DIR}/@JARDIR@/jwordpress-@VERSION@@CLITOKEN@.jar "$@"
+${JAVA_PROGRAM_DIR}java -jar ${PROGRAM_DIR}/jwordpress.jar "$@"
