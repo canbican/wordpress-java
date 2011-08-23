@@ -3,21 +3,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>bican.net</groupId>
+	<groupId>net.bican</groupId>
 	<artifactId>jwordpress</artifactId>
 	<version>0.4.1</version>
-	<repositories>
-		<repository>
-			<id>thirdparty-releases</id>
-			<name>JBoss Thirdparty Releases</name>
-			<url>http://repository.jboss.org/nexus/content/repositories/thirdparty-releases
-			</url>
-		</repository>
-	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+                <distributionManagement>
+                        <repository>
+                                <uniqueVersion>false</uniqueVersion>
+                                <id>gcode</id>
+                                <url>svn:https://wordpress-java.googlecode.com/svn/mvn/</url>
+                        </repository>
+                </distributionManagement>
 
 	<dependencies>
 		<dependency>
@@ -56,8 +55,8 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>redstone.xmlrpc</groupId>
-			<artifactId>xmlrpc</artifactId>
+			<groupId>org.kohsuke.redstone</groupId>
+			<artifactId>redstone</artifactId>
 			<version>1.1.1</version>
 			<type>jar</type>
 			<optional>false</optional>
@@ -88,6 +87,13 @@
 		</developer>
 	</developers>
 	<build>
+                <extensions>
+                        <extension>
+                                <groupId>org.jvnet.wagon-svn</groupId>
+                                <artifactId>wagon-svn</artifactId>
+                                <version>1.9</version>
+                        </extension>
+                </extensions>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<resources>
