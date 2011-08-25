@@ -186,7 +186,7 @@
 							<executable>/bin/chmod</executable>
 							<arguments>
 								<argument>755</argument>
-								<argumant>install.sh</argumant>
+								<argument>install.sh</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -198,9 +198,6 @@
 						</goals>
 						<configuration>
 							<executable>install.sh</executable>
-							<arguments>
-								<argument>/usr/local</argument>
-							</arguments>
 						</configuration>
 					</execution>
 				</executions>

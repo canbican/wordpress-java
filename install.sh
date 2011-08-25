@@ -7,9 +7,11 @@ CP=/bin/cp
 CHMOD=/bin/chmod
 MKDIR=/bin/mkdir
 
-PREFIX=$1 ; shift
-
-[ -z "$PREFIX" ] && exit 1
+if [ -z "$PREFIX" ]
+then
+        PREFIX=/usr/local
+fi
+echo "Installing to $PREFIX"
 if [ ! -d "$PREFIX/bin" ]
 then
         ${MKDIR} -p $PREFIX/bin
