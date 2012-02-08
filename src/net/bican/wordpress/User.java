@@ -26,7 +26,7 @@ package net.bican.wordpress;
 public class User extends XmlRpcMapped implements StringHeader {
   String nickname;
 
-  Integer userid;
+  String userid;
 
   String url;
 
@@ -62,14 +62,14 @@ public class User extends XmlRpcMapped implements StringHeader {
   /**
    * @return the userid
    */
-  public Integer getUserid() {
+  public String getUserid() {
     return this.userid;
   }
 
   /**
    * @param userid the userid to set
    */
-  public void setUserid(Integer userid) {
+  public void setUserid(String userid) {
     this.userid = userid;
   }
 
