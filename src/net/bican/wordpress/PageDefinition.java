@@ -88,6 +88,7 @@ public class PageDefinition extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "Date Created" + TAB + "Date Created(GMT)" + TAB + "Parent ID" + TAB

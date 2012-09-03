@@ -118,6 +118,7 @@ public class Category extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "Category Id" + TAB + "Category Name" + TAB + "Description" + TAB

@@ -31,6 +31,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "Id" + TAB + "Key" + TAB + "Value";
@@ -41,6 +42,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * 
    * @see net.bican.wordpress.XmlRpcMapped#toString()
    */
+  @SuppressWarnings("nls")
   @Override
   public String toString() {
     JSONObject o = new JSONObject();
@@ -104,6 +106,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @see net.bican.wordpress.JSONConvertable#fromJSONObject(org.json.JSONObject)
    * 
    */
+  @SuppressWarnings("nls")
   public void fromJSONObject(JSONObject o) {
     try {
       this.setId(o.getString("id"));

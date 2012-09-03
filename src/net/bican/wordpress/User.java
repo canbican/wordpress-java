@@ -32,6 +32,7 @@ public class User extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "First name" + TAB + "Last name" + TAB + "Nick name" + TAB + "Url"

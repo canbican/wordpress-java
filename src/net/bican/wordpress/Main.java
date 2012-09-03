@@ -34,9 +34,12 @@ import redstone.xmlrpc.XmlRpcFault;
  */
 public class Main {
   /**
-   * @param args execute with "-?" for an explanation of args
-   * @throws ParseException When the command line options cannot be parsed
+   * @param args
+   *          execute with "-?" for an explanation of args
+   * @throws ParseException
+   *           When the command line options cannot be parsed
    */
+  @SuppressWarnings({ "nls", "boxing" })
   public static void main(String[] args) throws ParseException {
     try {
       Options options = new Options();
@@ -51,6 +54,8 @@ public class Main {
       options.addOption("c", "categories", false, "Get category list");
       options.addOption("cn", "newcategory", true,
           "New category (uses --slug and --parentid)");
+      options.addOption("cr", "deletecategory", true,
+          "Delete category <category_id>");
       options.addOption("pg", "pages", false, "Get page list (full)");
       options.addOption("pl", "pagelist", false, "Get page list");
       options.addOption("ps", "page", true, "Get page");
@@ -112,6 +117,11 @@ public class Main {
               printList(wp.getAuthors(), Author.class, true);
             } else if (config.hasOption("categories")) {
               printList(wp.getCategories(), Category.class, true);
+            } else if (config.hasOption("deletecategory")) {
+              Integer category_id = Integer.valueOf(config
+                  .getOptionValue("deletecategory"));
+              int r = wp.deleteCategory(category_id);
+              System.out.println(r);
             } else if (config.hasOption("newcategory")) {
               String slug = config.getOptionValue("slug");
               Integer parentId = getInteger("parentid", config);
@@ -238,6 +248,7 @@ public class Main {
     }
   }
 
+  @SuppressWarnings("nls")
   private static void printComments(Wordpress wp, Integer postID,
       String commentStatus, Integer commentOffset, Integer commentNumber)
       throws XmlRpcFault {
@@ -256,6 +267,7 @@ public class Main {
     System.out.println(r);
   }
 
+  @SuppressWarnings("nls")
   private static void deleteComment(Wordpress wp, int commentID)
       throws XmlRpcFault {
     boolean result = wp.deleteComment(commentID);
@@ -265,6 +277,7 @@ public class Main {
       System.out.println("Comment not deleted");
   }
 
+  @SuppressWarnings({ "nls", "boxing" })
   private static void editComment(Wordpress wp, String fileName,
       String operation) throws XmlRpcFault, FileNotFoundException, IOException,
       InvalidPostFormatException {
@@ -285,6 +298,7 @@ public class Main {
     }
   }
 
+  @SuppressWarnings("nls")
   private static void showCommentCount(WpCliConfiguration config, Wordpress wp) {
     Integer post_ID = getInteger("commentcount", config);
     try {
@@ -300,6 +314,7 @@ public class Main {
     printItem(wp.getCommentStatusList(), CommentStatusList.class);
   }
 
+  @SuppressWarnings({ "nls", "boxing" })
   private static void delete(Options options, WpCliConfiguration config,
       Wordpress wp, String opt, boolean deletePage) throws XmlRpcFault {
     Integer post_ID = getInteger(opt, config);
@@ -315,6 +330,7 @@ public class Main {
     }
   }
 
+  @SuppressWarnings({ "nls", "boxing" })
   private static void edit(Options options, WpCliConfiguration config,
       Wordpress wp, String opt, boolean isPage) throws IOException,
       InvalidPostFormatException, XmlRpcFault {
@@ -344,6 +360,7 @@ public class Main {
     return post_ID;
   }
 
+  @SuppressWarnings("nls")
   private static void showHelp(Options options) {
     HelpFormatter help = new HelpFormatter();
     help.printHelp(" ", options);

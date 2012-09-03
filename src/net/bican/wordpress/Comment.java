@@ -239,6 +239,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "Date Created GMT" + TAB + "User Id" + TAB + "Comment Id" + TAB

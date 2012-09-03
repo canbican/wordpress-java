@@ -26,6 +26,7 @@ import redstone.xmlrpc.XmlRpcStruct;
  */
 public abstract class XmlRpcMapped {
 
+  @SuppressWarnings("nls")
   private static final SimpleDateFormat sdf = new SimpleDateFormat(
       "yyyyMMdd'T'HH:mm:ss");
 
@@ -38,6 +39,7 @@ public abstract class XmlRpcMapped {
    * 
    * @see java.lang.Object#toString()
    */
+  @SuppressWarnings("nls")
   private String toGenericString(String recordDelimiter, String fieldDelimiter,
       boolean showFieldName) {
     String result = null;
@@ -66,6 +68,7 @@ public abstract class XmlRpcMapped {
    * 
    * @see java.lang.Object#toString()
    */
+  @SuppressWarnings("nls")
   @Override
   public String toString() {
     return toGenericString("\n", ":", true);
@@ -74,6 +77,7 @@ public abstract class XmlRpcMapped {
   /**
    * @return Something similar to toString() but in one line
    */
+  @SuppressWarnings("nls")
   public String toOneLinerString() {
     return toGenericString(":", "", false).replaceAll(":$", "");
   }
@@ -81,6 +85,7 @@ public abstract class XmlRpcMapped {
   /**
    * @param x XmlRpcStruct to create the object from
    */
+  @SuppressWarnings("nls")
   public void fromXmlRpcStruct(XmlRpcStruct x) {
     Field[] f = this.getClass().getDeclaredFields();
     String k = null;

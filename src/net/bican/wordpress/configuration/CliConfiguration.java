@@ -33,6 +33,7 @@ public class CliConfiguration extends BaseConfiguration {
    * @param options Command line options
    * @throws ParseException When the configuration cannot be parsed
    */
+  @SuppressWarnings("nls")
   public CliConfiguration(String[] args, Options options) throws ParseException {
     CommandLineParser parser = new BasicParser();
     CommandLine commandLine = parser.parse(options, args);

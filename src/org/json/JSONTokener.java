@@ -37,6 +37,7 @@ import java.io.StringReader;
  * @author JSON.org
  * @version 2010-02-02
  */
+@SuppressWarnings("nls")
 public class JSONTokener {
 
   private int character;
@@ -433,6 +434,7 @@ public class JSONTokener {
    * 
    * @return " at {index} [character {character} line {line}]"
    */
+  @Override
   public String toString() {
     return " at " + this.index + " [character " + this.character + " line "
         + this.line + "]";

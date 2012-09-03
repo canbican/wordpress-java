@@ -78,7 +78,7 @@ import java.util.Map;
  * @author JSON.org
  * @version 2009-04-14
  */
-@SuppressWarnings({"unchecked","rawtypes"})
+@SuppressWarnings({"unchecked","rawtypes","nls"})
 public class JSONArray {
 
   /**
@@ -780,6 +780,7 @@ public class JSONArray {
    * @return a printable, displayable, transmittable representation of the
    *         array.
    */
+  @Override
   public String toString() {
     try {
       return '[' + join(",") + ']';

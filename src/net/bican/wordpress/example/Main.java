@@ -35,6 +35,7 @@ public class Main {
    * @throws MalformedURLException
    * @throws XmlRpcFault
    */
+  @SuppressWarnings("nls")
   public static void main(String[] args) throws MalformedURLException,
       XmlRpcFault {
     String username = args[0];

@@ -33,11 +33,13 @@ public class FileParser {
    * 
    * Parses a file to create an xmlrpc compliant object
    * 
-   * @param input reader for the file
+   * @param input
+   *          reader for the file
    * @return New xmlrpc object
    * @throws IOException
    * @throws InvalidPostFormatException
    */
+  @SuppressWarnings("nls")
   public static XmlRpcStruct parseFile(BufferedReader input)
       throws IOException, InvalidPostFormatException {
     XmlRpcStruct p = new XmlRpcStruct();
@@ -75,11 +77,14 @@ public class FileParser {
    * 
    * Fills values for an xmlrpc object
    * 
-   * @param s xmlrpc object itself
-   * @param key field name
-   * @param v field value
+   * @param s
+   *          xmlrpc object itself
+   * @param key
+   *          field name
+   * @param v
+   *          field value
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({ "unchecked", "rawtypes", "nls" })
   public static void putVal(XmlRpcStruct s, String key, String v) {
     String value = v.trim();
     if (value.startsWith("[")) {
@@ -123,17 +128,18 @@ public class FileParser {
     }
   }
 
+  @SuppressWarnings("nls")
   static String getClassName(String key) {
     String className = key;
     while (className.contains("_")) {
       int pos = className.indexOf("_");
-      Character ch = className.charAt(pos + 1);
-      char chNew = Character.toUpperCase(ch);
+      Character ch = Character.valueOf(className.charAt(pos + 1));
+      char chNew = Character.toUpperCase(ch.charValue());
       className = className.replaceFirst("_" + ch, chNew + "");
     }
     className = className.replaceFirst("s$", "");
-    Character ch = className.charAt(0);
-    char chNew = Character.toUpperCase(ch);
+    Character ch = Character.valueOf(className.charAt(0));
+    char chNew = Character.toUpperCase(ch.charValue());
     className = className.replaceFirst("^" + ch, chNew + "");
     return "net.bican.wordpress." + className;
   }

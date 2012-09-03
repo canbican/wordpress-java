@@ -49,6 +49,7 @@ public class CommentStatusList extends XmlRpcMapped implements StringHeader {
    * (non-Javadoc)
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "Name" + TAB + "Description";

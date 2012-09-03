@@ -89,7 +89,7 @@ import java.util.TreeSet;
  * @author JSON.org
  * @version 2010-01-05
  */
-@SuppressWarnings( { "unchecked", "synthetic-access", "rawtypes" })
+@SuppressWarnings( { "unchecked", "synthetic-access", "rawtypes","nls" })
 public class JSONObject {
 
   /**
@@ -105,6 +105,7 @@ public class JSONObject {
      * 
      * @return NULL.
      */
+    @Override
     protected final Object clone() {
       return this;
     }
@@ -116,6 +117,7 @@ public class JSONObject {
      * @return true if the object parameter is the JSONObject.NULL object or
      *         null.
      */
+    @Override
     public boolean equals(Object object) {
       return object == null || object == this;
     }
@@ -125,6 +127,7 @@ public class JSONObject {
      * 
      * @return The string "null".
      */
+    @Override
     public String toString() {
       return "null";
     }
@@ -1241,6 +1244,7 @@ public class JSONObject {
    *         brace)</small> and ending with <code>}</code>&nbsp;<small>(right
    *         brace)</small>.
    */
+  @Override
   public String toString() {
     try {
       Iterator keys = keys();

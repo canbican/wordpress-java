@@ -83,6 +83,7 @@ public class CommentCount extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
     return "Approved" + TAB + "Awaiting Moderation" + TAB + "Spam" + TAB
