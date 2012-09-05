@@ -88,6 +88,7 @@ public class PageDefinition extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @Override
   @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";

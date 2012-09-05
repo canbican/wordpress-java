@@ -82,6 +82,7 @@ public class Author extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @Override
   @SuppressWarnings("nls")
   public String getStringHeader() {
     return "User_id:User_login:display_name";

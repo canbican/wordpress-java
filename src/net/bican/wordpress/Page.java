@@ -222,6 +222,7 @@ public class Page extends XmlRpcMapped implements StringHeader {
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @Override
   @SuppressWarnings("nls")
   public String getStringHeader() {
     return ""; // this is not a tabulated list

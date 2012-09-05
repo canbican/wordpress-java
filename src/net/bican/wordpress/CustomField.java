@@ -31,6 +31,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * 
    * @see net.bican.wordpress.StringHeader#getStringHeader()
    */
+  @Override
   @SuppressWarnings("nls")
   public String getStringHeader() {
     final String TAB = ":";
@@ -106,6 +107,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @see net.bican.wordpress.JSONConvertable#fromJSONObject(org.json.JSONObject)
    * 
    */
+  @Override
   @SuppressWarnings("nls")
   public void fromJSONObject(JSONObject o) {
     try {
