@@ -95,9 +95,11 @@ public class Page extends XmlRpcMapped implements StringHeader {
   String wp_page_parent_title;
 
   String wp_password;
+  
+  String wp_post_thumbnail;
 
   String wp_slug;
-
+  
   /**
    * @return the categories
    */
@@ -486,6 +488,21 @@ public class Page extends XmlRpcMapped implements StringHeader {
    */
   public void setWp_password(String wp_password) {
     this.wp_password = wp_password;
+  }
+  
+  /**
+    * @return thumbnail ID. This is the ID of the MediaObject in Wordpress
+    */
+  public String getWp_post_thumbnail() {
+    return wp_post_thumbnail;
+  }
+
+  /**
+    * @param wp_post_thumbnail set the post thumbnail (feature image). This is the ID of the Media
+    * object already created with MediaObject class 
+    */
+  public void setWp_post_thumbnail(String wp_post_thumbnail) {
+    this.wp_post_thumbnail = wp_post_thumbnail;
   }
 
   /**
