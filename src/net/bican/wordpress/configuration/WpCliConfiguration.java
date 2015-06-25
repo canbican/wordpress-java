@@ -36,7 +36,7 @@ public class WpCliConfiguration {
    */
   public WpCliConfiguration(String[] args, Options options, Class<?> cl)
       throws ParseException {
-    Collection<Configuration> confs = new ArrayList<Configuration>();
+    Collection<Configuration> confs = new ArrayList<>();
     confs.add(new CliConfiguration(args, options));
     confs.add(new PreferencesConfiguration(cl));
     this.config = new CompositeConfiguration(confs);

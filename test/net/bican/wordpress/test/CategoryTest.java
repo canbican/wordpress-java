@@ -8,7 +8,7 @@ import net.bican.wordpress.Category;
 
 import org.junit.Test;
 
-@SuppressWarnings({ "static-method", "javadoc", "nls", "boxing", "null" })
+@SuppressWarnings({ "static-method", "javadoc", "nls", "boxing" })
 public class CategoryTest extends AbstractWordpressTest {
 
   @Test

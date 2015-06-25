@@ -257,9 +257,7 @@ public class Wordpress {
 
   private static byte[] getBytesFromFile(File file) {
     byte[] result = null;
-    InputStream is = null;
-    try {
-      is = new FileInputStream(file);
+    try (InputStream is=new FileInputStream(file)){
 
       // Get the size of the file
       long length = file.length();
@@ -293,13 +291,6 @@ public class Wordpress {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
-    } finally {
-      if (is != null)
-        try {
-          is.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
     }
     return result;
   }
@@ -455,7 +446,7 @@ public class Wordpress {
   @SuppressWarnings("static-method")
   private List<String> fromStringArray(XmlRpcArray r) {
     List<String> result;
-    result = new ArrayList<String>();
+    result = new ArrayList<>();
     for (Object object : r) {
       result.add((String) object);
     }
@@ -545,7 +536,7 @@ public class Wordpress {
     List<URL> result = null;
     try {
       XmlRpcArray r = this.pingbackExt.getPingbacks(url);
-      result = new ArrayList<URL>();
+      result = new ArrayList<>();
       for (Object rec : r) {
         result.add(new URL((String) rec));
       }
@@ -812,7 +803,7 @@ public class Wordpress {
     String response = r.toString();
     response = response.replaceAll("[{}]", "").replaceAll(",  *", ",");
     String[] responses = response.split(",");
-    List<PostAndPageStatus> result = new ArrayList<PostAndPageStatus>();
+    List<PostAndPageStatus> result = new ArrayList<>();
     for (String rp : responses) {
       String[] keyval = rp.split("=");
       PostAndPageStatus pp = new PostAndPageStatus();

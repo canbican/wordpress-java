@@ -29,7 +29,7 @@ public class MediaObject extends XmlRpcMapped {
    * @return the ID of the Media Object
    */
   public String getId(){
-      return id;
+      return this.id;
   }
 
   /**
