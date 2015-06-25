@@ -19,9 +19,8 @@ mvn package :
     This will create target zip and jar files under the 'target' directory.
 
     You need to setup a dummy wordpress installation at
-    http://localhost/wp and set the password of admin to be 'admin', or
-    tests will fail. You can change these defaults by assigning value to
-    environment variables TOPURL, USERNAME, PASSWORD and XMLRPCURL.
+    http://wordpressjava-test.local. A Vagrant configuration is provided
+    in vagrant-test/ directory
 
     DO NOT USE A PRODUCTION BLOG FOR TESTING. Tests are destructive.
 
