@@ -20,13 +20,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <extensions>
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.8</version>
-      </extension>
-    </extensions>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <plugins>
@@ -235,12 +228,12 @@
     <url>http://www.bican.net/</url>
   </organization>
   <scm>
-    <connection>scm:svn:https://wordpress-java.googlecode.com/svn/trunk/</connection>
-    <url>http://code.google.com/p/wordpress-java/source/browse/</url>
+    <connection>scm:git@github.com:canbican/wordpress-java.git</connection>
+    <url>https://github.com/canbican/wordpress-java</url>
     <developerConnection>Can Bican</developerConnection>
   </scm>
   <issueManagement>
-    <system>Google Code</system>
-    <url>http://code.google.com/p/wordpress-java/issues/list</url>
+    <system>Github</system>
+    <url>https://github.com/canbican/wordpress-java/issues</url>
   </issueManagement>
 </project>
