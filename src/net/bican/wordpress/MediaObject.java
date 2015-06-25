@@ -22,6 +22,22 @@ public class MediaObject extends XmlRpcMapped {
   String file;
 
   String type;
+  
+  String id;
+  
+  /**
+   * @return the ID of the Media Object
+   */
+  public String getId(){
+      return id;
+  }
+
+  /**
+   * @param set the ID of the Media Object
+   */
+  public void setId(String id){
+      this.id = id;
+  }
 
   /**
    * @return the url
