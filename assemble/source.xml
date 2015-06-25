@@ -28,7 +28,7 @@
       <outputDirectory>/</outputDirectory>
     </file>
     <file>
-      <source>README</source>
+      <source>README.md</source>
       <outputDirectory>/</outputDirectory>
     </file>
     <file>
