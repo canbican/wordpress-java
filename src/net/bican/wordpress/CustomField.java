@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * http://code.google.com/p/wordpress-java/
- * 
- * Copyright 2012 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
+ * Bican <can@bican.net> See the file 'COPYING' in the distribution for
+ * licensing terms.
  */
 package net.bican.wordpress;
 
@@ -16,16 +12,15 @@ import org.json.JSONObject;
  * This class represents custom fields in wordpress.
  * 
  * @author alok
- * 
  */
 public class CustomField extends XmlRpcMapped implements StringHeader,
     JSONConvertable {
   String id = null;
-
+  
   String key = null;
-
+  
   String value = null;
-
+  
   /**
    * (non-Javadoc)
    * 
@@ -37,7 +32,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
     final String TAB = ":";
     return "Id" + TAB + "Key" + TAB + "Value";
   }
-
+  
   /**
    * (non-Javadoc)
    * 
@@ -57,55 +52,56 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
     }
     return o.toString();
   }
-
+  
   /**
    * @return id of custom field
    */
   public String getId() {
     return this.id;
   }
-
+  
   /**
    * @param id
+   *          id to set
    */
   public void setId(String id) {
     this.id = id;
   }
-
+  
   /**
    * @return key of custom field
    */
   public String getKey() {
     return this.key;
   }
-
+  
   /**
    * @param key
+   *          key to set
    */
   public void setKey(String key) {
     this.key = key;
   }
-
+  
   /**
    * @return value of custom field
    */
   public String getValue() {
     return this.value;
   }
-
+  
   /**
    * @param value
+   *          the value to set
    */
   public void setValue(String value) {
     this.value = value;
   }
-
+  
   /**
-   * 
    * (non-Javadoc)
    * 
    * @see net.bican.wordpress.JSONConvertable#fromJSONObject(org.json.JSONObject)
-   * 
    */
   @Override
   @SuppressWarnings("nls")
@@ -126,5 +122,5 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
       this.setValue(null);
     }
   }
-
+  
 }

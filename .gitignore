@@ -1,3 +1,7 @@
 /target/
 /vagrant-test/html/
+/vagrant-test/.vagrant/
 /bin/
+/.classpath
+/.project
+/.settings/

@@ -1,42 +1,42 @@
 /*
- * 
- * Wordpress-java
- * http://code.google.com/p/wordpress-java/
- * 
- * Copyright 2012 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
+ * Bican <can@bican.net> See the file 'COPYING' in the distribution for
+ * licensing terms.
  */
 package net.bican.wordpress;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
+import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
 /**
- * 
  * An object that has the capabilites of converting to/from
  * <code>XmlRpcStruct</code>.
  * 
  * @author Can Bican &lt;can@bican.net&gt;
- * 
  */
 public abstract class XmlRpcMapped {
-
+  
   @SuppressWarnings("nls")
   private static final SimpleDateFormat sdf = new SimpleDateFormat(
       "yyyyMMdd'T'HH:mm:ss");
-
+  
   /**
    * (non-Javadoc)
    * 
-   * @param recordDelimiter How to delimit records
-   * @param fieldDelimiter How to delimit the key/value pairs
-   * @param showFieldName Whether to show field name or not
-   * 
+   * @param recordDelimiter
+   *          How to delimit records
+   * @param fieldDelimiter
+   *          How to delimit the key/value pairs
+   * @param showFieldName
+   *          Whether to show field name or not
    * @see java.lang.Object#toString()
    */
   @SuppressWarnings("nls")
@@ -62,7 +62,7 @@ public abstract class XmlRpcMapped {
     }
     return result;
   }
-
+  
   /**
    * (non-Javadoc)
    * 
@@ -73,7 +73,7 @@ public abstract class XmlRpcMapped {
   public String toString() {
     return toGenericString("\n", ":", true);
   }
-
+  
   /**
    * @return Something similar to toString() but in one line
    */
@@ -81,11 +81,12 @@ public abstract class XmlRpcMapped {
   public String toOneLinerString() {
     return toGenericString(":", "", false).replaceAll(":$", "");
   }
-
+  
   /**
-   * @param x XmlRpcStruct to create the object from
+   * @param x
+   *          XmlRpcStruct to create the object from
    */
-  @SuppressWarnings("nls")
+  @SuppressWarnings({ "nls", "unchecked" })
   public void fromXmlRpcStruct(XmlRpcStruct x) {
     Field[] f = this.getClass().getDeclaredFields();
     String k = null;
@@ -96,26 +97,62 @@ public abstract class XmlRpcMapped {
         v = x.get(k);
         Class<?> kType = field.getType();
         if (v != null) {
-          if (kType == Integer.class) {
-            if (v.getClass() != Integer.class) {
-              Integer vInt = Integer.valueOf((String) v);
-              field.set(this, vInt);
-            } else {
-              field.set(this, v);
-            }
-          } else if (kType == Date.class) {
-            try {
-              if (v.getClass() != Date.class) {
-                Date vDate = sdf.parse((String) v);
-                field.set(this, vDate);
+          try {
+            XmlRpcMapped object = (XmlRpcMapped) kType.newInstance();
+            object.fromXmlRpcStruct((XmlRpcStruct) v);
+            field.set(this, object);
+          } catch (InstantiationException | ClassCastException e) {
+            if (kType == List.class) {
+              XmlRpcArray vList = (XmlRpcArray) v;
+              @SuppressWarnings("rawtypes")
+              List result = new ArrayList();
+              if (vList.size() > 0) {
+                Class<? extends Object> gType = vList.get(0).getClass();
+                @SuppressWarnings("rawtypes")
+                Iterator it = vList.iterator();
+                while (it.hasNext()) {
+                  if (gType == String.class) {
+                    String itemToInsert = (String) it.next();
+                    result.add(itemToInsert);
+                  } else {
+                    XmlRpcStruct item = (XmlRpcStruct) it.next();
+                    try {
+                      XmlRpcMapped itemToInsert = (XmlRpcMapped) gType
+                          .newInstance();
+                      gType.cast(itemToInsert);
+                      itemToInsert.fromXmlRpcStruct(item);
+                      result.add(itemToInsert);
+                    } catch (InstantiationException e1) {
+                      System.err
+                          .println("Warning: field \""
+                              + k
+                              + "\" contains invalid types in the response, skipping");
+                    }
+                  }
+                }
+                field.set(this, vList);
+              }
+            } else if (kType == Integer.class) {
+              if (v.getClass() != Integer.class) {
+                Integer vInt = Integer.valueOf((String) v);
+                field.set(this, vInt);
               } else {
                 field.set(this, v);
               }
-            } catch (ParseException e) {
-              throw new IllegalArgumentException(e);
+            } else if (kType == Date.class) {
+              try {
+                if (v.getClass() != Date.class) {
+                  Date vDate = sdf.parse((String) v);
+                  field.set(this, vDate);
+                } else {
+                  field.set(this, v);
+                }
+              } catch (ParseException e1) {
+                throw new IllegalArgumentException(e1);
+              }
+            } else {
+              field.set(this, v);
             }
-          } else {
-            field.set(this, v);
           }
         }
       } catch (IllegalArgumentException e) {
@@ -133,7 +170,7 @@ public abstract class XmlRpcMapped {
       }
     }
   }
-
+  
   /**
    * @return An XmlRpcStruct that represents the object.
    */

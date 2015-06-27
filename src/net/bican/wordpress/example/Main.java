@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * http://code.google.com/p/wordpress-java/
- * 
- * Copyright 2012 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
+ * Bican <can@bican.net> See the file 'COPYING' in the distribution for
+ * licensing terms.
  */
 package net.bican.wordpress.example;
 
@@ -19,23 +15,14 @@ import net.bican.wordpress.PageDefinition;
 import net.bican.wordpress.Wordpress;
 
 /**
- * 
- * Example implementation
- * 
- * Run this as java net.bican.wordpress.example.Main &lt;username&gt;
- * &lt;password&gt; &lt;xmlrpc-url&gt; for your blog.
+ * Example implementation Run this as java net.bican.wordpress.example.Main
+ * &lt;username&gt; &lt;password&gt; &lt;xmlrpc-url&gt; for your blog.
  * 
  * @author Can Bican
- * 
  */
 public class Main {
-
-  /**
-   * @param args
-   * @throws MalformedURLException
-   * @throws XmlRpcFault
-   */
-  @SuppressWarnings("nls")
+  
+  @SuppressWarnings({ "nls", "javadoc" })
   public static void main(String[] args) throws MalformedURLException,
       XmlRpcFault {
     String username = args[0];
@@ -60,5 +47,5 @@ public class Main {
     System.out.println("new post page id: " + result);
     System.out.println("\nThat's all for now.");
   }
-
+  
 }

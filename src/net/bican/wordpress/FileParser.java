@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * http://code.google.com/p/wordpress-java/
- * 
- * Copyright 2012 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
+ * Bican <can@bican.net> See the file 'COPYING' in the distribution for
+ * licensing terms.
  */
 package net.bican.wordpress;
 
@@ -21,23 +17,22 @@ import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
 /**
- * 
  * Static methods for parsing files
  * 
- * @author Can Bican <can@bican.net>
- * 
+ * @author Can Bican &lt;can@bican.net&gt;
  */
 public class FileParser {
-
+  
   /**
-   * 
    * Parses a file to create an xmlrpc compliant object
    * 
    * @param input
    *          reader for the file
    * @return New xmlrpc object
    * @throws IOException
+   *           when the file cannot be read
    * @throws InvalidPostFormatException
+   *           when the file format is invalid
    */
   @SuppressWarnings("nls")
   public static XmlRpcStruct parseFile(BufferedReader input)
@@ -72,9 +67,8 @@ public class FileParser {
       FileParser.putVal(p, prevKey, prevValue);
     return p;
   }
-
+  
   /**
-   * 
    * Fills values for an xmlrpc object
    * 
    * @param s
@@ -108,17 +102,8 @@ public class FileParser {
           }
           s.put(key, vals);
         }
-      } catch (JSONException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (ClassNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InstantiationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        // TODO Auto-generated catch block
+      } catch (JSONException | ClassNotFoundException | InstantiationException
+          | IllegalAccessException e) {
         e.printStackTrace();
       }
     } else {
@@ -127,7 +112,7 @@ public class FileParser {
       }
     }
   }
-
+  
   @SuppressWarnings("nls")
   static String getClassName(String key) {
     String className = key;
@@ -143,5 +128,5 @@ public class FileParser {
     className = className.replaceFirst("^" + ch, chNew + "");
     return "net.bican.wordpress." + className;
   }
-
+  
 }

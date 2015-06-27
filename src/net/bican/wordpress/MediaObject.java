@@ -1,26 +1,20 @@
 /*
- * 
- * Wordpress-java
- * http://code.google.com/p/wordpress-java/
- * 
- * Copyright 2012 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
+ * Bican <can@bican.net> See the file 'COPYING' in the distribution for
+ * licensing terms.
  */
 package net.bican.wordpress;
 
 /**
- * 
  * Media Object, as the result of an upload;
  * 
  * @author Can Bican &lt;can@bican.net&gt;
- * 
  */
 public class MediaObject extends XmlRpcMapped {
   String url;
-
+  
   String file;
-
+  
   String type;
   
   String id;
@@ -28,54 +22,58 @@ public class MediaObject extends XmlRpcMapped {
   /**
    * @return the ID of the Media Object
    */
-  public String getId(){
-      return this.id;
+  public String getId() {
+    return this.id;
   }
-
+  
   /**
-   * @param set the ID of the Media Object
+   * @param id
+   *          set the ID of the Media Object
    */
-  public void setId(String id){
-      this.id = id;
+  public void setId(String id) {
+    this.id = id;
   }
-
+  
   /**
    * @return the url
    */
   public String getUrl() {
     return this.url;
   }
-
+  
   /**
-   * @param url the url to set
+   * @param url
+   *          the url to set
    */
   public void setUrl(String url) {
     this.url = url;
   }
-
+  
   /**
    * @return the file
    */
   public String getFile() {
     return this.file;
   }
-
+  
   /**
-   * @param file the file to set
+   * @param file
+   *          the file to set
    */
   public void setFile(String file) {
     this.file = file;
   }
-
+  
   /**
    * @return the type
    */
   public String getType() {
     return this.type;
   }
-
+  
   /**
-   * @param type the type to set
+   * @param type
+   *          the type to set
    */
   public void setType(String type) {
     this.type = type;

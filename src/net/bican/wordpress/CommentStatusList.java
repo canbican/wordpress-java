@@ -13,7 +13,7 @@ package net.bican.wordpress;
  * 
  * Comment status names for the blog
  * 
- * @author Can Bican <can@bican.net>
+ * @author Can Bican &lt;can@bican.net&gt;
  *
  */
 public class CommentStatusList extends XmlRpcMapped implements StringHeader {

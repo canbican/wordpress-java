@@ -264,8 +264,11 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    *          input file
    * @return new Comment object
    * @throws FileNotFoundException
+   *           when the file is absent
    * @throws IOException
+   *           when the file cannot be read
    * @throws InvalidPostFormatException
+   *           when the file format is invalid
    */
   public static Comment fromFile(File file) throws FileNotFoundException,
       IOException, InvalidPostFormatException {

@@ -9,6 +9,17 @@
 	<version>0.5.1</version>
 	<name>wordpress-java</name>
 	<description>This is a small client library and a command line interface for interacting with the xmlrpc interface of wordpress.</description>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -141,7 +152,8 @@
 						<upload>
 							<file>${project.build.directory}/${project.artifactId}-${project.version}.${project.packaging}</file>
 							<summary>${project.name} version ${project.version}
-								library release</summary>
+								library
+								release</summary>
 							<labels>
 								<label>Featured</label>
 							</labels>
@@ -157,7 +169,8 @@
 						<upload>
 							<file>${project.build.directory}/${project.artifactId}-${project.version}-cliapi.zip</file>
 							<summary>${project.name} version ${project.version} CLI
-								and API interface release</summary>
+								and API
+								interface release</summary>
 							<labels>
 								<label>Featured</label>
 							</labels>
@@ -167,7 +180,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<url>http://code.google.com/p/wordpress-java/</url>
+	<url>http://bican.net/wordpress-java/</url>
 	<repositories>
 		<repository>
 			<id>thirdparty-releases</id>
@@ -233,7 +246,6 @@
 	<scm>
 		<connection>scm:git@github.com:canbican/wordpress-java.git</connection>
 		<url>https://github.com/canbican/wordpress-java</url>
-		<developerConnection>Can Bican</developerConnection>
 	</scm>
 	<issueManagement>
 		<system>Github</system>

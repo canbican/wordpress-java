@@ -18,5 +18,4 @@ public class AuthorTest extends AbstractWordpressTest {
     assertEquals(1, result.size());
     assertEquals(result.get(0).getDisplay_name(), "admin");
   }
-
 }
