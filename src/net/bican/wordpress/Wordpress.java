@@ -1014,10 +1014,193 @@ public class Wordpress {
     XmlRpcArray r = this.wp.getTaxonomies(0, this.username, this.password);
     return fillFromXmlRpcArray(r, Taxonomy.class, new Taxonomy());
   }
+  
+  /**
+   * @param taxonomy
+   *          taxonomy to get
+   * @return the taxonomy
+   */
+  @SuppressWarnings("boxing")
+  public Taxonomy getTaxonomy(String taxonomy) {
+    XmlRpcStruct r = this.wp.getTaxonomy(0, this.username, this.password,
+        taxonomy);
+    Taxonomy t = new Taxonomy();
+    t.fromXmlRpcStruct(r);
+    return t;
+  }
+  
+  /**
+   * @param taxonomy
+   *          taxonomy name
+   * @return the list of terms
+   */
+  public List<Term> getTerms(String taxonomy) {
+    return this.getTerms(taxonomy, null);
+  }
+  
+  /**
+   * @param taxonomy
+   *          taxonomy name
+   * @param filter
+   *          term filter
+   * @return the list of terms
+   */
+  @SuppressWarnings("boxing")
+  public List<Term> getTerms(String taxonomy, TermFilter filter) {
+    XmlRpcArray r = (filter != null) ? this.wp.getTerms(0, this.username,
+        this.password, taxonomy, filter.toXmlRpcStruct()) : this.wp.getTerms(0,
+        this.username, this.password, taxonomy);
+    return fillFromXmlRpcArray(r, Term.class, new Term());
+  }
+  
+  /**
+   * @param taxonomy
+   *          taxonomy name
+   * @param termId
+   *          term id
+   * @return the term
+   */
+  @SuppressWarnings("boxing")
+  public Term getTerm(String taxonomy, Integer termId) {
+    XmlRpcStruct r = this.wp.getTerm(0, this.username, this.password, taxonomy,
+        termId);
+    Term t = new Term();
+    t.fromXmlRpcStruct(r);
+    return t;
+  }
+  
+  /**
+   * @param term
+   *          new term
+   * @return the term id
+   */
+  @SuppressWarnings("boxing")
+  public Integer newTerm(Term term) {
+    String r = this.wp.newTerm(0, this.username, this.password,
+        term.toXmlRpcStruct());
+    return Integer.valueOf(r);
+  }
+  
+  /**
+   * @param taxonomy
+   *          taxonomy name
+   * @param termId
+   *          term id
+   * @return result of the operation
+   */
+  @SuppressWarnings("boxing")
+  public boolean deleteTerm(String taxonomy, Integer termId) {
+    Boolean r = this.wp.deleteTerm(0, this.username, this.password, taxonomy,
+        termId);
+    return r.booleanValue();
+  }
+  
+  /**
+   * @param termId
+   *          term id
+   * @param content
+   *          new contents
+   * @return the result of the operation
+   */
+  @SuppressWarnings({ "unchecked", "boxing" })
+  public boolean editTerm(Integer termId, Term content) {
+    XmlRpcStruct datar = new XmlRpcStruct();
+    datar.put("taxonomy", content.getTaxonomy()); //$NON-NLS-1$
+    if (content.getName() != null)
+      datar.put("name", content.getName()); //$NON-NLS-1$
+    if (content.getSlug() != null)
+      datar.put("slug", content.getSlug()); //$NON-NLS-1$
+    if (content.getDescription() != null)
+      datar.put("description", content.getDescription()); //$NON-NLS-1$
+    if (content.getParent() != null)
+      datar.put("parent", content.getParent()); //$NON-NLS-1$
+    Boolean r = this.wp
+        .editTerm(0, this.username, this.password, termId, datar);
+    return r.booleanValue();
+  }
+  
+  /**
+   * @return the list of options
+   */
+  public List<Option> getOptions() {
+    return this.getOptions(null, null);
+  }
+  
+  /**
+   * @param optionName
+   *          option name to get
+   * @return the option
+   */
+  public Option getOption(String optionName) {
+    List<Option> result = this.getOptions(optionName, null);
+    return ((result == null) || (result.size() == 0)) ? null : result.get(0);
+  }
+  
+  /**
+   * @param optionNames
+   *          options to retrieve
+   * @return the options
+   */
+  @SuppressWarnings({ "unchecked", "boxing" })
+  public List<Option> getOptions(String... optionNames) {
+    XmlRpcArray options = null;
+    if (optionNames[0] != null) {
+      options = new XmlRpcArray();
+      for (String s : optionNames) {
+        if (s != null) {
+          options.add(s);
+        }
+      }
+    }
+    XmlRpcStruct r = (options != null) ? this.wp.getOptions(0, this.username,
+        this.password, options) : this.wp.getOptions(0, this.username,
+        this.password);
+    return structToOptions(r);
+  }
+  
+  private static List<Option> structToOptions(XmlRpcStruct r) {
+    List<Option> result = new ArrayList<>();
+    for (Object o : r.keySet()) {
+      String name = (String) o;
+      Option option = new Option();
+      option.setName(name);
+      option.fromXmlRpcStruct(r.getStruct(o));
+      result.add(option);
+    }
+    return result;
+  }
+  
+  /**
+   * @param option
+   *          option to set
+   * @return modified option
+   */
+  public Option setOption(Option option) {
+    List<Option> r = this.setOptions(option);
+    return ((r == null) || (r.size() == 0)) ? null : r.get(0);
+  }
+  
+  /**
+   * @param options
+   *          options to set
+   * @return modified options
+   */
+  @SuppressWarnings({ "boxing", "unchecked" })
+  public List<Option> setOptions(Option... options) {
+    XmlRpcStruct opts = new XmlRpcStruct();
+    for (Option o : options) {
+      if (o != null) {
+        opts.put(o.getName(), o.getValue());
+      }
+    }
+    XmlRpcArray optsArr = new XmlRpcArray();
+    optsArr.add(opts);
+    XmlRpcStruct r = this.wp.setOptions(0, this.username, this.password, opts);
+    return structToOptions(r);
+  }
 }
 
 interface WordpressBridge {
-  
   Boolean editComment(Integer blogid, String username, String password,
       Integer comment_id, Comment comment) throws XmlRpcFault;
   
@@ -1027,157 +1210,35 @@ interface WordpressBridge {
   Boolean deleteComment(Integer blogid, String username, String password,
       Integer comment_id) throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @param post_ID
-   *          ID of the post to delete
-   * @param publish
-   *          Publish status
-   * @return Result of deletion--
-   * @throws XmlRpcFault
-   */
   Boolean deletePage(Integer blogid, String username, String password,
       Integer post_ID, String publish) throws XmlRpcFault;
   
   XmlRpcStruct getCommentStatusList(int i, String username, String password);
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param post_ID
-   *          ID of the post to edit
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @param post
-   *          Post information
-   * @param publish
-   *          Publish status
-   * @return Result of edit
-   * @throws XmlRpcFault
-   */
   Boolean editPage(Integer blogid, Integer post_ID, String username,
       String password, XmlRpcStruct post, String publish) throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @return Array of Authors
-   * @throws XmlRpcFault
-   */
   XmlRpcArray getAuthors(int blogid, String username, String password)
       throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @return Array of categories
-   * @throws XmlRpcFault
-   */
   XmlRpcArray getCategories(int blogid, String username, String password)
       throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param pageid
-   *          Page id
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @return Page information
-   * @throws XmlRpcFault
-   */
   XmlRpcStruct getPage(Integer blogid, Integer pageid, String username,
       String password) throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @return Array of Pages
-   * @throws XmlRpcFault
-   */
   XmlRpcArray getPageList(Integer blogid, String username, String password)
       throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @return Array of Pages
-   * @throws XmlRpcFault
-   */
   XmlRpcArray getPages(Integer blogid, String username, String password)
       throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @param category
-   *          Category information
-   * @return new category id
-   * @throws XmlRpcFault
-   */
   Integer newCategory(Integer blogid, String username, String password,
       XmlRpcStruct category) throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @param post
-   *          Page information
-   * @param publish
-   *          Publish status
-   * @return Post ID
-   * @throws XmlRpcFault
-   */
   String newPage(Integer blogid, String username, String password,
       XmlRpcStruct post, String publish) throws XmlRpcFault;
   
-  /**
-   * @param blogid
-   *          Blog id, not used in wordpress
-   * @param username
-   *          User name
-   * @param password
-   *          Password
-   * @param category
-   *          Category to search
-   * @param max_results
-   *          Maximum results to return
-   * @return List of suggested categories
-   * @throws XmlRpcFault
-   */
   XmlRpcArray suggestCategories(Integer blogid, String username,
       String password, String category, Integer max_results) throws XmlRpcFault;
   
@@ -1202,7 +1263,6 @@ interface WordpressBridge {
   Integer newComment(Integer blogid, String username, String password,
       Integer post_id, XmlRpcStruct comment) throws XmlRpcFault;
   
-  /* begin TODO */
   XmlRpcStruct getTaxonomy(Integer blogid, String username, String password,
       String taxonomy);
   
@@ -1214,6 +1274,9 @@ interface WordpressBridge {
   XmlRpcArray getTerms(Integer blogid, String username, String password,
       String taxonomy, XmlRpcStruct filter);
   
+  XmlRpcArray getTerms(Integer blogid, String username, String password,
+      String taxonomy);
+  
   String newTerm(Integer blogid, String username, String password,
       XmlRpcStruct content);
   
@@ -1223,11 +1286,11 @@ interface WordpressBridge {
   Boolean deleteTerm(Integer blogid, String username, String password,
       String taxonomy, Integer term_id);
   
-  XmlRpcArray getOptions(Integer blogid, String username, String password,
+  XmlRpcStruct getOptions(Integer blogid, String username, String password,
       XmlRpcArray options);
   
-  XmlRpcArray setOptions(Integer blogid, String username, String password,
-      XmlRpcArray options);
-  /* end TODO */
+  XmlRpcStruct getOptions(Integer blogid, String username, String password);
   
+  XmlRpcStruct setOptions(Integer blogid, String username, String password,
+      XmlRpcStruct options);
 }

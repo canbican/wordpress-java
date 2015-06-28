@@ -151,7 +151,12 @@ public abstract class XmlRpcMapped {
                 throw new IllegalArgumentException(e1);
               }
             } else {
-              field.set(this, v);
+              if ((v instanceof Boolean) && (kType == String.class)) { // yes it
+                                                                       // happens
+                field.set(this, ((Boolean) v).toString());
+              } else {
+                field.set(this, v);
+              }
             }
           }
         }

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 @SuppressWarnings({ "static-method", "javadoc", "nls", "boxing" })
 public class CategoryTest extends AbstractWordpressTest {
-
+  
   @Test
   public void testCategories() throws Exception {
     List<Category> categories = WP.getCategories();
@@ -36,5 +36,6 @@ public class CategoryTest extends AbstractWordpressTest {
     assertNotNull(found);
     assertEquals("deneme", found.getCategoryName());
     assertEquals(rStr, found.getCategoryId());
+    WP.deleteCategory(Integer.valueOf(found.getCategoryId()));
   }
 }
