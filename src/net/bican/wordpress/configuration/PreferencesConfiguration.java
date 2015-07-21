@@ -17,7 +17,7 @@ import org.apache.commons.configuration.BaseConfiguration;
 /**
  * 
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  * 
  */
 public class PreferencesConfiguration extends BaseConfiguration {

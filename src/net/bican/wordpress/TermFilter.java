@@ -1,9 +1,18 @@
+/*
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
+ */
 package net.bican.wordpress;
 
 /**
  * Object for filtering terms during search
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  */
 public class TermFilter extends XmlRpcMapped {
   Integer number;
@@ -24,7 +33,7 @@ public class TermFilter extends XmlRpcMapped {
    * @param number
    *          number to set
    */
-  public void setNumber(Integer number) {
+  public void setNumber(final Integer number) {
     this.number = number;
   }
   
@@ -39,7 +48,7 @@ public class TermFilter extends XmlRpcMapped {
    * @param offset
    *          offset to set
    */
-  public void setOffset(Integer offset) {
+  public void setOffset(final Integer offset) {
     this.offset = offset;
   }
   
@@ -54,7 +63,7 @@ public class TermFilter extends XmlRpcMapped {
    * @param orderby
    *          order-by to set
    */
-  public void setOrderby(String orderby) {
+  public void setOrderby(final String orderby) {
     this.orderby = orderby;
   }
   
@@ -69,7 +78,7 @@ public class TermFilter extends XmlRpcMapped {
    * @param order
    *          order to set
    */
-  public void setOrder(String order) {
+  public void setOrder(final String order) {
     this.order = order;
   }
   
@@ -84,7 +93,7 @@ public class TermFilter extends XmlRpcMapped {
    * @param hide_empty
    *          hide-empty status to set
    */
-  public void setHide_empty(boolean hide_empty) {
+  public void setHide_empty(final boolean hide_empty) {
     this.hide_empty = hide_empty;
   }
   
@@ -99,7 +108,7 @@ public class TermFilter extends XmlRpcMapped {
    * @param search
    *          search terms to set
    */
-  public void setSearch(String search) {
+  public void setSearch(final String search) {
     this.search = search;
   }
 }

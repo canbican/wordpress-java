@@ -1,7 +1,11 @@
 /*
- * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
- * Bican <can@bican.net> See the file 'COPYING' in the distribution for
- * licensing terms.
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
  */
 package net.bican.wordpress;
 
@@ -12,12 +16,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 
+import net.bican.wordpress.exceptions.InvalidPostFormatException;
+import net.bican.wordpress.util.FileParser;
+import net.bican.wordpress.util.StringHeader;
 import redstone.xmlrpc.XmlRpcStruct;
 
 /**
  * A WordPress Comment object
  * 
- * @author Fred Potter &lt;fpoptter@gmail.com&gt;
+ * @author Fred Potter
  */
 public class Comment extends XmlRpcMapped implements StringHeader {
   
@@ -58,7 +65,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param dateCreatedGmt
    *          the date_created_gmt to set
    */
-  public void setDate_created_gmt(Date dateCreatedGmt) {
+  public void setDate_created_gmt(final Date dateCreatedGmt) {
     this.date_created_gmt = dateCreatedGmt;
   }
   
@@ -73,7 +80,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param userId
    *          the user_id to set
    */
-  public void setUser_id(Integer userId) {
+  public void setUser_id(final Integer userId) {
     this.user_id = userId;
   }
   
@@ -88,7 +95,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param commentId
    *          the comment_id to set
    */
-  public void setComment_id(Integer commentId) {
+  public void setComment_id(final Integer commentId) {
     this.comment_id = commentId;
   }
   
@@ -103,7 +110,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param parent
    *          the parent to set
    */
-  public void setParent(Integer parent) {
+  public void setParent(final Integer parent) {
     this.parent = parent;
   }
   
@@ -118,7 +125,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param status
    *          the status to set
    */
-  public void setStatus(String status) {
+  public void setStatus(final String status) {
     this.status = status;
   }
   
@@ -133,7 +140,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param content
    *          the content to set
    */
-  public void setContent(String content) {
+  public void setContent(final String content) {
     this.content = content;
   }
   
@@ -148,7 +155,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param link
    *          the link to set
    */
-  public void setLink(String link) {
+  public void setLink(final String link) {
     this.link = link;
   }
   
@@ -163,7 +170,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param postId
    *          the post_id to set
    */
-  public void setPost_id(Integer postId) {
+  public void setPost_id(final Integer postId) {
     this.post_id = postId;
   }
   
@@ -178,7 +185,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param postTitle
    *          the post_title to set
    */
-  public void setPost_title(String postTitle) {
+  public void setPost_title(final String postTitle) {
     this.post_title = postTitle;
   }
   
@@ -193,7 +200,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param author
    *          the author to set
    */
-  public void setAuthor(String author) {
+  public void setAuthor(final String author) {
     this.author = author;
   }
   
@@ -208,7 +215,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param authorUrl
    *          the author_url to set
    */
-  public void setAuthor_url(String authorUrl) {
+  public void setAuthor_url(final String authorUrl) {
     this.author_url = authorUrl;
   }
   
@@ -223,7 +230,7 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param authorEmail
    *          the author_email to set
    */
-  public void setAuthor_email(String authorEmail) {
+  public void setAuthor_email(final String authorEmail) {
     this.author_email = authorEmail;
   }
   
@@ -238,14 +245,14 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @param authorIp
    *          the author_ip to set
    */
-  public void setAuthor_ip(String authorIp) {
+  public void setAuthor_ip(final String authorIp) {
     this.author_ip = authorIp;
   }
   
   /**
    * (non-Javadoc)
    * 
-   * @see net.bican.wordpress.StringHeader#getStringHeader()
+   * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
   @SuppressWarnings("nls")
@@ -270,11 +277,11 @@ public class Comment extends XmlRpcMapped implements StringHeader {
    * @throws InvalidPostFormatException
    *           when the file format is invalid
    */
-  public static Comment fromFile(File file) throws FileNotFoundException,
+  public static Comment fromFile(final File file) throws FileNotFoundException,
       IOException, InvalidPostFormatException {
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-      XmlRpcStruct c = FileParser.parseFile(br);
-      Comment result = new Comment();
+      final XmlRpcStruct c = FileParser.parseFile(br);
+      final Comment result = new Comment();
       result.fromXmlRpcStruct(c);
       return result;
     }

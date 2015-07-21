@@ -1,14 +1,21 @@
 /*
- * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
- * Bican <can@bican.net> See the file 'COPYING' in the distribution for
- * licensing terms.
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
  */
 package net.bican.wordpress;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -17,17 +24,17 @@ import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
 /**
- * An object that has the capabilites of converting to/from
- * <code>XmlRpcStruct</code>.
+ * An abstract class for an object that has the capabilites of converting
+ * to/from <code>XmlRpcStruct</code>.
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  */
 public abstract class XmlRpcMapped {
   
   @SuppressWarnings("nls")
   private static final SimpleDateFormat sdf = new SimpleDateFormat(
       "yyyyMMdd'T'HH:mm:ss");
-  
+      
   /**
    * (non-Javadoc)
    * 
@@ -47,15 +54,17 @@ public abstract class XmlRpcMapped {
       result = "";
       Field[] f = this.getClass().getDeclaredFields();
       for (Field field : f) {
-        Class<?> fType = field.getType();
-        if (showFieldName)
-          result += field.getName() + fieldDelimiter;
-        if (fType == Date.class) {
-          result += sdf.format(field.get(this));
-        } else {
-          result += field.get(this);
+        if (!Modifier.isStatic(field.getModifiers())) {
+          Class<?> fType = field.getType();
+          if (showFieldName)
+            result += field.getName() + fieldDelimiter;
+          if (fType == Date.class) {
+            result += sdf.format(field.get(this));
+          } else {
+            result += field.get(this);
+          }
+          result += recordDelimiter;
         }
-        result += recordDelimiter;
       }
     } catch (IllegalAccessException e) {
       // ignore and skip output
@@ -108,34 +117,48 @@ public abstract class XmlRpcMapped {
               List result = new ArrayList();
               if (vList.size() > 0) {
                 Class<? extends Object> gType = vList.get(0).getClass();
-                @SuppressWarnings("rawtypes")
-                Iterator it = vList.iterator();
-                while (it.hasNext()) {
-                  if (gType == String.class) {
-                    String itemToInsert = (String) it.next();
-                    result.add(itemToInsert);
-                  } else {
-                    XmlRpcStruct item = (XmlRpcStruct) it.next();
-                    try {
-                      XmlRpcMapped itemToInsert = (XmlRpcMapped) gType
-                          .newInstance();
-                      gType.cast(itemToInsert);
-                      itemToInsert.fromXmlRpcStruct(item);
+                Class<? extends XmlRpcMapped> clList;
+                String[] typeStr = ((ParameterizedType) field.getGenericType())
+                    .getActualTypeArguments()[0].toString().split(" ");
+                String type = String.join(" ",
+                    Arrays.copyOfRange(typeStr, 1, typeStr.length));
+                try {
+                  clList = (Class<? extends XmlRpcMapped>) Class.forName(type);
+                  @SuppressWarnings("rawtypes")
+                  Iterator it = vList.iterator();
+                  while (it.hasNext()) {
+                    if (gType == String.class) {
+                      String itemToInsert = (String) it.next();
                       result.add(itemToInsert);
-                    } catch (InstantiationException e1) {
-                      System.err
-                          .println("Warning: field \""
-                              + k
-                              + "\" contains invalid types in the response, skipping");
+                    } else {
+                      XmlRpcStruct item = (XmlRpcStruct) it.next();
+                      try {
+                        XmlRpcMapped itemToInsert = clList.newInstance();
+                        clList.cast(itemToInsert);
+                        itemToInsert.fromXmlRpcStruct(item);
+                        result.add(itemToInsert);
+                      } catch (InstantiationException e1) {
+                        System.err.println("Warning: field \"" + k
+                            + "\" contains invalid types in the response, skipping");
+                      }
                     }
                   }
+                  field.set(this, result);
+                } catch (ClassNotFoundException e2) {
+                  System.err.println("cannot find class \"" + type + "\"");
                 }
-                field.set(this, vList);
               }
             } else if (kType == Integer.class) {
               if (v.getClass() != Integer.class) {
                 Integer vInt = Integer.valueOf((String) v);
                 field.set(this, vInt);
+              } else {
+                field.set(this, v);
+              }
+            } else if (kType == Double.class) {
+              if (v.getClass() != Double.class) {
+                Double vDouble = Double.valueOf((String) v);
+                field.set(this, vDouble);
               } else {
                 field.set(this, v);
               }
@@ -155,15 +178,22 @@ public abstract class XmlRpcMapped {
                                                                        // happens
                 field.set(this, ((Boolean) v).toString());
               } else {
-                field.set(this, v);
+                if ((v instanceof String) && (((String) v).equals(""))
+                    && (field.getType() != String.class)) {
+                  field.set(this, null);
+                } else {
+                  field.set(this, v);
+                }
               }
             }
           }
         }
       } catch (IllegalArgumentException e) {
         try {
-          System.err.println("Warning: value \"" + v + "\" is invalid for \""
-              + k + "\", setting it to \"null\"");
+          System.err.println("Warning: value \n\"" + v + "\"\nis invalid for \""
+              + k + "\", setting it to \"null\"\nwhile parsing \""
+              + field.getName() + "\":");
+          e.printStackTrace();
           field.set(this, null);
         } catch (IllegalAccessException e1) {
           System.err.println(field.getName() + ":" + field.getType() + ":"

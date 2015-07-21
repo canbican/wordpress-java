@@ -1,9 +1,9 @@
 /*
  * 
  * Wordpress-java
- * http://code.google.com/p/wordpress-java/
+ * https://github.com/canbican/wordpress-java/
  * 
- * Copyright 2012 Can Bican <can@bican.net>
+ * Copyright 2012-2015 Can Bican <can@bican.net>
  * See the file 'COPYING' in the distribution for licensing terms.
  * 
  */
@@ -21,7 +21,7 @@ import org.apache.commons.configuration.BaseConfiguration;
  * 
  * Implement a simple CLI configuration in apache commons configuration style
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  * 
  */
 public class CliConfiguration extends BaseConfiguration {

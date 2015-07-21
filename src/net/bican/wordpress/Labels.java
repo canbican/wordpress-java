@@ -1,9 +1,20 @@
+/*
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
+ */
 package net.bican.wordpress;
+
+import net.bican.wordpress.util.StringHeader;
 
 /**
  * Labels object for blog.
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  */
 public class Labels extends XmlRpcMapped implements StringHeader {
   String name;
@@ -144,7 +155,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param add_new_item
    *          add new item text to set
    */
-  public void setAdd_new_item(String add_new_item) {
+  public void setAdd_new_item(final String add_new_item) {
     this.add_new_item = add_new_item;
   }
   
@@ -152,7 +163,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param add_or_remove_items
    *          add or remove items text to set
    */
-  public void setAdd_or_remove_items(String add_or_remove_items) {
+  public void setAdd_or_remove_items(final String add_or_remove_items) {
     this.add_or_remove_items = add_or_remove_items;
   }
   
@@ -160,7 +171,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param all_items
    *          all items text to set
    */
-  public void setAll_items(String all_items) {
+  public void setAll_items(final String all_items) {
     this.all_items = all_items;
   }
   
@@ -168,7 +179,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param choose_from_most_used
    *          choose from most used text to set
    */
-  public void setChoose_from_most_used(String choose_from_most_used) {
+  public void setChoose_from_most_used(final String choose_from_most_used) {
     this.choose_from_most_used = choose_from_most_used;
   }
   
@@ -176,7 +187,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param edit_item
    *          edit item text to set
    */
-  public void setEdit_item(String edit_item) {
+  public void setEdit_item(final String edit_item) {
     this.edit_item = edit_item;
   }
   
@@ -184,7 +195,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param name
    *          name to set
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
   
@@ -192,7 +203,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param new_item_name
    *          new item name text to set
    */
-  public void setNew_item_name(String new_item_name) {
+  public void setNew_item_name(final String new_item_name) {
     this.new_item_name = new_item_name;
   }
   
@@ -200,7 +211,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param not_found
    *          not found text to set
    */
-  public void setNot_found(String not_found) {
+  public void setNot_found(final String not_found) {
     this.not_found = not_found;
   }
   
@@ -208,7 +219,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param parent_item
    *          parent item text to set
    */
-  public void setParent_item(String parent_item) {
+  public void setParent_item(final String parent_item) {
     this.parent_item = parent_item;
   }
   
@@ -216,7 +227,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param parent_item_colon
    *          parent item colon text to set
    */
-  public void setParent_item_colon(String parent_item_colon) {
+  public void setParent_item_colon(final String parent_item_colon) {
     this.parent_item_colon = parent_item_colon;
   }
   
@@ -224,7 +235,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param popular_items
    *          popular items text to set
    */
-  public void setPopular_items(String popular_items) {
+  public void setPopular_items(final String popular_items) {
     this.popular_items = popular_items;
   }
   
@@ -232,7 +243,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param search_items
    *          search items text to set
    */
-  public void setSearch_items(String search_items) {
+  public void setSearch_items(final String search_items) {
     this.search_items = search_items;
   }
   
@@ -240,7 +251,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param separate_items_with_commas
    *          separate items with commas text to set
    */
-  public void setSeparate_items_with_commas(String separate_items_with_commas) {
+  public void setSeparate_items_with_commas(final String separate_items_with_commas) {
     this.separate_items_with_commas = separate_items_with_commas;
   }
   
@@ -248,7 +259,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param singular_name
    *          singular name to set
    */
-  public void setSingular_name(String singular_name) {
+  public void setSingular_name(final String singular_name) {
     this.singular_name = singular_name;
   }
   
@@ -256,7 +267,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param update_item
    *          update item text to set
    */
-  public void setUpdate_item(String update_item) {
+  public void setUpdate_item(final String update_item) {
     this.update_item = update_item;
   }
   
@@ -264,7 +275,7 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param view_item
    *          view item text to set
    */
-  public void setView_item(String view_item) {
+  public void setView_item(final String view_item) {
     this.view_item = view_item;
   }
 }

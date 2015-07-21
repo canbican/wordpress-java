@@ -44,3 +44,6 @@ sudo -u www-data -- bash -c "cd /var/www/html; wp core config --dbuser=root --db
 sudo -u www-data -- bash -c "cd /var/www/html; wp db drop --yes"
 sudo -u www-data -- bash -c "cd /var/www/html; wp db create"
 sudo -u www-data -- bash -c "cd /var/www/html; wp core install --url=wordpressjava-test.local --title=WordpressJavaTest --admin_user=admin --admin_password=admin --admin_email=nowhere@none.co.coco"
+sudo -u www-data -- bash -c "cd /var/www/html; wp user create testuser testuser@example.com.cox"
+sudo -u www-data -- bash -c "cd /var/www/html; wp plugin install wordpress-importer --activate"
+sudo -u www-data -- bash -c "cd /var/www/html; wp media import /var/www/Lenna.jpg"

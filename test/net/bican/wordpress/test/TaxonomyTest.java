@@ -1,8 +1,16 @@
+/*
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
+ */
 package net.bican.wordpress.test;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 
 import net.bican.wordpress.Taxonomy;
@@ -14,7 +22,7 @@ import org.junit.Test;
 @SuppressWarnings({ "nls", "static-method", "javadoc" })
 public class TaxonomyTest extends AbstractWordpressTest {
   @Test
-  public void testGetTaxonomies() {
+  public void testGetTaxonomies() throws Exception {
     List<Taxonomy> taxonomies = WP.getTaxonomies();
     assertNotNull(taxonomies);
     assertEquals(3, taxonomies.size()); // currenty wordpress has 3 internal
@@ -36,14 +44,14 @@ public class TaxonomyTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetTaxonomy() {
+  public void testGetTaxonomy() throws Exception {
     Taxonomy taxonomy = WP.getTaxonomy("category");
     assertNotNull(taxonomy);
     assertEquals("category", taxonomy.getName());
   }
   
   @Test
-  public void testGetTerms() {
+  public void testGetTerms() throws Exception {
     List<Term> terms = WP.getTerms("category");
     assertNotNull(terms);
     assertEquals(1, terms.size());
@@ -53,7 +61,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetTermsWithFilter() {
+  public void testGetTermsWithFilter() throws Exception {
     TermFilter filter = new TermFilter();
     filter.setSearch("xxx");
     List<Term> terms = WP.getTerms("category", filter);
@@ -66,7 +74,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetTerm() {
+  public void testGetTerm() throws Exception {
     @SuppressWarnings("boxing")
     Term term = WP.getTerm("category", 1);
     assertNotNull(term);
@@ -74,7 +82,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testNewDeleteTerm() {
+  public void testNewDeleteTerm() throws Exception {
     Term term = new Term();
     term.setName("denemeterm");
     term.setTaxonomy("category");
@@ -82,17 +90,12 @@ public class TaxonomyTest extends AbstractWordpressTest {
     assertNotNull(termId);
     assertTrue(termId.intValue() > 0);
     assertTrue(WP.deleteTerm("category", termId));
-    try {
-      assertFalse(WP.deleteTerm("category", termId));
-      fail();
-    } catch (UndeclaredThrowableException e) {
-      // that's what we expect
-    }
+    assertFalse(WP.deleteTerm("category", termId));
   }
   
   @SuppressWarnings("boxing")
   @Test
-  public void testEditTerm() {
+  public void testEditTerm() throws Exception {
     Term term = WP.getTerm("category", 1);
     String oldName = term.getName();
     term.setName("newnamedeneme");

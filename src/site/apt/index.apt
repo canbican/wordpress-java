@@ -1,0 +1,171 @@
+{Introduction}
+
+ This is a Java client library to interact with the xmlrpc interface of wordpress. It currently supports all functionality exposed by the
+ {{{https://codex.wordpress.org/XML-RPC_WordPress_API}XML-RPC Wordpress API}}. You can use it to manipulate contents, comments, media and users of a Wordpress blog.
+
+ A command line interface is also provided, making it possible to access the XML-RPC API in scripts.
+
+{Usage}
+
+ There are two interfaces for wordpress-java:
+
+* Java API
+
+ Include wordpress-java dependency in your project as explained in {{{./dependency-info.html}here}}.
+
+ Have a look at this short example, for starters:
+
++---------------------
+Wordpress wp = new Wordpress(username, password, xmlRpcUrl);
+FilterPost filter = new FilterPost();
+filter.setNumber(10);
+List<Post> recentPosts = wp.getPosts(filter);
+System.out.println("Here are the ten recent posts:");
+for (Post page : recentPosts) {
+  System.out.println(page.getPost_id() + ":" + page.getPost_title());
+}
+FilterPost filter2 = new FilterPost();
+filter2.setPost_type("page");
+wp.getPosts(filter2);
+List<Post> pages = wp.getPosts(filter2);
+System.out.println("Here are the pages:");
+for (Post pageDefinition : pages) {
+  System.out.println(pageDefinition.getPost_title());
+}
+System.out.println("Posting a test (draft) page...");
+Post recentPost = new Post();
+recentPost.setPost_title("Test Page");
+recentPost.setPost_content("Test description");
+recentPost.setPost_status("draft");
+Integer result = wp.newPost(recentPost);
+System.out.println("new post page id: " + result);
++---------------------
+
+ For all available functionality, check out the {{{./apidocs/index.html}javadocs}}.
+ {{{https://github.com/canbican/wordpress-java/tree/master/test/net/bican/wordpress/test}Junit tests}} can also help as a reference.
+
+* Command Line Interface
+
+ Command line interface can be installed as explained in the {{Installation}} section, or you can directly execute the jar:
+
++---------------------
+java -jar target/jwordpress-<version>-cli.jar --user <user> --pass <pass> --url <xmlrpcurl> COMMAND
++---------------------
+
+ For example, here is how to get a list of users in the Wordpress installation:
+
++---------------------
+$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -a
+User_id:User_login:display_name
+admin:1:admin
+testuser:2:testuser
++---------------------
+
+ You can get a list of all options using <<<-?>>> option:
+
++---------------------
+$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -?
+usage:
+ -?,--help                    Print usage information
+ -a,--authors                 Get author list
+ -c,--categories              Get category list
+ -ca,--newcomment <arg>       New comment from file
+ -cc,--commentcount <arg>     Get comment count for a post (-1 for all
+                              posts)
+ -cd,--deletecomment <arg>    Delete comment
+ -ce,--editcomment <arg>      Edit comment from file
+ -cg,--getcomment <arg>       Get comment
+ -cm,--commentnumber <arg>    Comment # (for --getcomments)
+ -cn,--newcategory <arg>      New category (uses --slug and --parentid)
+ -co,--commentoffset <arg>    Comment offset # (for --getcomments)
+ -cr,--deletecategory <arg>   Delete category <category_id>
+ -cs,--commentstatus <arg>    Comment status (for --getcomments)
+ -ct,--getcomments <arg>      Get comments for the post
+ -h,--url <arg>               Specify the url to xmlrpc.php
+ -mn,--newmedia <arg>         New media file (uses --overwrite)
+ -od,--deletepost <arg>       Delete post
+ -oe,--editpost <arg>         Edit post (needs --postid)
+ -oi,--postid <arg>           Post id for posts
+ -on,--newpost <arg>          New post from file <arg>
+ -or,--recentposts <arg>      Get recent posts
+ -os,--getpost <arg>          Get post
+ -ov,--overwrite              Allow overwrite in uploading new media
+ -p,--pass <arg>              Password
+ -pi,--parentid <arg>         Parent id for categories
+ -s,--slug <arg>              Slug for categories
+ -so,--supportedstatus        Print supported post status values
+ -u,--user <arg>              User name
+ -us,--userinfo               Get user information
++---------------------
+
+ If you don't prefer entering <<<--user>>>, <<<--pass>>> and <<<--url>>> options for every command, have a look at
+ {{{https://github.com/canbican/wordpress-java/wiki/How-to-Save-Options-in-Preferences}How to Save Options in Preferences}} wiki entry.
+
+{Contributing}
+
+ All your contributions are welcome. Please create pull requests for code and documentation changes at {{{https://github.com/canbican/wordpress-java}Github}}.
+ You can also report issues and concerns at the {{{https://github.com/canbican/wordpress-java/issues}Issues}} section of Github.
+
+ If you are using wordpress-java in your product or project, please let me know. I would love to list it here.
+
+{Help}
+
+ Posting your questions to {{{http://stackoverflow.com}Stack Overflow}} with <<<wordpress-java>>> tag is preferred, but you can also ask by creating an issue at the
+ {{{https://github.com/canbican/wordpress-java/issues}Issues}} section of Github.
+
+ Please also have a look at the {{{https://github.com/canbican/wordpress-java/wiki}Wiki}} pages for a few tricks on using wordpress-java.
+
+{Installation}
+
+* Requirements
+
+ If you download the distribution package, available at {{{https://github.com/canbican/wordpress-java/releases}here}}, you need a working java runtime environment
+ for the command line interface.
+
+ You can use {{{http://maven.apache.org}Maven}} or a similar tool to get all dependencies of the library for developing applications using the API.
+
+* Installation
+
+ In order to use the API in your project, include wordpress-java dependency in your project as explained in {{{./dependency-info.html}here}}.
+
+ Command line interface can be installed using the files in the jwordpress-<version>-cliapi.zip archive. Copy <<<jwordpress>>> and <<<jwordpress*jar>>> files
+ to a directory on your path and execute <<jwordpress>>.
+
+* Configuration
+
+ There is no mandatory configuration for things to run, just the username, password and the xmlrpc url of the Wordpress installation. Latest versions of
+ Wordpress enables xmlrpc by default, but if there are problems connecting to the site, check your Wordpress settings.
+
+{Credits}
+
+ I (Can Bican) designed and coded most of the API.
+
+ * Fred Potter contributed to functionality related to comments.
+
+ * Alok Saldanha provided patches for custom fields.
+
+ * Jorge Valdivia added the missing featured image support.
+
+ []
+
+ Please let me know if I am missing any code contributions.
+
+{Contact}
+
+ For project related issues and questions, please use Github project facilities. If you wish to contact me for other purposes, please contact me at
+ <<<my-name at my-surname.net>>>.
+
+{License}
+
+ Wordpress-Java is licensed under the terms of either the MIT license or the
+ GNU General Public License (GPL) Version 3.
+
+ You don’t have to do anything special to choose one license or the other and
+ you don’t have to notify anyone which license you are using. You are free to
+ use a wordpress-java in commercial projects as long as the copyright header
+ is left intact.
+
+ See the file {{{https://github.com/canbican/wordpress-java/blob/master/COPYING-GPL}COPYING-GPL}}
+ for the GNU General Public License and
+ {{{https://github.com/canbican/wordpress-java/blob/master/COPYING-MIT}COPYING-MIT}}
+ for the MIT license.

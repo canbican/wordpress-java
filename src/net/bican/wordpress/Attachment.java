@@ -1,9 +1,9 @@
 /*
  * 
  * Wordpress-java
- * http://code.google.com/p/wordpress-java/
+ * https://github.com/canbican/wordpress-java/
  * 
- * Copyright 2012 Can Bican <can@bican.net>
+ * Copyright 2012-2015 Can Bican <can@bican.net>
  * See the file 'COPYING' in the distribution for licensing terms.
  * 
  */
@@ -13,7 +13,7 @@ package net.bican.wordpress;
  * 
  * Class that represents a wordpress attachment.
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  * 
  */
 class Attachment extends XmlRpcMapped {
@@ -56,28 +56,28 @@ class Attachment extends XmlRpcMapped {
   /**
    * @param bits the bits to set
    */
-  public void setBits(byte[] bits) {
+  public void setBits(final byte[] bits) {
     this.bits = bits;
   }
 
   /**
    * @param name the name to set
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
   /**
    * @param overwrite the overwrite to set
    */
-  public void setOverwrite(Boolean overwrite) {
+  public void setOverwrite(final Boolean overwrite) {
     this.overwrite = overwrite;
   }
 
   /**
    * @param type the type to set
    */
-  public void setType(String type) {
+  public void setType(final String type) {
     this.type = type;
   }
 }

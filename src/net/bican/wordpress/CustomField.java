@@ -1,12 +1,19 @@
 /*
- * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
- * Bican <can@bican.net> See the file 'COPYING' in the distribution for
- * licensing terms.
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
  */
 package net.bican.wordpress;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import net.bican.wordpress.util.JSONConvertable;
+import net.bican.wordpress.util.StringHeader;
 
 /**
  * This class represents custom fields in wordpress.
@@ -24,7 +31,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
   /**
    * (non-Javadoc)
    * 
-   * @see net.bican.wordpress.StringHeader#getStringHeader()
+   * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
   @SuppressWarnings("nls")
@@ -41,12 +48,12 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
   @SuppressWarnings("nls")
   @Override
   public String toString() {
-    JSONObject o = new JSONObject();
+    final JSONObject o = new JSONObject();
     try {
       o.put("id", this.getId());
       o.put("key", this.getKey());
       o.put("value", this.getValue());
-    } catch (JSONException e) {
+    } catch (final JSONException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
@@ -64,7 +71,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @param id
    *          id to set
    */
-  public void setId(String id) {
+  public void setId(final String id) {
     this.id = id;
   }
   
@@ -79,7 +86,7 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @param key
    *          key to set
    */
-  public void setKey(String key) {
+  public void setKey(final String key) {
     this.key = key;
   }
   
@@ -94,31 +101,31 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
    * @param value
    *          the value to set
    */
-  public void setValue(String value) {
+  public void setValue(final String value) {
     this.value = value;
   }
   
   /**
    * (non-Javadoc)
    * 
-   * @see net.bican.wordpress.JSONConvertable#fromJSONObject(org.json.JSONObject)
+   * @see net.bican.wordpress.util.JSONConvertable#fromJSONObject(org.json.JSONObject)
    */
   @Override
   @SuppressWarnings("nls")
-  public void fromJSONObject(JSONObject o) {
+  public void fromJSONObject(final JSONObject o) {
     try {
       this.setId(o.getString("id"));
-    } catch (JSONException e) {
+    } catch (final JSONException e) {
       this.setId(null);
     }
     try {
       this.setKey(o.getString("key"));
-    } catch (JSONException e) {
+    } catch (final JSONException e) {
       this.setKey(null);
     }
     try {
       this.setValue(o.getString("value"));
-    } catch (JSONException e) {
+    } catch (final JSONException e) {
       this.setValue(null);
     }
   }

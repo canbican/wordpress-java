@@ -1,18 +1,20 @@
 /*
  * 
  * Wordpress-java
- * http://code.google.com/p/wordpress-java/
+ * https://github.com/canbican/wordpress-java/
  * 
- * Copyright 2012 Can Bican <can@bican.net>
+ * Copyright 2012-2015 Can Bican <can@bican.net>
  * See the file 'COPYING' in the distribution for licensing terms.
  * 
  */
 package net.bican.wordpress;
 
+import net.bican.wordpress.util.StringHeader;
+
 /**
  * Comment Count object for a blog post.
  * 
- * @author Fred Potter &lt;fpoptter@gmail.com&gt;
+ * @author Fred Potter
  *
  */
 public class CommentCount extends XmlRpcMapped implements StringHeader {
@@ -32,7 +34,7 @@ public class CommentCount extends XmlRpcMapped implements StringHeader {
   /**
    * @param approved Sets number of approved comments.
    */
-  public void setApproved(Integer approved) {
+  public void setApproved(final Integer approved) {
     this.approved = approved;
   }
 
@@ -46,7 +48,7 @@ public class CommentCount extends XmlRpcMapped implements StringHeader {
   /**
    * @param awaitingModeration Number of comments awaiting moderation.
    */
-  public void setAwaiting_moderation(Integer awaitingModeration) {
+  public void setAwaiting_moderation(final Integer awaitingModeration) {
     this.awaiting_moderation = awaitingModeration;
   }
 
@@ -60,7 +62,7 @@ public class CommentCount extends XmlRpcMapped implements StringHeader {
   /**
    * @param spam Number of comments that are spam
    */
-  public void setSpam(Integer spam) {
+  public void setSpam(final Integer spam) {
     this.spam = spam;
   }
 
@@ -74,14 +76,14 @@ public class CommentCount extends XmlRpcMapped implements StringHeader {
   /**
    * @param totalComments Total number of comments.
    */
-  public void setTotal_comments(Integer totalComments) {
+  public void setTotal_comments(final Integer totalComments) {
     this.total_comments = totalComments;
   }
 
   /**
    * (non-Javadoc)
    * 
-   * @see net.bican.wordpress.StringHeader#getStringHeader()
+   * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
   @SuppressWarnings("nls")

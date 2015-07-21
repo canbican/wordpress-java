@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/DECORATION/1.6.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-fluido-skin</artifactId>
+		<version>1.4</version>
+	</skin>
+	<custom>
+		<fluidoSkin>
+			<topBarContainerStyle>width: 90%;</topBarContainerStyle>
+			<googleSearch />
+			<skipGenerationDate>true</skipGenerationDate>
+			<facebookLike />
+			<googlePlusOne />
+			<topBarEnabled>true</topBarEnabled>
+			<sideBarEnabled>false</sideBarEnabled>
+			<sourceLineNumbersEnabled>false</sourceLineNumbersEnabled>
+			<gitHub>
+				<projectId>canbican/wordpress-java</projectId>
+				<ribbonOrientation>right</ribbonOrientation>
+				<ribbonColor>black</ribbonColor>
+			</gitHub>
+			<ohloh>
+				<projectId>41601</projectId>
+				<widget>factoids</widget>
+			</ohloh>
+		</fluidoSkin>
+	</custom>
+	<body>
+		<menu name="Wordpress-Java">
+			<item name="Introduction" href="index.html#Introduction" />
+			<item name="Usage" href="index.html#Usage" />
+			<item name="Contributing" href="index.html#Contributing" />
+			<item name="Help" href="index.html#Help" />
+			<item name="Installation" href="index.html#Installation" />
+			<item name="Configuration" href="index.html#Configuration" />
+			<item name="Contact" href="index.html#Contact" />
+			<item name="License" href="index.html#License" />
+		</menu>
+		<menu ref="reports" />
+	</body>
+</project>

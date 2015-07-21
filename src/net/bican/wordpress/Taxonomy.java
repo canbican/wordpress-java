@@ -1,11 +1,22 @@
+/*
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
+ */
 package net.bican.wordpress;
 
 import java.util.List;
 
+import net.bican.wordpress.util.StringHeader;
+
 /**
  * Taxonomy object for a blog
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  */
 public class Taxonomy extends XmlRpcMapped implements StringHeader {
   String name;
@@ -29,7 +40,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param object_type
    *          object type list to set
    */
-  public void setObject_type(List<String> object_type) {
+  public void setObject_type(final List<String> object_type) {
     this.object_type = object_type;
   }
   
@@ -44,7 +55,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param cap
    *          cap to set
    */
-  public void setCap(Cap cap) {
+  public void setCap(final Cap cap) {
     this.cap = cap;
   }
   
@@ -52,7 +63,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param _builtin
    *          built-in status
    */
-  public void set_builtin(boolean _builtin) {
+  public void set_builtin(final boolean _builtin) {
     this._builtin = _builtin;
   }
   
@@ -60,7 +71,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param hierarchical
    *          hierarchical status
    */
-  public void setHierarchical(boolean hierarchical) {
+  public void setHierarchical(final boolean hierarchical) {
     this.hierarchical = hierarchical;
   }
   
@@ -68,7 +79,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param label
    *          label to set
    */
-  public void setLabel(String label) {
+  public void setLabel(final String label) {
     this.label = label;
   }
   
@@ -76,7 +87,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param name
    *          name to set
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
   
@@ -84,7 +95,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param p
    *          public status
    */
-  public void setPublic(boolean p) {
+  public void setPublic(final boolean p) {
     this.p = p;
   }
   
@@ -92,7 +103,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param show_ui
    *          show-ui status
    */
-  public void setShow_ui(boolean show_ui) {
+  public void setShow_ui(final boolean show_ui) {
     this.show_ui = show_ui;
   }
   
@@ -149,7 +160,7 @@ public class Taxonomy extends XmlRpcMapped implements StringHeader {
    * @param labels
    *          labels to set
    */
-  public void setLabels(Labels labels) {
+  public void setLabels(final Labels labels) {
     this.labels = labels;
   }
   

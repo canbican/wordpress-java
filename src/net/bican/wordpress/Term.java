@@ -1,9 +1,20 @@
+/*
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
+ */
 package net.bican.wordpress;
+
+import net.bican.wordpress.util.StringHeader;
 
 /**
  * Term object for a blog.
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  */
 public class Term extends XmlRpcMapped implements StringHeader {
   Integer term_id;
@@ -15,6 +26,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
   String description;
   Integer parent;
   Integer count;
+  String filter;
   
   /**
    * @return the term id
@@ -27,7 +39,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param term_id
    *          term id to set
    */
-  public void setTerm_id(Integer term_id) {
+  public void setTerm_id(final Integer term_id) {
     this.term_id = term_id;
   }
   
@@ -42,7 +54,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param name
    *          name to set
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
   
@@ -57,7 +69,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param slug
    *          slug to set
    */
-  public void setSlug(String slug) {
+  public void setSlug(final String slug) {
     this.slug = slug;
   }
   
@@ -72,7 +84,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param term_group
    *          term group to set
    */
-  public void setTerm_group(String term_group) {
+  public void setTerm_group(final String term_group) {
     this.term_group = term_group;
   }
   
@@ -87,7 +99,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param term_taxonomy_id
    *          taxonomy id to set
    */
-  public void setTerm_taxonomy_id(String term_taxonomy_id) {
+  public void setTerm_taxonomy_id(final String term_taxonomy_id) {
     this.term_taxonomy_id = term_taxonomy_id;
   }
   
@@ -102,7 +114,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param taxonomy
    *          taxonomy to set
    */
-  public void setTaxonomy(String taxonomy) {
+  public void setTaxonomy(final String taxonomy) {
     this.taxonomy = taxonomy;
   }
   
@@ -117,7 +129,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param description
    *          description to set
    */
-  public void setDescription(String description) {
+  public void setDescription(final String description) {
     this.description = description;
   }
   
@@ -132,7 +144,7 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param parent
    *          parent to set
    */
-  public void setParent(Integer parent) {
+  public void setParent(final Integer parent) {
     this.parent = parent;
   }
   
@@ -147,13 +159,28 @@ public class Term extends XmlRpcMapped implements StringHeader {
    * @param count
    *          count to set
    */
-  public void setCount(Integer count) {
+  public void setCount(final Integer count) {
     this.count = count;
   }
   
   @Override
   public String getStringHeader() {
     return ""; //$NON-NLS-1$
+  }
+  
+  /**
+   * @return the filter
+   */
+  public final String getFilter() {
+    return this.filter;
+  }
+  
+  /**
+   * @param filter
+   *          the filter to set
+   */
+  public final void setFilter(final String filter) {
+    this.filter = filter;
   }
   
 }

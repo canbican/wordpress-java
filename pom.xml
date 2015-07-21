@@ -6,23 +6,76 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wordpress-java</groupId>
 	<artifactId>jwordpress</artifactId>
-	<version>0.5.1</version>
+	<version>0.6</version>
 	<name>wordpress-java</name>
 	<description>This is a small client library and a command line interface for interacting with the xmlrpc interface of wordpress.</description>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://raw.githubusercontent.com/canbican/wordpress-java/master/COPYING-MIT</url>
+			<distribution>repo</distribution>
+		</license>
+		<license>
+			<name>GNU General Public License</name>
+			<url>https://raw.githubusercontent.com/canbican/wordpress-java/master/COPYING-GPL</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	<reporting>
 		<plugins>
+			<plugin>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<configuration>
+					<dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+				</configuration>
+				<version>2.8</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.3</version>
-				<configuration>
-				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>default</id>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>aggregate</id>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 		</plugins>
 	</reporting>
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-scm</artifactId>
+				<version>2.9</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-manager-plexus</artifactId>
+				<version>1.9.4</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-gitexe</artifactId>
+				<version>1.9.4</version>
+			</extension>
+		</extensions>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.3</version>
+				</plugin>
 				<plugin>
 					<groupId>com.googlecode.maven-gcu-plugin</groupId>
 					<artifactId>maven-gcu-plugin</artifactId>
@@ -138,8 +191,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -189,11 +242,10 @@
 		</repository>
 	</repositories>
 	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>googlecode</id>
-			<url>svn:https://wordpress-java.googlecode.com/svn/repo</url>
-		</repository>
+		<site>
+			<id>git-wordpressjava</id>
+			<url>scm:git:ssh://git@github.com/canbican/wordpress-java.git</url>
+		</site>
 	</distributionManagement>
 	<dependencies>
 		<dependency>

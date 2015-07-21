@@ -1,19 +1,21 @@
 /*
  * 
  * Wordpress-java
- * http://code.google.com/p/wordpress-java/
+ * https://github.com/canbican/wordpress-java/
  * 
- * Copyright 2012 Can Bican <can@bican.net>
+ * Copyright 2012-2015 Can Bican <can@bican.net>
  * See the file 'COPYING' in the distribution for licensing terms.
  * 
  */
 package net.bican.wordpress;
 
+import net.bican.wordpress.util.StringHeader;
+
 /**
  * 
  * Comment status names for the blog
  * 
- * @author Can Bican &lt;can@bican.net&gt;
+ * @author Can Bican
  *
  */
 public class CommentStatusList extends XmlRpcMapped implements StringHeader {
@@ -47,7 +49,7 @@ public class CommentStatusList extends XmlRpcMapped implements StringHeader {
 
   /**
    * (non-Javadoc)
-   * @see net.bican.wordpress.StringHeader#getStringHeader()
+   * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
   @SuppressWarnings("nls")

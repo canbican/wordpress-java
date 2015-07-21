@@ -1,3 +1,12 @@
+/*
+ * 
+ * Wordpress-java
+ * https://github.com/canbican/wordpress-java/
+ * 
+ * Copyright 2012-2015 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
+ * 
+ */
 package net.bican.wordpress.test;
 
 import static org.junit.Assert.*;
@@ -11,16 +20,8 @@ import org.junit.Test;
 @SuppressWarnings({ "static-method", "javadoc" })
 public class OptionsTest extends AbstractWordpressTest {
   
-  private static final String DEFAULT_SITE_TITLE = "WordpressJavaTest"; //$NON-NLS-1$
-  private static final String TEST_SITE_TITLE = "test site title"; //$NON-NLS-1$
-  private static final String DEFAULT_TAGLINE = "Just another WordPress site"; //$NON-NLS-1$
-  private static final String TEST_SITE = "test site"; //$NON-NLS-1$
-  private static final String BLOG_TITLE = "blog_title"; //$NON-NLS-1$
-  private static final String SITE_TAGLINE = "Site Tagline"; //$NON-NLS-1$
-  private static final String BLOG_TAGLINE = "blog_tagline"; //$NON-NLS-1$
-  
   @Test
-  public void testGetOptions() {
+  public void testGetOptions() throws Exception {
     List<Option> options = WP.getOptions();
     assertNotNull(options);
     assertEquals(27, options.size()); // This is epic, I chose 27 before
@@ -29,7 +30,7 @@ public class OptionsTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetOption() {
+  public void testGetOption() throws Exception {
     Option option = WP.getOption(BLOG_TAGLINE);
     assertNotNull(option);
     assertEquals(BLOG_TAGLINE, option.getName());
@@ -37,14 +38,14 @@ public class OptionsTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetOptionMore() {
+  public void testGetOptionMore() throws Exception {
     List<Option> options = WP.getOptions(BLOG_TAGLINE, BLOG_TITLE);
     assertNotNull(options);
     assertEquals(2, options.size());
   }
   
   @Test
-  public void testSetOption() {
+  public void testSetOption() throws Exception {
     Option option = new Option();
     option.setName(BLOG_TAGLINE);
     option.setValue(TEST_SITE);
@@ -57,7 +58,7 @@ public class OptionsTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testSetOptions() {
+  public void testSetOptions() throws Exception {
     Option option1 = new Option();
     option1.setName(BLOG_TAGLINE);
     option1.setValue(TEST_SITE);
@@ -77,5 +78,6 @@ public class OptionsTest extends AbstractWordpressTest {
     assertEquals(TEST_SITE_TITLE, r2.getValue());
     option1.setValue(DEFAULT_TAGLINE);
     option2.setValue(DEFAULT_SITE_TITLE);
+    WP.setOptions(option1, option2);
   }
 }
