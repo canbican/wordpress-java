@@ -7,7 +7,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="Date-Revision-yyyymmdd" content="20150721" />
+    <meta name="Date-Revision-yyyymmdd" content="20150726" />
     <meta http-equiv="Content-Language" content="en" />
     <title>wordpress-java - Project Dependencies</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css" />
@@ -96,17 +96,11 @@
 </li>
                                   <li>      <a href="plugins.html"  title="Project Plugins">Project Plugins</a>
 </li>
+                                  <li>      <a href="team-list.html"  title="Project Team">Project Team</a>
+</li>
                                   <li>      <a href="source-repository.html"  title="Source Repository">Source Repository</a>
 </li>
                                   <li>      <a href="project-summary.html"  title="Project Summary">Project Summary</a>
-</li>
-                              </ul>
-            </li>
-                  
-                      <li class="dropdown-submenu">
-                                      <a href="project-reports.html"  title="Project Reports">Project Reports</a>
-              <ul class="dropdown-menu">
-                                  <li>      <a href="apidocs/index.html"  title="JavaDocs">JavaDocs</a>
 </li>
                               </ul>
             </li>
@@ -159,10 +153,10 @@
         <ul class="breadcrumb">
                 
                     
-                  <li id="publishDate">Last Published: 2015-07-21
+                  <li id="publishDate">Last Published: 2015-07-26
                       <span class="divider">|</span>
                    </li>
-                  <li id="projectVersion">Version: 0.6
+                  <li id="projectVersion">Version: 0.6.1
                       </li>
                       
                 
@@ -271,7 +265,7 @@
 <div class="section">
 <h3>Dependency Tree<a name="Dependency_Tree"></a></h3>
 <ul>
-<li>wordpress-java:jwordpress:jar:0.6 <img id="_img1" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_dep0', '_img1' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_dep0" style="display:none">
+<li>net.bican:jwordpress:jar:0.6.1 <img id="_img1" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_dep0', '_img1' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_dep0" style="display:none">
 <table border="0" class="table table-striped">
 <tr class="a">
 <th>wordpress-java</th></tr>
@@ -493,31 +487,26 @@
 <th>Repo ID</th>
 <th>URL</th>
 <th>Release</th>
-<th>Snapshot</th>
-<th>Blacklisted</th></tr>
+<th>Snapshot</th></tr>
 <tr class="b">
 <td>thirdparty-releases</td>
 <td><a class="externalLink" href="https://repository.jboss.org/nexus/content/repositories/thirdparty-releases">https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</a></td>
 <td>Yes</td>
-<td>Yes</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr class="a">
 <td>central</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2">https://repo.maven.apache.org/maven2</a></td>
 <td>Yes</td>
-<td>No</td>
 <td>No</td></tr>
 <tr class="b">
 <td>sonatype-nexus-snapshots</td>
 <td><a class="externalLink" href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots</a></td>
 <td>No</td>
-<td>Yes</td>
-<td>No</td></tr>
+<td>Yes</td></tr>
 <tr class="a">
 <td>apache.snapshots</td>
 <td><a class="externalLink" href="http://people.apache.org/repo/m2-snapshot-repository">http://people.apache.org/repo/m2-snapshot-repository</a></td>
 <td>No</td>
-<td>Yes</td>
 <td>Yes</td></tr></table>
 <p>Repository locations for each of the Dependencies.</p>
 <table border="0" class="table table-striped">
@@ -525,56 +514,67 @@
 <th>Artifact</th>
 <th>thirdparty-releases</th>
 <th>central</th>
-<th>sonatype-nexus-snapshots</th></tr>
+<th>sonatype-nexus-snapshots</th>
+<th>apache.snapshots</th></tr>
 <tr class="b">
 <td>commons-cli:commons-cli:jar:1.2</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/commons-cli/commons-cli/1.2/commons-cli-1.2.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="a">
 <td>commons-collections:commons-collections:jar:3.2.1</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="b">
 <td>commons-configuration:commons-configuration:jar:1.8</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/commons-configuration/commons-configuration/1.8/commons-configuration-1.8.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="a">
 <td>commons-lang:commons-lang:jar:2.6</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="b">
 <td>commons-logging:commons-logging:jar:1.1.1</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="a">
 <td>junit:junit:jar:4.8.1</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/junit/junit/4.8.1/junit-4.8.1.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="b">
 <td>org.json:json:jar:20141113</td>
 <td>-</td>
 <td><a class="externalLink" href="https://repo.maven.apache.org/maven2/org/json/json/20141113/json-20141113.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="a">
 <td>redstone.xmlrpc:xmlrpc:jar:1.1.1</td>
 <td><a class="externalLink" href="https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/redstone/xmlrpc/xmlrpc/1.1.1/xmlrpc-1.1.1.jar"><img alt="Found at https://repository.jboss.org/nexus/content/repositories/thirdparty-releases" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td>
 <td>-</td></tr>
 <tr class="b">
 <th>Total</th>
 <th>thirdparty-releases</th>
 <th>central</th>
-<th>sonatype-nexus-snapshots</th></tr>
+<th>sonatype-nexus-snapshots</th>
+<th>apache.snapshots</th></tr>
 <tr class="a">
 <td>8 (compile: 7, test: 1)</td>
 <td>1</td>
 <td>7</td>
+<td>0</td>
 <td>0</td></tr></table></div>
                   </div>
           </div>
