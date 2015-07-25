@@ -6,9 +6,27 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wordpress-java</groupId>
 	<artifactId>jwordpress</artifactId>
-	<version>0.6</version>
+	<version>0.6.1</version>
 	<name>wordpress-java</name>
 	<description>This is a small client library and a command line interface for interacting with the xmlrpc interface of wordpress.</description>
+	<developers>
+		<developer>
+			<id>canbican</id>
+			<name>Can Bican</name>
+			<email>can@bican.net</email>
+			<roles>
+				<role>Project-Administrator</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>EET</timezone>
+		</developer>
+	</developers>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>synergian-repo</id>
+			<url>https://raw.github.com/synergian/wagon-git/releases</url>
+		</pluginRepository>
+	</pluginRepositories>
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -30,62 +48,89 @@
 				</configuration>
 				<version>2.8</version>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<reportSets>
-					<reportSet>
-						<id>default</id>
-						<reports>
-							<report>javadoc</report>
-						</reports>
-					</reportSet>
-					<reportSet>
-						<id>aggregate</id>
-						<reports>
-							<report>aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<version>2.10.3</version> <reportSets> <reportSet> <id>default</id> <reports> 
+				<report>javadoc</report> </reports> </reportSet> <reportSet> <id>aggregate</id> 
+				<reports> <report>aggregate</report> </reports> </reportSet> </reportSets> 
+				</plugin> -->
 		</plugins>
 	</reporting>
 	<build>
 		<extensions>
 			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-scm</artifactId>
-				<version>2.9</version>
-			</extension>
-			<extension>
-				<groupId>org.apache.maven.scm</groupId>
-				<artifactId>maven-scm-manager-plexus</artifactId>
-				<version>1.9.4</version>
-			</extension>
-			<extension>
-				<groupId>org.apache.maven.scm</groupId>
-				<artifactId>maven-scm-provider-gitexe</artifactId>
-				<version>1.9.4</version>
+				<groupId>ar.com.synergian</groupId>
+				<artifactId>wagon-git</artifactId>
+				<version>0.2.5</version>
 			</extension>
 		</extensions>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>3.3</version>
-				</plugin>
-				<plugin>
-					<groupId>com.googlecode.maven-gcu-plugin</groupId>
-					<artifactId>maven-gcu-plugin</artifactId>
-					<version>1.1</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<!-- <pluginManagement> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-site-plugin</artifactId> <version>3.3</version> </plugin> 
+			</plugins> </pluginManagement> -->
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<executions>
+					<execution>
+						<id>deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -143,7 +188,7 @@
 					<filter>assemble/filter.properties</filter>
 					<descriptors>
 						<descriptor>assemble/distribution.xml</descriptor>
-						<descriptor>assemble/source.xml</descriptor>
+						<!--  <descriptor>assemble/source.xml</descriptor> -->
 					</descriptors>
 				</configuration>
 				<executions>
@@ -160,75 +205,21 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12.3</version>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8.1</version>
-				<configuration>
-					<linksource>true</linksource>
-					<links>
-						<link>http://xmlrpc.sourceforge.net/javadoc/</link>
-						<link>http://commons.apache.org/configuration/apidocs/</link>
-						<link>http://commons.apache.org/cli/api-release/</link>
-						<link>https://commons.apache.org/collections/apidocs/</link>
-						<link>http://commons.apache.org/logging/commons-logging-1.1.1/apidocs/</link>
-						<link>http://commons.apache.org/lang/api-release/</link>
-					</links>
-					<doctitle>Wordpress-java</doctitle>
-					<nodeprecated>false</nodeprecated>
-					<noindex>false</noindex>
-					<nonavbar>false</nonavbar>
-					<notree>false</notree>
-					<splitindex>true</splitindex>
-					<use>true</use>
-					<version>true</version>
-					<reportOutputDirectory>${basedir}</reportOutputDirectory>
-					<outputDirectory>doc</outputDirectory>
-					<destDir>doc</destDir>
-				</configuration>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<version>2.8.1</version> <configuration> <linksource>true</linksource> <links> 
+				<link>http://xmlrpc.sourceforge.net/javadoc/</link> <link>http://commons.apache.org/configuration/apidocs/</link> 
+				<link>http://commons.apache.org/cli/api-release/</link> <link>https://commons.apache.org/collections/apidocs/</link> 
+				<link>http://commons.apache.org/logging/commons-logging-1.1.1/apidocs/</link> 
+				<link>http://commons.apache.org/lang/api-release/</link> </links> <doctitle>Wordpress-java</doctitle> 
+				<nodeprecated>false</nodeprecated> <noindex>false</noindex> <nonavbar>false</nonavbar> 
+				<notree>false</notree> <splitindex>true</splitindex> <use>true</use> <version>true</version> 
+				</configuration> </plugin> -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.3</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.googlecode.maven-gcu-plugin</groupId>
-				<artifactId>maven-gcu-plugin</artifactId>
-				<configuration>
-					<failsOnError>true</failsOnError> <!-- default: false -->
-					<projectName>${project.groupId}</projectName>
-					<uploads>
-						<upload>
-							<file>${project.build.directory}/${project.artifactId}-${project.version}.${project.packaging}</file>
-							<summary>${project.name} version ${project.version}
-								library
-								release</summary>
-							<labels>
-								<label>Featured</label>
-							</labels>
-						</upload>
-						<upload>
-							<file>${project.build.directory}/${project.artifactId}-${project.version}-source.zip</file>
-							<summary>${project.name} version ${project.version}
-								sources</summary>
-							<labels>
-								<label>Featured</label>
-							</labels>
-						</upload>
-						<upload>
-							<file>${project.build.directory}/${project.artifactId}-${project.version}-cliapi.zip</file>
-							<summary>${project.name} version ${project.version} CLI
-								and API
-								interface release</summary>
-							<labels>
-								<label>Featured</label>
-							</labels>
-						</upload>
-					</uploads>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -242,9 +233,17 @@
 		</repository>
 	</repositories>
 	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 		<site>
 			<id>git-wordpressjava</id>
-			<url>scm:git:ssh://git@github.com/canbican/wordpress-java.git</url>
+			<url>git:gh-pages://git@github.com:canbican/wordpress-java.git</url>
 		</site>
 	</distributionManagement>
 	<dependencies>

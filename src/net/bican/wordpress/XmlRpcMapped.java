@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -120,10 +116,19 @@ public abstract class XmlRpcMapped {
                 Class<? extends XmlRpcMapped> clList;
                 String[] typeStr = ((ParameterizedType) field.getGenericType())
                     .getActualTypeArguments()[0].toString().split(" ");
-                String type = String.join(" ",
-                    Arrays.copyOfRange(typeStr, 1, typeStr.length));
+                String[] typeStrSub = Arrays.copyOfRange(typeStr, 1,
+                    typeStr.length);
+                StringBuilder typeB = new StringBuilder();
+                for (int i = 0, il = typeStrSub.length; i < il; i++) {
+                  if (i > 0) {
+                    typeB.append(" ");
+                  }
+                  typeB.append(typeStrSub[i]);
+                }
+                String type = typeB.toString();
                 try {
-                  clList = (Class<? extends XmlRpcMapped>) Class.forName(type);
+                  clList = (Class<? extends XmlRpcMapped>) Class.forName(type,
+                      false, this.getClass().getClassLoader());
                   @SuppressWarnings("rawtypes")
                   Iterator it = vList.iterator();
                   while (it.hasNext()) {

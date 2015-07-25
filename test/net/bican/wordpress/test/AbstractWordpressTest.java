@@ -16,7 +16,7 @@ import net.bican.wordpress.Wordpress;
 
 @SuppressWarnings({ "nls", "javadoc" })
 public class AbstractWordpressTest {
-  public static String TOPURL = "http://wordpressjava-test.local";
+  public static String TOPURL = "http://wordpressjava-test.local.";
   public static String USERNAME = "admin";
   public static String PASSWORD = "admin";
   public static String XMLRPCURL = null;

@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -70,8 +66,8 @@ public class Wordpress {
    * @throws MalformedURLException
    *           If the URL is faulty
    */
-  public Wordpress(final String username, final String password, final String xmlRpcUrl)
-      throws MalformedURLException {
+  public Wordpress(final String username, final String password,
+      final String xmlRpcUrl) throws MalformedURLException {
     this.username = username;
     this.password = password;
     this.xmlRpcUrl = xmlRpcUrl;
@@ -214,8 +210,8 @@ public class Wordpress {
       if (offset != null) {
         filter.put("offset", offset); //$NON-NLS-1$
       }
-      final XmlRpcArray r = this.wp.getComments(BLOGID, this.username, this.password,
-          filter);
+      final XmlRpcArray r = this.wp.getComments(BLOGID, this.username,
+          this.password, filter);
       return fillFromXmlRpcArray(r, Comment.class, new Comment());
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
@@ -285,9 +281,9 @@ public class Wordpress {
    */
   @SuppressWarnings({ "unchecked", "nls" })
   public Integer newComment(final Integer post_id, final Integer comment_parent,
-      final String content, final String author, final String author_url, final String author_email)
-          throws InsufficientRightsException, ObjectNotFoundException,
-          XmlRpcFault {
+      final String content, final String author, final String author_url,
+      final String author_email) throws InsufficientRightsException,
+          ObjectNotFoundException, XmlRpcFault {
     try {
       final XmlRpcStruct comment = new XmlRpcStruct();
       if (comment_parent != null) {
@@ -377,8 +373,9 @@ public class Wordpress {
    * @throws XmlRpcFault
    *           if there is a generic error during request
    */
-  public boolean editComment(final Comment comment) throws InvalidArgumentsException,
-      InsufficientRightsException, ObjectNotFoundException, XmlRpcFault {
+  public boolean editComment(final Comment comment)
+      throws InvalidArgumentsException, InsufficientRightsException,
+      ObjectNotFoundException, XmlRpcFault {
     Boolean r;
     try {
       r = this.wp.editComment(BLOGID, this.username, this.password,
@@ -405,7 +402,8 @@ public class Wordpress {
    *           when there is an error with the request
    */
   public List<Taxonomy> getTaxonomies() throws XmlRpcFault {
-    final XmlRpcArray r = this.wp.getTaxonomies(BLOGID, this.username, this.password);
+    final XmlRpcArray r = this.wp.getTaxonomies(BLOGID, this.username,
+        this.password);
     return fillFromXmlRpcArray(r, Taxonomy.class, new Taxonomy());
   }
   
@@ -424,8 +422,8 @@ public class Wordpress {
       throws InsufficientRightsException, InvalidArgumentsException,
       XmlRpcFault {
     try {
-      final XmlRpcStruct r = this.wp.getTaxonomy(BLOGID, this.username, this.password,
-          taxonomy);
+      final XmlRpcStruct r = this.wp.getTaxonomy(BLOGID, this.username,
+          this.password, taxonomy);
       final Taxonomy t = new Taxonomy();
       t.fromXmlRpcStruct(r);
       return t;
@@ -513,8 +511,8 @@ public class Wordpress {
       throws InsufficientRightsException, InvalidArgumentsException,
       ObjectNotFoundException, XmlRpcFault {
     try {
-      final XmlRpcStruct r = this.wp.getTerm(BLOGID, this.username, this.password,
-          taxonomy, termId);
+      final XmlRpcStruct r = this.wp.getTerm(BLOGID, this.username,
+          this.password, taxonomy, termId);
       final Term t = new Term();
       t.fromXmlRpcStruct(r);
       return t;
@@ -617,24 +615,20 @@ public class Wordpress {
     try {
       final XmlRpcStruct datar = new XmlRpcStruct();
       datar.put("taxonomy", content.getTaxonomy()); //$NON-NLS-1$
-      if (content.getName() != null)
-       {
+      if (content.getName() != null) {
         datar.put("name", content.getName()); //$NON-NLS-1$
       }
-      if (content.getSlug() != null)
-       {
+      if (content.getSlug() != null) {
         datar.put("slug", content.getSlug()); //$NON-NLS-1$
       }
-      if (content.getDescription() != null)
-       {
+      if (content.getDescription() != null) {
         datar.put("description", content.getDescription()); //$NON-NLS-1$
       }
-      if (content.getParent() != null)
-       {
+      if (content.getParent() != null) {
         datar.put("parent", content.getParent()); //$NON-NLS-1$
       }
-      final Boolean r = this.wp.editTerm(BLOGID, this.username, this.password, termId,
-          datar);
+      final Boolean r = this.wp.editTerm(BLOGID, this.username, this.password,
+          termId, datar);
       return r.booleanValue();
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
@@ -680,7 +674,8 @@ public class Wordpress {
    *           if there is a generic error during request
    */
   @SuppressWarnings({ "unchecked" })
-  public List<Option> getOptions(final String... optionNames) throws XmlRpcFault {
+  public List<Option> getOptions(final String... optionNames)
+      throws XmlRpcFault {
     XmlRpcArray options = null;
     if (optionNames[0] != null) {
       options = new XmlRpcArray();
@@ -744,8 +739,8 @@ public class Wordpress {
       }
       final XmlRpcArray optsArr = new XmlRpcArray();
       optsArr.add(opts);
-      final XmlRpcStruct r = this.wp.setOptions(BLOGID, this.username, this.password,
-          opts);
+      final XmlRpcStruct r = this.wp.setOptions(BLOGID, this.username,
+          this.password, opts);
       return structToOptions(r);
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
@@ -783,8 +778,8 @@ public class Wordpress {
   public User getUser(final Integer userId)
       throws InsufficientRightsException, ObjectNotFoundException, XmlRpcFault {
     try {
-      final XmlRpcStruct r = this.wp.getUser(BLOGID, this.username, this.password,
-          userId);
+      final XmlRpcStruct r = this.wp.getUser(BLOGID, this.username,
+          this.password, userId);
       final User user = new User();
       user.fromXmlRpcStruct(r);
       return user;
@@ -863,7 +858,8 @@ public class Wordpress {
    */
   public User getProfile() throws InsufficientRightsException, XmlRpcFault {
     try {
-      final XmlRpcStruct r = this.wp.getProfile(BLOGID, this.username, this.password);
+      final XmlRpcStruct r = this.wp.getProfile(BLOGID, this.username,
+          this.password);
       final User user = new User();
       user.fromXmlRpcStruct(r);
       return user;
@@ -910,8 +906,8 @@ public class Wordpress {
       if (user.getNicename() != null) {
         content.put("nicename", user.getNicename()); //$NON-NLS-1$
       }
-      final Boolean r = this.wp.editProfile(BLOGID, this.username, this.password,
-          content);
+      final Boolean r = this.wp.editProfile(BLOGID, this.username,
+          this.password, content);
       return r.booleanValue();
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
@@ -934,7 +930,8 @@ public class Wordpress {
   public List<Author> getAuthors()
       throws InsufficientRightsException, XmlRpcFault {
     try {
-      final XmlRpcArray r = this.wp.getAuthors(BLOGID, this.username, this.password);
+      final XmlRpcArray r = this.wp.getAuthors(BLOGID, this.username,
+          this.password);
       return fillFromXmlRpcArray(r, Author.class, new Author());
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
@@ -1054,9 +1051,10 @@ public class Wordpress {
    *           if there is an I/O problem processing the file data on a
    *           temporary file
    */
-  public MediaItemUploadResult uploadFile(final InputStream media, final String fileName,
-      final Boolean overwrite) throws InsufficientRightsException,
-          FileUploadException, XmlRpcFault, IOException {
+  public MediaItemUploadResult uploadFile(final InputStream media,
+      final String fileName, final Boolean overwrite)
+          throws InsufficientRightsException, FileUploadException, XmlRpcFault,
+          IOException {
     return this.uploadFile(media, fileName, overwrite, null);
   }
   
@@ -1076,9 +1074,9 @@ public class Wordpress {
    *           if there is an I/O problem processing the file data on a
    *           temporary file
    */
-  public MediaItemUploadResult uploadFile(final InputStream media, final String fileName)
-      throws InsufficientRightsException, FileUploadException, XmlRpcFault,
-      IOException {
+  public MediaItemUploadResult uploadFile(final InputStream media,
+      final String fileName) throws InsufficientRightsException,
+          FileUploadException, XmlRpcFault, IOException {
     return this.uploadFile(media, fileName, null);
   }
   
@@ -1103,15 +1101,17 @@ public class Wordpress {
    *           temporary file
    */
   @SuppressWarnings("unchecked")
-  public MediaItemUploadResult uploadFile(final InputStream media, final String fileName,
-      final Boolean overwrite, final Integer postId) throws InsufficientRightsException,
-          FileUploadException, XmlRpcFault, IOException {
+  public MediaItemUploadResult uploadFile(final InputStream media,
+      final String fileName, final Boolean overwrite, final Integer postId)
+          throws InsufficientRightsException, FileUploadException, XmlRpcFault,
+          IOException {
     try {
       final XmlRpcStruct data = new XmlRpcStruct();
       final File tempFile = File.createTempFile("mediauploadwpj", null); //$NON-NLS-1$
       tempFile.deleteOnExit();
       Files.copy(media, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      final String mimeType = new MimetypesFileTypeMap().getContentType(tempFile);
+      final String mimeType = new MimetypesFileTypeMap()
+          .getContentType(tempFile);
       final ByteArrayOutputStream out = new ByteArrayOutputStream();
       final byte[] buffer = new byte[1024];
       try (InputStream mediaTemp = new FileInputStream(tempFile)) {
@@ -1131,8 +1131,8 @@ public class Wordpress {
       if (overwrite != null) {
         data.put("overwrite", overwrite); //$NON-NLS-1$
       }
-      final XmlRpcStruct r = this.wp.uploadFile(BLOGID, this.username, this.password,
-          data);
+      final XmlRpcStruct r = this.wp.uploadFile(BLOGID, this.username,
+          this.password, data);
       final MediaItemUploadResult result = new MediaItemUploadResult();
       result.fromXmlRpcStruct(r);
       return result;
@@ -1163,8 +1163,8 @@ public class Wordpress {
   public Post getPost(final Integer postId)
       throws InsufficientRightsException, ObjectNotFoundException, XmlRpcFault {
     try {
-      final XmlRpcStruct r = this.wp.getPost(BLOGID, this.username, this.password,
-          postId);
+      final XmlRpcStruct r = this.wp.getPost(BLOGID, this.username,
+          this.password, postId);
       final Post result = new Post();
       result.fromXmlRpcStruct(r);
       return result;
@@ -1296,8 +1296,8 @@ public class Wordpress {
       throws InsufficientRightsException, InvalidArgumentsException,
       ObjectNotFoundException, XmlRpcFault {
     try {
-      final Boolean r = this.wp.editPost(BLOGID, this.username, this.password, postId,
-          post.toXmlRpcStruct());
+      final Boolean r = this.wp.editPost(BLOGID, this.username, this.password,
+          postId, post.toXmlRpcStruct());
       return r.booleanValue();
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
@@ -1358,8 +1358,8 @@ public class Wordpress {
       throws InsufficientRightsException, InvalidArgumentsException,
       XmlRpcFault {
     try {
-      final XmlRpcStruct r = this.wp.getPostType(BLOGID, this.username, this.password,
-          postTypeName);
+      final XmlRpcStruct r = this.wp.getPostType(BLOGID, this.username,
+          this.password, postTypeName);
       final PostType result = new PostType();
       result.fromXmlRpcStruct(r);
       return result;
@@ -1403,20 +1403,22 @@ public class Wordpress {
       r = this.wp.getPostTypes(BLOGID, this.username, this.password);
     } else {
       final XmlRpcStruct postTypeFilter = new XmlRpcStruct();
-      filter.forEach((k, v) -> {
+      for (String k : filter.keySet()) {
+        Object v = filter.get(k);
         if (v != null) {
           postTypeFilter.put(k, v);
         }
-      });
+      }
       r = this.wp.getPostTypes(BLOGID, this.username, this.password,
           postTypeFilter);
     }
     final List<PostType> result = new ArrayList<>();
-    r.forEach((key, value) -> {
+    for (Object k : r.keySet()) {
+      Object value = r.get(k);
       final PostType pt = new PostType();
       pt.fromXmlRpcStruct((XmlRpcStruct) value);
       result.add(pt);
-    });
+    }
     return result;
   }
   
