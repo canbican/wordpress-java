@@ -7,9 +7,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="Date-Revision-yyyymmdd" content="20150726" />
+    <meta name="Date-Revision-yyyymmdd" content="20150803" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>wordpress-java - </title>
+    <title></title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -152,15 +152,15 @@
       <div id="breadcrumbs">
         <ul class="breadcrumb">
                 
-                    
-                  <li id="publishDate">Last Published: 2015-07-26
+            
+                  <li id="publishDate">Last Published: 2015-08-03
                       <span class="divider">|</span>
                    </li>
-                  <li id="projectVersion">Version: 0.6.1
+                  <li id="projectVersion">Version: 0.6.2
                       </li>
                       
                 
-                    
+            
       
                             </ul>
       </div>
@@ -169,18 +169,7 @@
                 
         <div id="bodyColumn" >
                                   
-            <div class="section">
-<h2><a name="Introduction">Introduction</a></h2>
-<p>This is a Java client library to interact with the xmlrpc interface of wordpress. It currently supports all functionality exposed by the <a class="externalLink" href="https://codex.wordpress.org/XML-RPC_WordPress_API">XML-RPC Wordpress API</a>. You can use it to manipulate contents, comments, media and users of a Wordpress blog.</p>
-<p>A command line interface is also provided, making it possible to access the XML-RPC API in scripts.</p></div>
-<div class="section">
-<h2><a name="Usage">Usage</a></h2>
-<p>There are two interfaces for wordpress-java:</p>
-<div class="section">
-<h3>Java API<a name="Java_API"></a></h3>
-<p>Include wordpress-java dependency in your project as explained in <a href="./dependency-info.html">here</a>.</p>
-<p>Have a look at this short example, for starters:</p>
-<div class="source"><pre class="prettyprint">Wordpress wp = new Wordpress(username, password, xmlRpcUrl);
+            <div class="section"><h2><a name="Introduction">Introduction</a></h2><p>This is a Java client library to interact with the xmlrpc interface of wordpress. It currently supports all functionality exposed by the <a class="externalLink" href="https://codex.wordpress.org/XML-RPC_WordPress_API">XML-RPC Wordpress API</a>. You can use it to manipulate contents, comments, media and users of a Wordpress blog.</p><p>A command line interface is also provided, making it possible to access the XML-RPC API in scripts.</p></div><div class="section"><h2><a name="Usage">Usage</a></h2><p>There are two interfaces for wordpress-java:</p><div class="section"><h3>Java API<a name="Java_API"></a></h3><p>Include wordpress-java dependency in your project as explained in <a href="./dependency-info.html">here</a>.</p><p>Have a look at this short example, for starters:</p><div class="source"><pre class="prettyprint">Wordpress wp = new Wordpress(username, password, xmlRpcUrl);
 FilterPost filter = new FilterPost();
 filter.setNumber(10);
 List&lt;Post&gt; recentPosts = wp.getPosts(filter);
@@ -202,19 +191,10 @@ recentPost.setPost_title(&quot;Test Page&quot;);
 recentPost.setPost_content(&quot;Test description&quot;);
 recentPost.setPost_status(&quot;draft&quot;);
 Integer result = wp.newPost(recentPost);
-System.out.println(&quot;new post page id: &quot; + result);</pre></div>
-<p>For all available functionality, check out the <a href="./apidocs/index.html">javadocs</a>. <a class="externalLink" href="https://github.com/canbican/wordpress-java/tree/master/test/net/bican/wordpress/test">Junit tests</a> can also help as a reference.</p></div>
-<div class="section">
-<h3>Command Line Interface<a name="Command_Line_Interface"></a></h3>
-<p>Command line interface can be installed as explained in the <a href="#Installation">Installation</a> section, or you can directly execute the jar:</p>
-<div class="source"><pre class="prettyprint">java -jar target/jwordpress-&lt;version&gt;-cli.jar --user &lt;user&gt; --pass &lt;pass&gt; --url &lt;xmlrpcurl&gt; COMMAND</pre></div>
-<p>For example, here is how to get a list of users in the Wordpress installation:</p>
-<div class="source"><pre class="prettyprint">$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -a
+System.out.println(&quot;new post page id: &quot; + result);</pre></div><p>For all available functionality, check out the <a href="./apidocs/index.html">javadocs</a>. <a class="externalLink" href="https://github.com/canbican/wordpress-java/tree/master/test/net/bican/wordpress/test">Junit tests</a> can also help as a reference.</p></div><div class="section"><h3>Command Line Interface<a name="Command_Line_Interface"></a></h3><p>Command line interface can be installed as explained in the <a href="#Installation">Installation</a> section, or you can directly execute the jar:</p><div class="source"><pre class="prettyprint">java -jar target/jwordpress-&lt;version&gt;-cli.jar --user &lt;user&gt; --pass &lt;pass&gt; --url &lt;xmlrpcurl&gt; COMMAND</pre></div><p>For example, here is how to get a list of users in the Wordpress installation:</p><div class="source"><pre class="prettyprint">$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -a
 User_id:User_login:display_name
 admin:1:admin
-testuser:2:testuser</pre></div>
-<p>You can get a list of all options using <tt>-?</tt> option:</p>
-<div class="source"><pre class="prettyprint">$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -?
+testuser:2:testuser</pre></div><p>You can get a list of all options using <tt>-?</tt> option:</p><div class="source"><pre class="prettyprint">$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -?
 usage:
  -?,--help                    Print usage information
  -a,--authors                 Get author list
@@ -245,45 +225,7 @@ usage:
  -s,--slug &lt;arg&gt;              Slug for categories
  -so,--supportedstatus        Print supported post status values
  -u,--user &lt;arg&gt;              User name
- -us,--userinfo               Get user information</pre></div>
-<p>If you don't prefer entering <tt>--user</tt>, <tt>--pass</tt> and <tt>--url</tt> options for every command, have a look at <a class="externalLink" href="https://github.com/canbican/wordpress-java/wiki/How-to-Save-Options-in-Preferences">How to Save Options in Preferences</a> wiki entry.</p></div></div>
-<div class="section">
-<h2><a name="Contributing">Contributing</a></h2>
-<p>All your contributions are welcome. Please create pull requests for code and documentation changes at <a class="externalLink" href="https://github.com/canbican/wordpress-java">Github</a>. You can also report issues and concerns at the <a class="externalLink" href="https://github.com/canbican/wordpress-java/issues">Issues</a> section of Github.</p>
-<p>If you are using wordpress-java in your product or project, please let me know. I would love to list it here.</p></div>
-<div class="section">
-<h2><a name="Help">Help</a></h2>
-<p>Posting your questions to <a class="externalLink" href="http://stackoverflow.com">Stack Overflow</a> with <tt>wordpress-java</tt> tag is preferred, but you can also ask by creating an issue at the <a class="externalLink" href="https://github.com/canbican/wordpress-java/issues">Issues</a> section of Github.</p>
-<p>Please also have a look at the <a class="externalLink" href="https://github.com/canbican/wordpress-java/wiki">Wiki</a> pages for a few tricks on using wordpress-java.</p></div>
-<div class="section">
-<h2><a name="Installation">Installation</a></h2>
-<div class="section">
-<h3>Requirements<a name="Requirements"></a></h3>
-<p>If you download the distribution package, available at <a class="externalLink" href="https://github.com/canbican/wordpress-java/releases">here</a>, you need a working java runtime environment for the command line interface.</p>
-<p>You can use <a class="externalLink" href="http://maven.apache.org">Maven</a> or a similar tool to get all dependencies of the library for developing applications using the API.</p></div>
-<div class="section">
-<h3>Installation<a name="Installation"></a></h3>
-<p>In order to use the API in your project, include wordpress-java dependency in your project as explained in <a href="./dependency-info.html">here</a>.</p>
-<p>Command line interface can be installed using the files in the jwordpress-<i>version</i>-cliapi.zip archive. Copy <tt>jwordpress</tt> and <tt>jwordpress*jar</tt> files to a directory on your path and execute <b>jwordpress</b>.</p></div>
-<div class="section">
-<h3>Configuration<a name="Configuration"></a></h3>
-<p>There is no mandatory configuration for things to run, just the username, password and the xmlrpc url of the Wordpress installation. Latest versions of Wordpress enables xmlrpc by default, but if there are problems connecting to the site, check your Wordpress settings.</p></div></div>
-<div class="section">
-<h2><a name="Credits">Credits</a></h2>
-<p>I (Can Bican) designed and coded most of the API.</p>
-<ul>
-<li>Fred Potter contributed to functionality related to comments.</li>
-<li>Alok Saldanha provided patches for custom fields.</li>
-<li>Jorge Valdivia added the missing featured image support.</li></ul>
-<p>Please let me know if I am missing any code contributions.</p></div>
-<div class="section">
-<h2><a name="Contact">Contact</a></h2>
-<p>For project related issues and questions, please use Github project facilities. If you wish to contact me for other purposes, please contact me at <tt>my-name at my-surname.net</tt>.</p></div>
-<div class="section">
-<h2><a name="License">License</a></h2>
-<p>Wordpress-Java is licensed under the terms of either the MIT license or the GNU General Public License (GPL) Version 3.</p>
-<p>You don&#x2019;t have to do anything special to choose one license or the other and you don&#x2019;t have to notify anyone which license you are using. You are free to use a wordpress-java in commercial projects as long as the copyright header is left intact.</p>
-<p>See the file <a class="externalLink" href="https://github.com/canbican/wordpress-java/blob/master/COPYING-GPL">COPYING-GPL</a> for the GNU General Public License and <a class="externalLink" href="https://github.com/canbican/wordpress-java/blob/master/COPYING-MIT">COPYING-MIT</a> for the MIT license.</p></div>
+ -us,--userinfo               Get user information</pre></div><p>If you don't prefer entering <tt>--user</tt>, <tt>--pass</tt> and <tt>--url</tt> options for every command, have a look at <a class="externalLink" href="https://github.com/canbican/wordpress-java/wiki/How-to-Save-Options-in-Preferences">How to Save Options in Preferences</a> wiki entry.</p></div></div><div class="section"><h2><a name="Contributing">Contributing</a></h2><p>All your contributions are welcome. Please create pull requests for code and documentation changes at <a class="externalLink" href="https://github.com/canbican/wordpress-java">Github</a>. You can also report issues and concerns at the <a class="externalLink" href="https://github.com/canbican/wordpress-java/issues">Issues</a> section of Github.</p><p>If you are using wordpress-java in your product or project, please let me know. I would love to list it here.</p></div><div class="section"><h2><a name="Help">Help</a></h2><p>Posting your questions to <a class="externalLink" href="http://stackoverflow.com">Stack Overflow</a> with <tt>wordpress-java</tt> tag is preferred, but you can also ask by creating an issue at the <a class="externalLink" href="https://github.com/canbican/wordpress-java/issues">Issues</a> section of Github.</p><p>Please also have a look at the <a class="externalLink" href="https://github.com/canbican/wordpress-java/wiki">Wiki</a> pages for a few tricks on using wordpress-java.</p></div><div class="section"><h2><a name="Installation">Installation</a></h2><div class="section"><h3>Requirements<a name="Requirements"></a></h3><p>If you download the distribution package, available at <a class="externalLink" href="https://github.com/canbican/wordpress-java/releases">here</a>, you need a working java runtime environment for the command line interface.</p><p>You can use <a class="externalLink" href="http://maven.apache.org">Maven</a> or a similar tool to get all dependencies of the library for developing applications using the API.</p></div><div class="section"><h3>Installation<a name="Installation"></a></h3><p>In order to use the API in your project, include wordpress-java dependency in your project as explained in <a href="./dependency-info.html">here</a>.</p><p>Command line interface can be installed using the files in the jwordpress-<i>version</i>-cliapi.zip archive. Copy <tt>jwordpress</tt> and <tt>jwordpress*jar</tt> files to a directory on your path and execute <b>jwordpress</b>.</p></div><div class="section"><h3>Configuration<a name="Configuration"></a></h3><p>There is no mandatory configuration for things to run, just the username, password and the xmlrpc url of the Wordpress installation. Latest versions of Wordpress enables xmlrpc by default, but if there are problems connecting to the site, check your Wordpress settings.</p></div></div><div class="section"><h2><a name="Credits">Credits</a></h2><p>I (Can Bican) designed and coded most of the API.</p><ul><li>Fred Potter contributed to functionality related to comments.</li><li>Alok Saldanha provided patches for custom fields.</li><li>Jorge Valdivia added the missing featured image support.</li></ul><p>Please let me know if I am missing any code contributions.</p></div><div class="section"><h2><a name="Contact">Contact</a></h2><p>For project related issues and questions, please use Github project facilities. If you wish to contact me for other purposes, please contact me at <tt>my-name at my-surname.net</tt>.</p></div><div class="section"><h2><a name="License">License</a></h2><p>Wordpress-Java is licensed under the terms of either the MIT license or the GNU General Public License (GPL) Version 3.</p><p>You don&#x2019;t have to do anything special to choose one license or the other and you don&#x2019;t have to notify anyone which license you are using. You are free to use a wordpress-java in commercial projects as long as the copyright header is left intact.</p><p>See the file <a class="externalLink" href="https://github.com/canbican/wordpress-java/blob/master/COPYING-GPL">COPYING-GPL</a> for the GNU General Public License and <a class="externalLink" href="https://github.com/canbican/wordpress-java/blob/master/COPYING-MIT">COPYING-MIT</a> for the MIT license.</p></div>
                   </div>
           </div>
 
@@ -295,7 +237,7 @@ usage:
                                       <p >Copyright &copy;                    2012&#x2013;2015
                         <a href="http://www.bican.net/">Can Bican</a>.
             All rights reserved.      
-                    
+            
       </p>
                 </div>
 
