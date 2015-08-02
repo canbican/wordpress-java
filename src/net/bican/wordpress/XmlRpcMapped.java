@@ -220,9 +220,11 @@ public abstract class XmlRpcMapped {
     Field[] f = this.getClass().getDeclaredFields();
     for (Field field : f) {
       try {
-        Object o = field.get(this);
-        if (o != null) {
-          result.put(field.getName(), o);
+        if (!Modifier.isStatic(field.getModifiers())) {
+          Object o = field.get(this);
+          if (o != null) {
+            result.put(field.getName(), o);
+          }
         }
       } catch (IllegalArgumentException e) {
         e.printStackTrace();

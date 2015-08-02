@@ -115,7 +115,7 @@ public class PostTest extends AbstractWordpressTest {
     assertNotNull(newPost);
     assertEquals(newPost.getPost_id(), p);
     assertEquals(newPost.getComment_status(), "closed");
-    assertEquals(newPost.getCustomFields(), null);
+    assertEquals(newPost.getCustom_fields(), null);
     assertEquals(newPost.getEnclosure(), null);
     assertNotNull(newPost.getGuid());
     assertNotNull(newPost.getLink());

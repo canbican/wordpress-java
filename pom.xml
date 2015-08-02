@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wordpress-java</groupId>
 	<artifactId>jwordpress</artifactId>
-	<version>0.6.1</version>
+	<version>0.6.2</version>
 	<name>wordpress-java</name>
 	<description>This is a small client library and a command line interface for interacting with the xmlrpc interface of wordpress.</description>
 	<developers>

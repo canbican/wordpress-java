@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -51,7 +47,7 @@ public class Post extends XmlRpcMapped {
   Boolean sticky;
   List<PostThumbnailImageMeta> post_thumbnail;
   List<Term> terms;
-  List<CustomField> customFields;
+  List<CustomField> custom_fields;
   Enclosure enclosure;
   
   /**
@@ -418,16 +414,16 @@ public class Post extends XmlRpcMapped {
   /**
    * @return the customFields
    */
-  public final List<CustomField> getCustomFields() {
-    return this.customFields;
+  public final List<CustomField> getCustom_fields() {
+    return this.custom_fields;
   }
   
   /**
    * @param customFields
    *          the customFields to set
    */
-  public final void setCustomFields(final List<CustomField> customFields) {
-    this.customFields = customFields;
+  public final void setCustom_fields(final List<CustomField> customFields) {
+    this.custom_fields = customFields;
   }
   
   /**

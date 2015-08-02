@@ -1,18 +1,13 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import net.bican.wordpress.util.JSONConvertable;
 import net.bican.wordpress.util.StringHeader;
 
 /**
@@ -20,8 +15,7 @@ import net.bican.wordpress.util.StringHeader;
  * 
  * @author alok
  */
-public class CustomField extends XmlRpcMapped implements StringHeader,
-    JSONConvertable {
+public class CustomField extends XmlRpcMapped implements StringHeader {
   String id = null;
   
   String key = null;
@@ -104,30 +98,4 @@ public class CustomField extends XmlRpcMapped implements StringHeader,
   public void setValue(final String value) {
     this.value = value;
   }
-  
-  /**
-   * (non-Javadoc)
-   * 
-   * @see net.bican.wordpress.util.JSONConvertable#fromJSONObject(org.json.JSONObject)
-   */
-  @Override
-  @SuppressWarnings("nls")
-  public void fromJSONObject(final JSONObject o) {
-    try {
-      this.setId(o.getString("id"));
-    } catch (final JSONException e) {
-      this.setId(null);
-    }
-    try {
-      this.setKey(o.getString("key"));
-    } catch (final JSONException e) {
-      this.setKey(null);
-    }
-    try {
-      this.setValue(o.getString("value"));
-    } catch (final JSONException e) {
-      this.setValue(null);
-    }
-  }
-  
 }
