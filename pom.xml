@@ -4,7 +4,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>wordpress-java</groupId>
+	<groupId>net.bican</groupId>
 	<artifactId>jwordpress</artifactId>
 	<version>0.6.2</version>
 	<name>wordpress-java</name>
