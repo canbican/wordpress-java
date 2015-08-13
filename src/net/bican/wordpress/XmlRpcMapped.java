@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
@@ -30,6 +33,8 @@ public abstract class XmlRpcMapped {
   @SuppressWarnings("nls")
   private static final SimpleDateFormat sdf = new SimpleDateFormat(
       "yyyyMMdd'T'HH:mm:ss");
+  private static final Logger logger = LoggerFactory
+      .getLogger(XmlRpcMapped.class);
       
   /**
    * (non-Javadoc)
@@ -143,14 +148,15 @@ public abstract class XmlRpcMapped {
                         itemToInsert.fromXmlRpcStruct(item);
                         result.add(itemToInsert);
                       } catch (InstantiationException e1) {
-                        System.err.println("Warning: field \"" + k
-                            + "\" contains invalid types in the response, skipping");
+                        logger.warn(
+                            "field {} contains invalid types in response, skipping",
+                            k);
                       }
                     }
                   }
                   field.set(this, result);
                 } catch (ClassNotFoundException e2) {
-                  System.err.println("cannot find class \"" + type + "\"");
+                  logger.error("cannot find class {}", type);
                 }
               }
             } else if (kType == Integer.class) {
@@ -195,18 +201,17 @@ public abstract class XmlRpcMapped {
         }
       } catch (IllegalArgumentException e) {
         try {
-          System.err.println("Warning: value \n\"" + v + "\"\nis invalid for \""
-              + k + "\", setting it to \"null\"\nwhile parsing \""
-              + field.getName() + "\":");
-          e.printStackTrace();
+          logger.warn(
+              "value {} is invalid for {}, setting it to null (while parsing {})",
+              v, k, field.getName());
           field.set(this, null);
         } catch (IllegalAccessException e1) {
-          System.err.println(field.getName() + ":" + field.getType() + ":"
-              + x.get(field.getName()));
-          e1.printStackTrace();
+          logger.error("cannot set the field to null: {}",
+              e.getLocalizedMessage());
         }
       } catch (IllegalAccessException e) {
-        e.printStackTrace();
+        logger.error("illegal access to object constructor: {}",
+            e.getLocalizedMessage());
       }
     }
   }
@@ -226,10 +231,9 @@ public abstract class XmlRpcMapped {
             result.put(field.getName(), o);
           }
         }
-      } catch (IllegalArgumentException e) {
-        e.printStackTrace();
       } catch (IllegalAccessException e) {
-        e.printStackTrace();
+        logger.error("cannot receive field {}, {}", //$NON-NLS-1$
+            field.getName(), e.getLocalizedMessage());
       }
     }
     return result;

@@ -21,6 +21,9 @@ import java.util.Map;
 
 import javax.activation.MimetypesFileTypeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.bican.wordpress.exceptions.FileUploadException;
 import net.bican.wordpress.exceptions.InsufficientRightsException;
 import net.bican.wordpress.exceptions.InvalidArgumentsException;
@@ -36,20 +39,14 @@ import redstone.xmlrpc.XmlRpcStruct;
  * @author Can Bican
  */
 public class Wordpress {
-  
   private static final Integer BLOGID = Integer.valueOf(0);
-  
   private String password = null;
-  
   private PingbackBridge pingback = null;
-  
   private PingbackExtensionsBridge pingbackExt = null;
-  
   private String username = null;
-  
   private WordpressBridge wp = null;
-  
   private String xmlRpcUrl = null;
+  private static final Logger logger = LoggerFactory.getLogger(Wordpress.class);
   
   @SuppressWarnings("unused")
   private Wordpress() {
@@ -83,16 +80,18 @@ public class Wordpress {
       for (final Object o : r) {
         final XmlRpcMapped n = cl.newInstance();
         if (o instanceof String) {
-          result.add((T) o); // TODO ??? mükerrer?
+          result.add((T) o);
         } else {
           n.fromXmlRpcStruct((XmlRpcStruct) o);
         }
         result.add((T) n);
       }
     } catch (final InstantiationException e) {
-      e.printStackTrace();
+      logger.error("cannot instantiate {}: {}", //$NON-NLS-1$
+          cl.getCanonicalName(), e.getLocalizedMessage());
     } catch (final IllegalAccessException e) {
-      e.printStackTrace();
+      logger.error("cannot access constructor of {}: {}", //$NON-NLS-1$
+          cl.getCanonicalName(), e.getLocalizedMessage());
     }
     return result;
   }
@@ -106,14 +105,15 @@ public class Wordpress {
    */
   public List<URL> getPingbacks(final String url) throws XmlRpcFault {
     List<URL> result = null;
-    try {
-      final XmlRpcArray r = this.pingbackExt.getPingbacks(url);
-      result = new ArrayList<>();
-      for (final Object rec : r) {
+    final XmlRpcArray r = this.pingbackExt.getPingbacks(url);
+    result = new ArrayList<>();
+    for (final Object rec : r) {
+      try {
         result.add(new URL((String) rec));
+      } catch (MalformedURLException e) {
+        logger.error("malformed url for pingback: {}", //$NON-NLS-1$
+            rec);
       }
-    } catch (final MalformedURLException e) {
-      e.printStackTrace();
     }
     return result;
   }

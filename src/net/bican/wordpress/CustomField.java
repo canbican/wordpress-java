@@ -5,7 +5,6 @@
  */
 package net.bican.wordpress;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import net.bican.wordpress.util.StringHeader;
@@ -43,14 +42,9 @@ public class CustomField extends XmlRpcMapped implements StringHeader {
   @Override
   public String toString() {
     final JSONObject o = new JSONObject();
-    try {
-      o.put("id", this.getId());
-      o.put("key", this.getKey());
-      o.put("value", this.getValue());
-    } catch (final JSONException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    o.put("id", this.getId());
+    o.put("key", this.getKey());
+    o.put("value", this.getValue());
     return o.toString();
   }
   

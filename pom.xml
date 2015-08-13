@@ -188,7 +188,7 @@
 					<filter>assemble/filter.properties</filter>
 					<descriptors>
 						<descriptor>assemble/distribution.xml</descriptor>
-						<!--  <descriptor>assemble/source.xml</descriptor> -->
+						<!-- <descriptor>assemble/source.xml</descriptor> -->
 					</descriptors>
 				</configuration>
 				<executions>
@@ -287,6 +287,17 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.12</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<inceptionYear>2012</inceptionYear>

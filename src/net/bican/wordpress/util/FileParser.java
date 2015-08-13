@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress.util;
 
@@ -16,6 +12,8 @@ import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.bican.wordpress.exceptions.InvalidPostFormatException;
 import redstone.xmlrpc.XmlRpcArray;
@@ -27,7 +25,9 @@ import redstone.xmlrpc.XmlRpcStruct;
  * @author Can Bican
  */
 public class FileParser {
-  
+  private static final Logger logger = LoggerFactory
+      .getLogger(FileParser.class);
+      
   /**
    * Parses a file to create an xmlrpc compliant object
    * 
@@ -47,8 +47,8 @@ public class FileParser {
     String prevKey = null;
     String prevValue = null;
     Pattern keyPattern;
-    keyPattern = Pattern.compile("^[\\d\\w_]+:", Pattern.CASE_INSENSITIVE
-        | Pattern.UNICODE_CASE);
+    keyPattern = Pattern.compile("^[\\d\\w_]+:",
+        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     while ((line = input.readLine()) != null) {
       if ((!"".equals(line)) && (!line.startsWith("#"))) {
         Matcher m = keyPattern.matcher(line);
@@ -109,7 +109,8 @@ public class FileParser {
         }
       } catch (JSONException | ClassNotFoundException | InstantiationException
           | IllegalAccessException e) {
-        e.printStackTrace();
+        logger.error("cannot put key {} value {}: {}", key, v,
+            e.getLocalizedMessage());
       }
     } else {
       if (!"null".equalsIgnoreCase(value)) {
