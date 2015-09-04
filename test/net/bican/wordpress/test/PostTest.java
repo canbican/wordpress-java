@@ -195,11 +195,8 @@ public class PostTest extends AbstractWordpressTest {
         }
       }
     }
-    System.err.println(termId);
     Term term1 = WP.getTerm("category", termId);
     Term term2 = WP.getTerm("category", termId2);
-    System.err.println(term1);
-    System.err.println(term2);
     Post pp = new Post();
     pp.setPost_title("test");
     pp.setPost_excerpt("test test");
@@ -212,5 +209,7 @@ public class PostTest extends AbstractWordpressTest {
     assertEquals(termId, pp.getTerms().get(0).getTerm_id());
     assertEquals(termId2, pp.getTerms().get(1).getTerm_id());
     WP.deletePost(pId);
+    WP.deleteTerm("category", termId);
+    WP.deleteTerm("category", termId2);
   }
 }
