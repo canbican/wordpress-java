@@ -110,8 +110,8 @@ usage:
 
 {Help}
 
- Posting your questions to {{{http://stackoverflow.com}Stack Overflow}} with <<<wordpress-java>>> tag is preferred, but you can also ask by creating an issue at the
- {{{https://github.com/canbican/wordpress-java/issues}Issues}} section of Github.
+  You can ask your questions by creating an issue at the {{{https://github.com/canbican/wordpress-java/issues}Issues}} section of Github.
+  Remember to tag it as question, just for tidiness.
 
  Please also have a look at the {{{https://github.com/canbican/wordpress-java/wiki}Wiki}} pages for a few tricks on using wordpress-java.
 
