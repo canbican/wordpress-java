@@ -1,16 +1,13 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,7 +161,56 @@ public class PostTest extends AbstractWordpressTest {
     filter.setNumber(number);
     List<Post> rf = WP.getPosts(filter);
     assertNotNull(rf);
-    assertEquals(number.intValue(),rf.size());
+    assertEquals(number.intValue(), rf.size());
     WP.deletePost(p);
+  }
+  
+  @Test
+  public void testSetCategory() throws Exception {
+    List<Term> terms = WP.getTerms("category");
+    Term term = new Term();
+    term.setName("test category1");
+    term.setTaxonomy("category");
+    Integer termId = null;
+    try {
+      termId = WP.newTerm(term);
+    } catch (Exception e) {
+      for (Term t : terms) {
+        if (t.getName().equals("test category1")) {
+          termId = t.getTerm_id();
+          break;
+        }
+      }
+    }
+    term.setName("test category2");
+    term.setTaxonomy("category");
+    Integer termId2 = null;
+    try {
+      termId2 = WP.newTerm(term);
+    } catch (Exception e) {
+      for (Term t : terms) {
+        if (t.getName().equals("test category2")) {
+          termId2 = t.getTerm_id();
+          break;
+        }
+      }
+    }
+    System.err.println(termId);
+    Term term1 = WP.getTerm("category", termId);
+    Term term2 = WP.getTerm("category", termId2);
+    System.err.println(term1);
+    System.err.println(term2);
+    Post pp = new Post();
+    pp.setPost_title("test");
+    pp.setPost_excerpt("test test");
+    pp.setTerms(Arrays.asList(new Term[] { term1, term2 }));
+    Integer pId = WP.newPost(pp);
+    pp = WP.getPost(pId);
+    assertNotNull(pp);
+    assertNotNull(pp.getTerms());
+    assertEquals(2, pp.getTerms().size());
+    assertEquals(termId, pp.getTerms().get(0).getTerm_id());
+    assertEquals(termId2, pp.getTerms().get(1).getTerm_id());
+    WP.deletePost(pId);
   }
 }

@@ -1239,11 +1239,28 @@ public class Wordpress {
    * @throws XmlRpcFault
    *           if there is a generic error during request
    */
+  @SuppressWarnings("unchecked")
   public Integer newPost(final Post post) throws InsufficientRightsException,
       InvalidArgumentsException, ObjectNotFoundException, XmlRpcFault {
     try {
-      return Integer.valueOf(this.wp.newPost(BLOGID, this.username,
-          this.password, post.toXmlRpcStruct()));
+      List<Term> oldTerms = post.getTerms();
+      XmlRpcStruct postX = post.toXmlRpcStruct();
+      if (oldTerms != null) {
+        XmlRpcStruct newTerms = new XmlRpcStruct();
+        for (Term term : post.getTerms()) {
+          XmlRpcArray ts = (XmlRpcArray) newTerms.get(term.getTaxonomy());
+          if (ts==null) {
+            XmlRpcArray tXs = new XmlRpcArray();
+            tXs.add(term.getTerm_id());
+            newTerms.put(term.getTaxonomy(), tXs);
+          } else {
+            ts.add(term.getTerm_id());
+          }
+        }
+        postX.put("terms", newTerms); //$NON-NLS-1$
+      }
+      return Integer.valueOf(
+          this.wp.newPost(BLOGID, this.username, this.password, postX));
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
       switch (err) {
