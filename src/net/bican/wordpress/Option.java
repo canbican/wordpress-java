@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,14 +9,21 @@ import net.bican.wordpress.util.StringHeader;
 
 /**
  * Option object for a blog.
- * 
+ *
  * @author Can Bican
  */
 public class Option extends XmlRpcMapped implements StringHeader {
-  String name;
   String desc;
-  String value;
+  String name;
   Boolean readonly;
+  String value;
+  
+  /**
+   * @return the description
+   */
+  public String getDesc() {
+    return this.desc;
+  }
   
   /**
    * @return the name
@@ -29,19 +32,9 @@ public class Option extends XmlRpcMapped implements StringHeader {
     return this.name;
   }
   
-  /**
-   * @param name
-   *          name to set
-   */
-  public void setName(final String name) {
-    this.name = name;
-  }
-  
-  /**
-   * @return the description
-   */
-  public String getDesc() {
-    return this.desc;
+  @Override
+  public String getStringHeader() {
+    return ""; //$NON-NLS-1$
   }
   
   /**
@@ -67,6 +60,14 @@ public class Option extends XmlRpcMapped implements StringHeader {
   }
   
   /**
+   * @param name
+   *          name to set
+   */
+  public void setName(final String name) {
+    this.name = name;
+  }
+  
+  /**
    * @param readonly
    *          read-only status to set
    */
@@ -80,11 +81,6 @@ public class Option extends XmlRpcMapped implements StringHeader {
    */
   public void setValue(final String value) {
     this.value = value;
-  }
-  
-  @Override
-  public String getStringHeader() {
-    return ""; //$NON-NLS-1$
   }
   
 }

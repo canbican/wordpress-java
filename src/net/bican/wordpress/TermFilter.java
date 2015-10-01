@@ -1,25 +1,21 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
 /**
  * Object for filtering terms during search
- * 
+ *
  * @author Can Bican
  */
 public class TermFilter extends XmlRpcMapped {
+  boolean hide_empty;
   Integer number;
   Integer offset;
-  String orderby;
   String order;
-  boolean hide_empty;
+  String orderby;
   String search;
   
   /**
@@ -30,41 +26,10 @@ public class TermFilter extends XmlRpcMapped {
   }
   
   /**
-   * @param number
-   *          number to set
-   */
-  public void setNumber(final Integer number) {
-    this.number = number;
-  }
-  
-  /**
    * @return the offset
    */
   public Integer getOffset() {
     return this.offset;
-  }
-  
-  /**
-   * @param offset
-   *          offset to set
-   */
-  public void setOffset(final Integer offset) {
-    this.offset = offset;
-  }
-  
-  /**
-   * @return the order-by
-   */
-  public String getOrderby() {
-    return this.orderby;
-  }
-  
-  /**
-   * @param orderby
-   *          order-by to set
-   */
-  public void setOrderby(final String orderby) {
-    this.orderby = orderby;
   }
   
   /**
@@ -75,11 +40,17 @@ public class TermFilter extends XmlRpcMapped {
   }
   
   /**
-   * @param order
-   *          order to set
+   * @return the order-by
    */
-  public void setOrder(final String order) {
-    this.order = order;
+  public String getOrderby() {
+    return this.orderby;
+  }
+  
+  /**
+   * @return the search terms
+   */
+  public String getSearch() {
+    return this.search;
   }
   
   /**
@@ -98,10 +69,35 @@ public class TermFilter extends XmlRpcMapped {
   }
   
   /**
-   * @return the search terms
+   * @param number
+   *          number to set
    */
-  public String getSearch() {
-    return this.search;
+  public void setNumber(final Integer number) {
+    this.number = number;
+  }
+  
+  /**
+   * @param offset
+   *          offset to set
+   */
+  public void setOffset(final Integer offset) {
+    this.offset = offset;
+  }
+  
+  /**
+   * @param order
+   *          order to set
+   */
+  public void setOrder(final String order) {
+    this.order = order;
+  }
+  
+  /**
+   * @param orderby
+   *          order-by to set
+   */
+  public void setOrderby(final String orderby) {
+    this.orderby = orderby;
   }
   
   /**

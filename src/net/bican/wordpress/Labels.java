@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,31 +9,26 @@ import net.bican.wordpress.util.StringHeader;
 
 /**
  * Labels object for blog.
- * 
+ *
  * @author Can Bican
  */
 public class Labels extends XmlRpcMapped implements StringHeader {
-  String name;
-  String singular_name;
-  String search_items;
-  String popular_items;
+  String add_new_item;
+  String add_or_remove_items;
   String all_items;
+  String choose_from_most_used;
+  String edit_item;
+  String name;
+  String new_item_name;
+  String not_found;
   String parent_item;
   String parent_item_colon;
-  String edit_item;
-  String view_item;
-  String update_item;
-  String add_new_item;
-  String new_item_name;
+  String popular_items;
+  String search_items;
   String separate_items_with_commas;
-  String add_or_remove_items;
-  String choose_from_most_used;
-  String not_found;
-  
-  @Override
-  public String getStringHeader() {
-    return ""; //$NON-NLS-1$
-  }
+  String singular_name;
+  String update_item;
+  String view_item;
   
   /**
    * @return the add new item text
@@ -135,6 +126,11 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    */
   public String getSingular_name() {
     return this.singular_name;
+  }
+  
+  @Override
+  public String getStringHeader() {
+    return ""; //$NON-NLS-1$
   }
   
   /**
@@ -251,7 +247,8 @@ public class Labels extends XmlRpcMapped implements StringHeader {
    * @param separate_items_with_commas
    *          separate items with commas text to set
    */
-  public void setSeparate_items_with_commas(final String separate_items_with_commas) {
+  public void setSeparate_items_with_commas(
+      final String separate_items_with_commas) {
     this.separate_items_with_commas = separate_items_with_commas;
   }
   

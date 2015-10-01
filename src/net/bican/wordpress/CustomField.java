@@ -11,7 +11,7 @@ import net.bican.wordpress.util.StringHeader;
 
 /**
  * This class represents custom fields in wordpress.
- * 
+ *
  * @author alok
  */
 public class CustomField extends XmlRpcMapped implements StringHeader {
@@ -22,8 +22,22 @@ public class CustomField extends XmlRpcMapped implements StringHeader {
   String value = null;
   
   /**
+   * @return id of custom field
+   */
+  public String getId() {
+    return this.id;
+  }
+  
+  /**
+   * @return key of custom field
+   */
+  public String getKey() {
+    return this.key;
+  }
+  
+  /**
    * (non-Javadoc)
-   * 
+   *
    * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
@@ -34,25 +48,10 @@ public class CustomField extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * (non-Javadoc)
-   * 
-   * @see net.bican.wordpress.XmlRpcMapped#toString()
+   * @return value of custom field
    */
-  @SuppressWarnings("nls")
-  @Override
-  public String toString() {
-    final JSONObject o = new JSONObject();
-    o.put("id", this.getId());
-    o.put("key", this.getKey());
-    o.put("value", this.getValue());
-    return o.toString();
-  }
-  
-  /**
-   * @return id of custom field
-   */
-  public String getId() {
-    return this.id;
+  public String getValue() {
+    return this.value;
   }
   
   /**
@@ -64,13 +63,6 @@ public class CustomField extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @return key of custom field
-   */
-  public String getKey() {
-    return this.key;
-  }
-  
-  /**
    * @param key
    *          key to set
    */
@@ -79,17 +71,25 @@ public class CustomField extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @return value of custom field
-   */
-  public String getValue() {
-    return this.value;
-  }
-  
-  /**
    * @param value
    *          the value to set
    */
   public void setValue(final String value) {
     this.value = value;
+  }
+  
+  /**
+   * (non-Javadoc)
+   *
+   * @see net.bican.wordpress.XmlRpcMapped#toString()
+   */
+  @SuppressWarnings("nls")
+  @Override
+  public String toString() {
+    final JSONObject o = new JSONObject();
+    o.put("id", this.getId());
+    o.put("key", this.getKey());
+    o.put("value", this.getValue());
+    return o.toString();
   }
 }

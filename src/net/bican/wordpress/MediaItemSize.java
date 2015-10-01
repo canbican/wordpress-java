@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,15 +9,15 @@ import redstone.xmlrpc.XmlRpcStruct;
 
 /**
  * Class that holds media item info for different media items
- * 
+ *
  * @author Can Bican
  */
 public class MediaItemSize extends XmlRpcMapped {
   private static final String MIME_TYPE_FIELD = "mime-type"; //$NON-NLS-1$
   String file;
-  Integer width;
   Integer height;
   String mimeType;
+  Integer width;
   
   @Override
   public void fromXmlRpcStruct(final XmlRpcStruct x) {
@@ -29,19 +25,32 @@ public class MediaItemSize extends XmlRpcMapped {
     this.setMimeType((String) x.get(MIME_TYPE_FIELD));
   }
   
-  @SuppressWarnings("unchecked")
-  @Override
-  public XmlRpcStruct toXmlRpcStruct() {
-    final XmlRpcStruct result = super.toXmlRpcStruct();
-    result.put(MIME_TYPE_FIELD, this.getMimeType());
-    return result;
-  }
-  
   /**
    * @return the file
    */
   public final String getFile() {
     return this.file;
+  }
+  
+  /**
+   * @return the height
+   */
+  public final Integer getHeight() {
+    return this.height;
+  }
+  
+  /**
+   * @return the mimeType
+   */
+  public final String getMimeType() {
+    return this.mimeType;
+  }
+  
+  /**
+   * @return the width
+   */
+  public final Integer getWidth() {
+    return this.width;
   }
   
   /**
@@ -53,10 +62,19 @@ public class MediaItemSize extends XmlRpcMapped {
   }
   
   /**
-   * @return the width
+   * @param height
+   *          the height to set
    */
-  public final Integer getWidth() {
-    return this.width;
+  public final void setHeight(final Integer height) {
+    this.height = height;
+  }
+  
+  /**
+   * @param mimeType
+   *          the mimeType to set
+   */
+  public final void setMimeType(final String mimeType) {
+    this.mimeType = mimeType;
   }
   
   /**
@@ -67,33 +85,11 @@ public class MediaItemSize extends XmlRpcMapped {
     this.width = width;
   }
   
-  /**
-   * @return the height
-   */
-  public final Integer getHeight() {
-    return this.height;
-  }
-  
-  /**
-   * @param height
-   *          the height to set
-   */
-  public final void setHeight(final Integer height) {
-    this.height = height;
-  }
-  
-  /**
-   * @return the mimeType
-   */
-  public final String getMimeType() {
-    return this.mimeType;
-  }
-  
-  /**
-   * @param mimeType
-   *          the mimeType to set
-   */
-  public final void setMimeType(final String mimeType) {
-    this.mimeType = mimeType;
+  @SuppressWarnings("unchecked")
+  @Override
+  public XmlRpcStruct toXmlRpcStruct() {
+    final XmlRpcStruct result = super.toXmlRpcStruct();
+    result.put(MIME_TYPE_FIELD, this.getMimeType());
+    return result;
   }
 }

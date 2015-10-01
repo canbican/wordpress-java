@@ -1,38 +1,33 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
 /**
  * Class that keeps info for different sizes of a media item
- * 
+ *
  * @author Can Bican
  */
 public class MediaItemSizes extends XmlRpcMapped {
-  MediaItemSize thumbnail;
-  MediaItemSize post_thumbnail;
-  MediaItemSize medium;
   MediaItemSize large;
+  MediaItemSize medium;
+  MediaItemSize post_thumbnail;
+  MediaItemSize thumbnail;
   
   /**
-   * @return the thumbnail
+   * @return the large
    */
-  public final MediaItemSize getThumbnail() {
-    return this.thumbnail;
+  public final MediaItemSize getLarge() {
+    return this.large;
   }
   
   /**
-   * @param thumbnail
-   *          the thumbnail to set
+   * @return the medium
    */
-  public final void setThumbnail(final MediaItemSize thumbnail) {
-    this.thumbnail = thumbnail;
+  public final MediaItemSize getMedium() {
+    return this.medium;
   }
   
   /**
@@ -43,18 +38,18 @@ public class MediaItemSizes extends XmlRpcMapped {
   }
   
   /**
-   * @param post_thumbnail
-   *          the post_thumbnail to set
+   * @return the thumbnail
    */
-  public final void setPost_thumbnail(final MediaItemSize post_thumbnail) {
-    this.post_thumbnail = post_thumbnail;
+  public final MediaItemSize getThumbnail() {
+    return this.thumbnail;
   }
   
   /**
-   * @return the medium
+   * @param large
+   *          the large to set
    */
-  public final MediaItemSize getMedium() {
-    return this.medium;
+  public final void setLarge(final MediaItemSize large) {
+    this.large = large;
   }
   
   /**
@@ -66,17 +61,18 @@ public class MediaItemSizes extends XmlRpcMapped {
   }
   
   /**
-   * @return the large
+   * @param post_thumbnail
+   *          the post_thumbnail to set
    */
-  public final MediaItemSize getLarge() {
-    return this.large;
+  public final void setPost_thumbnail(final MediaItemSize post_thumbnail) {
+    this.post_thumbnail = post_thumbnail;
   }
   
   /**
-   * @param large
-   *          the large to set
+   * @param thumbnail
+   *          the thumbnail to set
    */
-  public final void setLarge(final MediaItemSize large) {
-    this.large = large;
+  public final void setThumbnail(final MediaItemSize thumbnail) {
+    this.thumbnail = thumbnail;
   }
 }

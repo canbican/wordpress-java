@@ -1,24 +1,27 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
 /**
  * Represents the result of an uploadFile()
- * 
+ *
  * @author Can Bican
  */
 public class MediaItemUploadResult extends XmlRpcMapped {
-  Integer id;
   String file;
-  String url;
+  Integer id;
   String type;
+  String url;
+  
+  /**
+   * @return the file
+   */
+  public final String getFile() {
+    return this.file;
+  }
   
   /**
    * @return the id
@@ -28,18 +31,17 @@ public class MediaItemUploadResult extends XmlRpcMapped {
   }
   
   /**
-   * @param id
-   *          the id to set
+   * @return the type
    */
-  public final void setId(final Integer id) {
-    this.id = id;
+  public final String getType() {
+    return this.type;
   }
   
   /**
-   * @return the file
+   * @return the url
    */
-  public final String getFile() {
-    return this.file;
+  public final String getUrl() {
+    return this.url;
   }
   
   /**
@@ -51,25 +53,11 @@ public class MediaItemUploadResult extends XmlRpcMapped {
   }
   
   /**
-   * @return the url
+   * @param id
+   *          the id to set
    */
-  public final String getUrl() {
-    return this.url;
-  }
-  
-  /**
-   * @param url
-   *          the url to set
-   */
-  public final void setUrl(final String url) {
-    this.url = url;
-  }
-  
-  /**
-   * @return the type
-   */
-  public final String getType() {
-    return this.type;
+  public final void setId(final Integer id) {
+    this.id = id;
   }
   
   /**
@@ -78,5 +66,13 @@ public class MediaItemUploadResult extends XmlRpcMapped {
    */
   public final void setType(final String type) {
     this.type = type;
+  }
+  
+  /**
+   * @param url
+   *          the url to set
+   */
+  public final void setUrl(final String url) {
+    this.url = url;
   }
 }

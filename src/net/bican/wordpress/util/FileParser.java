@@ -21,16 +21,32 @@ import redstone.xmlrpc.XmlRpcStruct;
 
 /**
  * Static methods for parsing files
- * 
+ *
  * @author Can Bican
  */
 public class FileParser {
   private static final Logger logger = LoggerFactory
       .getLogger(FileParser.class);
       
+  @SuppressWarnings("nls")
+  static String getClassName(final String key) {
+    String className = key;
+    while (className.contains("_")) {
+      final int pos = className.indexOf("_");
+      final Character ch = Character.valueOf(className.charAt(pos + 1));
+      final char chNew = Character.toUpperCase(ch.charValue());
+      className = className.replaceFirst("_" + ch, chNew + "");
+    }
+    className = className.replaceFirst("s$", "");
+    final Character ch = Character.valueOf(className.charAt(0));
+    final char chNew = Character.toUpperCase(ch.charValue());
+    className = className.replaceFirst("^" + ch, chNew + "");
+    return "net.bican.wordpress." + className;
+  }
+  
   /**
    * Parses a file to create an xmlrpc compliant object
-   * 
+   *
    * @param input
    *          reader for the file
    * @return New xmlrpc object
@@ -40,9 +56,9 @@ public class FileParser {
    *           when the file format is invalid
    */
   @SuppressWarnings("nls")
-  public static XmlRpcStruct parseFile(BufferedReader input)
+  public static XmlRpcStruct parseFile(final BufferedReader input)
       throws IOException, InvalidPostFormatException {
-    XmlRpcStruct p = new XmlRpcStruct();
+    final XmlRpcStruct p = new XmlRpcStruct();
     String line;
     String prevKey = null;
     String prevValue = null;
@@ -50,13 +66,13 @@ public class FileParser {
     keyPattern = Pattern.compile("^[\\d\\w_]+:",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     while ((line = input.readLine()) != null) {
-      if ((!"".equals(line)) && (!line.startsWith("#"))) {
-        Matcher m = keyPattern.matcher(line);
+      if (!"".equals(line) && !line.startsWith("#")) {
+        final Matcher m = keyPattern.matcher(line);
         if (m.find()) {
           if (prevKey != null) {
             FileParser.putVal(p, prevKey, prevValue);
           }
-          String[] vals = line.split(":", 2);
+          final String[] vals = line.split(":", 2);
           prevKey = vals[0];
           prevValue = vals[1];
         } else {
@@ -68,14 +84,15 @@ public class FileParser {
         }
       }
     }
-    if (prevKey != null)
+    if (prevKey != null) {
       FileParser.putVal(p, prevKey, prevValue);
+    }
     return p;
   }
   
   /**
    * Fills values for an xmlrpc object
-   * 
+   *
    * @param s
    *          xmlrpc object itself
    * @param key
@@ -84,23 +101,24 @@ public class FileParser {
    *          field value
    */
   @SuppressWarnings({ "unchecked", "rawtypes", "nls" })
-  public static void putVal(XmlRpcStruct s, String key, String v) {
-    String value = v.trim();
+  public static void putVal(final XmlRpcStruct s, final String key,
+      final String v) {
+    final String value = v.trim();
     if (value.startsWith("[")) {
       try {
-        JSONArray jArr = new JSONArray(value);
+        final JSONArray jArr = new JSONArray(value);
         if (jArr.length() > 0) {
-          Class cType = jArr.get(0).getClass();
-          XmlRpcArray vals = new XmlRpcArray();
+          final Class cType = jArr.get(0).getClass();
+          final XmlRpcArray vals = new XmlRpcArray();
           if (cType == String.class) {
             for (int i = 0; i < jArr.length(); i++) {
               vals.add(jArr.getString(i));
             }
           } else {
-            String className = FileParser.getClassName(key);
-            Class<?> cl = Class.forName(className);
+            final String className = FileParser.getClassName(key);
+            final Class<?> cl = Class.forName(className);
             for (int i = 0; i < jArr.length(); i++) {
-              JSONConvertable o = (JSONConvertable) cl.newInstance();
+              final JSONConvertable o = (JSONConvertable) cl.newInstance();
               o.fromJSONObject(jArr.getJSONObject(i));
               vals.add(o);
             }
@@ -117,22 +135,6 @@ public class FileParser {
         s.put(key, value);
       }
     }
-  }
-  
-  @SuppressWarnings("nls")
-  static String getClassName(String key) {
-    String className = key;
-    while (className.contains("_")) {
-      int pos = className.indexOf("_");
-      Character ch = Character.valueOf(className.charAt(pos + 1));
-      char chNew = Character.toUpperCase(ch.charValue());
-      className = className.replaceFirst("_" + ch, chNew + "");
-    }
-    className = className.replaceFirst("s$", "");
-    Character ch = Character.valueOf(className.charAt(0));
-    char chNew = Character.toUpperCase(ch.charValue());
-    className = className.replaceFirst("^" + ch, chNew + "");
-    return "net.bican.wordpress." + className;
   }
   
 }

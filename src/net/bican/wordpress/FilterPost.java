@@ -1,41 +1,49 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
 /**
  * Filter for retrieving posts
- * 
- * @author Can Bican
  *
+ * @author Can Bican
  */
 public class FilterPost extends XmlRpcMapped {
-  String post_type;
-  String post_status;
   Integer number;
   Integer offset;
-  String orderby;
   String order;
+  String orderby;
+  String post_status;
+  String post_type;
   
   /**
-   * @return the post_type
+   * @return the number
    */
-  public final String getPost_type() {
-    return this.post_type;
+  public final Integer getNumber() {
+    return this.number;
   }
   
   /**
-   * @param post_type
-   *          the post_type to set
+   * @return the offset
    */
-  public final void setPost_type(final String post_type) {
-    this.post_type = post_type;
+  public final Integer getOffset() {
+    return this.offset;
+  }
+  
+  /**
+   * @return the order
+   */
+  public final String getOrder() {
+    return this.order;
+  }
+  
+  /**
+   * @return the orderby
+   */
+  public final String getOrderby() {
+    return this.orderby;
   }
   
   /**
@@ -46,18 +54,10 @@ public class FilterPost extends XmlRpcMapped {
   }
   
   /**
-   * @param post_status
-   *          the post_status to set
+   * @return the post_type
    */
-  public final void setPost_status(final String post_status) {
-    this.post_status = post_status;
-  }
-  
-  /**
-   * @return the number
-   */
-  public final Integer getNumber() {
-    return this.number;
+  public final String getPost_type() {
+    return this.post_type;
   }
   
   /**
@@ -69,13 +69,6 @@ public class FilterPost extends XmlRpcMapped {
   }
   
   /**
-   * @return the offset
-   */
-  public final Integer getOffset() {
-    return this.offset;
-  }
-  
-  /**
    * @param offset
    *          the offset to set
    */
@@ -84,10 +77,11 @@ public class FilterPost extends XmlRpcMapped {
   }
   
   /**
-   * @return the orderby
+   * @param order
+   *          the order to set
    */
-  public final String getOrderby() {
-    return this.orderby;
+  public final void setOrder(final String order) {
+    this.order = order;
   }
   
   /**
@@ -99,17 +93,18 @@ public class FilterPost extends XmlRpcMapped {
   }
   
   /**
-   * @return the order
+   * @param post_status
+   *          the post_status to set
    */
-  public final String getOrder() {
-    return this.order;
+  public final void setPost_status(final String post_status) {
+    this.post_status = post_status;
   }
   
   /**
-   * @param order
-   *          the order to set
+   * @param post_type
+   *          the post_type to set
    */
-  public final void setOrder(final String order) {
-    this.order = order;
+  public final void setPost_type(final String post_type) {
+    this.post_type = post_type;
   }
 }

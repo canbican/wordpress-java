@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,14 +9,14 @@ import net.bican.wordpress.util.StringHeader;
 
 /**
  * Cap object for a blog.
- * 
+ *
  * @author Can Bican
  */
 public class Cap extends XmlRpcMapped implements StringHeader {
-  String manage_terms;
-  String edit_terms;
-  String delete_terms;
   String assign_terms;
+  String delete_terms;
+  String edit_terms;
+  String manage_terms;
   
   /**
    * @return the assign terms
@@ -48,6 +44,11 @@ public class Cap extends XmlRpcMapped implements StringHeader {
    */
   public String getManage_terms() {
     return this.manage_terms;
+  }
+  
+  @Override
+  public String getStringHeader() {
+    return ""; //$NON-NLS-1$
   }
   
   /**
@@ -80,11 +81,6 @@ public class Cap extends XmlRpcMapped implements StringHeader {
    */
   public void setManage_terms(final String manage_terms) {
     this.manage_terms = manage_terms;
-  }
-  
-  @Override
-  public String getStringHeader() {
-    return ""; //$NON-NLS-1$
   }
   
 }

@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress.configuration;
 
@@ -18,44 +14,48 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 
 /**
- * 
  * A composite configuration class that combines preferences and command line.
- * 
+ *
  * @author Can Bican
- * 
  */
 public class WpCliConfiguration {
 
   private CompositeConfiguration config = null;
 
   /**
-   * @param args Command line arguments
-   * @param options Command line options
-   * @param cl Calling class
-   * @throws ParseException When the configuration cannot be parsed
+   * @param args
+   *          Command line arguments
+   * @param options
+   *          Command line options
+   * @param cl
+   *          Calling class
+   * @throws ParseException
+   *           When the configuration cannot be parsed
    */
-  public WpCliConfiguration(String[] args, Options options, Class<?> cl)
-      throws ParseException {
-    Collection<Configuration> confs = new ArrayList<>();
+  public WpCliConfiguration(final String[] args, final Options options,
+      final Class<?> cl) throws ParseException {
+    final Collection<Configuration> confs = new ArrayList<>();
     confs.add(new CliConfiguration(args, options));
     confs.add(new PreferencesConfiguration(cl));
     this.config = new CompositeConfiguration(confs);
   }
 
   /**
-   * @param key Option key to check
-   * @return <code>true</code> if the configuration contains the key
+   * @param key
+   *          Option key to retrieve
+   * @return Value of the option key
    */
-  public boolean hasOption(String key) {
-    return this.config.containsKey(key);
+  public String getOptionValue(final String key) {
+    return this.config.getString(key);
   }
 
   /**
-   * @param key Option key to retrieve
-   * @return Value of the option key
+   * @param key
+   *          Option key to check
+   * @return <code>true</code> if the configuration contains the key
    */
-  public String getOptionValue(String key) {
-    return this.config.getString(key);
+  public boolean hasOption(final String key) {
+    return this.config.containsKey(key);
   }
 
 }

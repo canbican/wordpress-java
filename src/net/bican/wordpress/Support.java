@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,22 +9,22 @@ import redstone.xmlrpc.XmlRpcStruct;
 
 /**
  * support list for a post type
- * 
+ *
  * @author Can Bican
  */
 public class Support extends XmlRpcMapped {
   private static final String CUSTOM_FIELDS_FIELD = "custom-fields"; //$NON-NLS-1$
   private static final String POST_FORMATS_FIELD = "post-formats"; //$NON-NLS-1$
-  Boolean editor;
-  Boolean thumbnail;
-  Boolean comments;
-  Boolean trackbacks;
   Boolean author;
-  Boolean revisions;
-  Boolean postFormats;
-  Boolean title;
-  Boolean excerpt;
+  Boolean comments;
   Boolean customFields;
+  Boolean editor;
+  Boolean excerpt;
+  Boolean postFormats;
+  Boolean revisions;
+  Boolean thumbnail;
+  Boolean title;
+  Boolean trackbacks;
   
   @Override
   public void fromXmlRpcStruct(final XmlRpcStruct x) {
@@ -43,47 +39,11 @@ public class Support extends XmlRpcMapped {
     }
   }
   
-  @SuppressWarnings("unchecked")
-  @Override
-  public XmlRpcStruct toXmlRpcStruct() {
-    final XmlRpcStruct result = super.toXmlRpcStruct();
-    if (this.isPostFormats() != null) {
-      result.put(POST_FORMATS_FIELD, this.isPostFormats());
-    }
-    if (this.isCustomFields() != null) {
-      result.put(CUSTOM_FIELDS_FIELD, this.isCustomFields());
-    }
-    return result;
-  }
-  
   /**
-   * @return the editor
+   * @return the author
    */
-  public final Boolean isEditor() {
-    return this.editor;
-  }
-  
-  /**
-   * @param editor
-   *          the editor to set
-   */
-  public final void setEditor(final Boolean editor) {
-    this.editor = editor;
-  }
-  
-  /**
-   * @return the thumbnail
-   */
-  public final Boolean isThumbnail() {
-    return this.thumbnail;
-  }
-  
-  /**
-   * @param thumbnail
-   *          the thumbnail to set
-   */
-  public final void setThumbnail(final Boolean thumbnail) {
-    this.thumbnail = thumbnail;
+  public final Boolean isAuthor() {
+    return this.author;
   }
   
   /**
@@ -94,11 +54,52 @@ public class Support extends XmlRpcMapped {
   }
   
   /**
-   * @param comments
-   *          the comments to set
+   * @return the customFields
    */
-  public final void setComments(final Boolean comments) {
-    this.comments = comments;
+  public final Boolean isCustomFields() {
+    return this.customFields;
+  }
+  
+  /**
+   * @return the editor
+   */
+  public final Boolean isEditor() {
+    return this.editor;
+  }
+  
+  /**
+   * @return the excerpt
+   */
+  public final Boolean isExcerpt() {
+    return this.excerpt;
+  }
+  
+  /**
+   * @return the postFormats
+   */
+  public final Boolean isPostFormats() {
+    return this.postFormats;
+  }
+  
+  /**
+   * @return the revisions
+   */
+  public final Boolean isRevisions() {
+    return this.revisions;
+  }
+  
+  /**
+   * @return the thumbnail
+   */
+  public final Boolean isThumbnail() {
+    return this.thumbnail;
+  }
+  
+  /**
+   * @return the title
+   */
+  public final Boolean isTitle() {
+    return this.title;
   }
   
   /**
@@ -106,21 +107,6 @@ public class Support extends XmlRpcMapped {
    */
   public final Boolean isTrackbacks() {
     return this.trackbacks;
-  }
-  
-  /**
-   * @param trackbacks
-   *          the trackbacks to set
-   */
-  public final void setTrackbacks(final Boolean trackbacks) {
-    this.trackbacks = trackbacks;
-  }
-  
-  /**
-   * @return the author
-   */
-  public final Boolean isAuthor() {
-    return this.author;
   }
   
   /**
@@ -132,55 +118,27 @@ public class Support extends XmlRpcMapped {
   }
   
   /**
-   * @return the revisions
+   * @param comments
+   *          the comments to set
    */
-  public final Boolean isRevisions() {
-    return this.revisions;
+  public final void setComments(final Boolean comments) {
+    this.comments = comments;
   }
   
   /**
-   * @param revisions
-   *          the revisions to set
+   * @param customFields
+   *          the customFields to set
    */
-  public final void setRevisions(final Boolean revisions) {
-    this.revisions = revisions;
+  public final void setCustomFields(final Boolean customFields) {
+    this.customFields = customFields;
   }
   
   /**
-   * @return the postFormats
+   * @param editor
+   *          the editor to set
    */
-  public final Boolean isPostFormats() {
-    return this.postFormats;
-  }
-  
-  /**
-   * @param postFormats
-   *          the postFormats to set
-   */
-  public final void setPostFormats(final Boolean postFormats) {
-    this.postFormats = postFormats;
-  }
-  
-  /**
-   * @return the title
-   */
-  public final Boolean isTitle() {
-    return this.title;
-  }
-  
-  /**
-   * @param title
-   *          the title to set
-   */
-  public final void setTitle(final Boolean title) {
-    this.title = title;
-  }
-  
-  /**
-   * @return the excerpt
-   */
-  public final Boolean isExcerpt() {
-    return this.excerpt;
+  public final void setEditor(final Boolean editor) {
+    this.editor = editor;
   }
   
   /**
@@ -192,17 +150,55 @@ public class Support extends XmlRpcMapped {
   }
   
   /**
-   * @return the customFields
+   * @param postFormats
+   *          the postFormats to set
    */
-  public final Boolean isCustomFields() {
-    return this.customFields;
+  public final void setPostFormats(final Boolean postFormats) {
+    this.postFormats = postFormats;
   }
   
   /**
-   * @param customFields
-   *          the customFields to set
+   * @param revisions
+   *          the revisions to set
    */
-  public final void setCustomFields(final Boolean customFields) {
-    this.customFields = customFields;
+  public final void setRevisions(final Boolean revisions) {
+    this.revisions = revisions;
+  }
+  
+  /**
+   * @param thumbnail
+   *          the thumbnail to set
+   */
+  public final void setThumbnail(final Boolean thumbnail) {
+    this.thumbnail = thumbnail;
+  }
+  
+  /**
+   * @param title
+   *          the title to set
+   */
+  public final void setTitle(final Boolean title) {
+    this.title = title;
+  }
+  
+  /**
+   * @param trackbacks
+   *          the trackbacks to set
+   */
+  public final void setTrackbacks(final Boolean trackbacks) {
+    this.trackbacks = trackbacks;
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  public XmlRpcStruct toXmlRpcStruct() {
+    final XmlRpcStruct result = super.toXmlRpcStruct();
+    if (this.isPostFormats() != null) {
+      result.put(POST_FORMATS_FIELD, this.isPostFormats());
+    }
+    if (this.isCustomFields() != null) {
+      result.put(CUSTOM_FIELDS_FIELD, this.isCustomFields());
+    }
+    return result;
   }
 }

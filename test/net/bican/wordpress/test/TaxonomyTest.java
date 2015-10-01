@@ -1,33 +1,50 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+
+import org.junit.Test;
 
 import net.bican.wordpress.Taxonomy;
 import net.bican.wordpress.Term;
 import net.bican.wordpress.TermFilter;
 
-import org.junit.Test;
-
 @SuppressWarnings({ "nls", "static-method", "javadoc" })
 public class TaxonomyTest extends AbstractWordpressTest {
+  @SuppressWarnings("boxing")
+  @Test
+  public void testEditTerm() throws Exception {
+    Term term = WP.getTerm("category", 1);
+    final String oldName = term.getName();
+    term.setName("newnamedeneme");
+    final Term editTerm = new Term();
+    editTerm.setTaxonomy("category");
+    editTerm.setName("newnamedeneme");
+    assertTrue(WP.editTerm(term.getTerm_id(), editTerm));
+    term = WP.getTerm("category", 1);
+    assertEquals("newnamedeneme", term.getName());
+    editTerm.setName(oldName);
+    assertTrue(WP.editTerm(term.getTerm_id(), editTerm));
+    term = WP.getTerm("category", 1);
+    assertEquals(oldName, term.getName());
+  }
+  
   @Test
   public void testGetTaxonomies() throws Exception {
-    List<Taxonomy> taxonomies = WP.getTaxonomies();
+    final List<Taxonomy> taxonomies = WP.getTaxonomies();
     assertNotNull(taxonomies);
     assertEquals(3, taxonomies.size()); // currenty wordpress has 3 internal
                                         // taxonomies by default
-    for (Taxonomy t : taxonomies) {
+    for (final Taxonomy t : taxonomies) {
       if (t.getName().equals("category")) {
         assertNotNull(t.getLabels());
         assertNotNull(t.getLabels().getAll_items());
@@ -45,24 +62,32 @@ public class TaxonomyTest extends AbstractWordpressTest {
   
   @Test
   public void testGetTaxonomy() throws Exception {
-    Taxonomy taxonomy = WP.getTaxonomy("category");
+    final Taxonomy taxonomy = WP.getTaxonomy("category");
     assertNotNull(taxonomy);
     assertEquals("category", taxonomy.getName());
   }
   
   @Test
+  public void testGetTerm() throws Exception {
+    @SuppressWarnings("boxing")
+    final Term term = WP.getTerm("category", 1);
+    assertNotNull(term);
+    assertEquals("Uncategorized", term.getName());
+  }
+  
+  @Test
   public void testGetTerms() throws Exception {
-    List<Term> terms = WP.getTerms("category");
+    final List<Term> terms = WP.getTerms("category");
     assertNotNull(terms);
     assertEquals(1, terms.size());
-    Term term = terms.get(0);
+    final Term term = terms.get(0);
     assertNotNull(term);
     assertEquals("Uncategorized", term.getName());
   }
   
   @Test
   public void testGetTermsWithFilter() throws Exception {
-    TermFilter filter = new TermFilter();
+    final TermFilter filter = new TermFilter();
     filter.setSearch("xxx");
     List<Term> terms = WP.getTerms("category", filter);
     assertNotNull(terms);
@@ -74,40 +99,14 @@ public class TaxonomyTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetTerm() throws Exception {
-    @SuppressWarnings("boxing")
-    Term term = WP.getTerm("category", 1);
-    assertNotNull(term);
-    assertEquals("Uncategorized", term.getName());
-  }
-  
-  @Test
   public void testNewDeleteTerm() throws Exception {
-    Term term = new Term();
+    final Term term = new Term();
     term.setName("denemeterm");
     term.setTaxonomy("category");
-    Integer termId = WP.newTerm(term);
+    final Integer termId = WP.newTerm(term);
     assertNotNull(termId);
     assertTrue(termId.intValue() > 0);
     assertTrue(WP.deleteTerm("category", termId));
     assertFalse(WP.deleteTerm("category", termId));
-  }
-  
-  @SuppressWarnings("boxing")
-  @Test
-  public void testEditTerm() throws Exception {
-    Term term = WP.getTerm("category", 1);
-    String oldName = term.getName();
-    term.setName("newnamedeneme");
-    Term editTerm = new Term();
-    editTerm.setTaxonomy("category");
-    editTerm.setName("newnamedeneme");
-    assertTrue(WP.editTerm(term.getTerm_id(), editTerm));
-    term = WP.getTerm("category", 1);
-    assertEquals("newnamedeneme", term.getName());
-    editTerm.setName(oldName);
-    assertTrue(WP.editTerm(term.getTerm_id(), editTerm));
-    term = WP.getTerm("category", 1);
-    assertEquals(oldName, term.getName());
   }
 }

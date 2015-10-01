@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -23,200 +19,65 @@ import redstone.xmlrpc.XmlRpcStruct;
 
 /**
  * A WordPress Comment object
- * 
+ *
  * @author Fred Potter
  */
 public class Comment extends XmlRpcMapped implements StringHeader {
   
-  Date date_created_gmt;
-  
-  Integer user_id;
-  
-  Integer comment_id;
-  
-  Integer parent;
-  
-  String status;
-  
-  String content;
-  
-  String link;
-  
-  Integer post_id;
-  
-  String post_title;
+  /**
+   * Creates a comment object from file
+   *
+   * @param file
+   *          input file
+   * @return new Comment object
+   * @throws FileNotFoundException
+   *           when the file is absent
+   * @throws IOException
+   *           when the file cannot be read
+   * @throws InvalidPostFormatException
+   *           when the file format is invalid
+   */
+  public static Comment fromFile(final File file)
+      throws FileNotFoundException, IOException, InvalidPostFormatException {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+      final XmlRpcStruct c = FileParser.parseFile(br);
+      final Comment result = new Comment();
+      result.fromXmlRpcStruct(c);
+      return result;
+    }
+  }
   
   String author;
-  
-  String author_url;
   
   String author_email;
   
   String author_ip;
   
-  /**
-   * @return the date_created_gmt
-   */
-  public Date getDate_created_gmt() {
-    return this.date_created_gmt;
-  }
+  String author_url;
   
-  /**
-   * @param dateCreatedGmt
-   *          the date_created_gmt to set
-   */
-  public void setDate_created_gmt(final Date dateCreatedGmt) {
-    this.date_created_gmt = dateCreatedGmt;
-  }
+  Integer comment_id;
   
-  /**
-   * @return the user_id
-   */
-  public Integer getUser_id() {
-    return this.user_id;
-  }
+  String content;
   
-  /**
-   * @param userId
-   *          the user_id to set
-   */
-  public void setUser_id(final Integer userId) {
-    this.user_id = userId;
-  }
+  Date date_created_gmt;
   
-  /**
-   * @return the comment_id
-   */
-  public Integer getComment_id() {
-    return this.comment_id;
-  }
+  String link;
   
-  /**
-   * @param commentId
-   *          the comment_id to set
-   */
-  public void setComment_id(final Integer commentId) {
-    this.comment_id = commentId;
-  }
+  Integer parent;
   
-  /**
-   * @return the parent
-   */
-  public Integer getParent() {
-    return this.parent;
-  }
+  Integer post_id;
   
-  /**
-   * @param parent
-   *          the parent to set
-   */
-  public void setParent(final Integer parent) {
-    this.parent = parent;
-  }
+  String post_title;
   
-  /**
-   * @return the status
-   */
-  public String getStatus() {
-    return this.status;
-  }
+  String status;
   
-  /**
-   * @param status
-   *          the status to set
-   */
-  public void setStatus(final String status) {
-    this.status = status;
-  }
-  
-  /**
-   * @return the content
-   */
-  public String getContent() {
-    return this.content;
-  }
-  
-  /**
-   * @param content
-   *          the content to set
-   */
-  public void setContent(final String content) {
-    this.content = content;
-  }
-  
-  /**
-   * @return the link
-   */
-  public String getLink() {
-    return this.link;
-  }
-  
-  /**
-   * @param link
-   *          the link to set
-   */
-  public void setLink(final String link) {
-    this.link = link;
-  }
-  
-  /**
-   * @return the post_id
-   */
-  public Integer getPost_id() {
-    return this.post_id;
-  }
-  
-  /**
-   * @param postId
-   *          the post_id to set
-   */
-  public void setPost_id(final Integer postId) {
-    this.post_id = postId;
-  }
-  
-  /**
-   * @return the post_title
-   */
-  public String getPost_title() {
-    return this.post_title;
-  }
-  
-  /**
-   * @param postTitle
-   *          the post_title to set
-   */
-  public void setPost_title(final String postTitle) {
-    this.post_title = postTitle;
-  }
+  Integer user_id;
   
   /**
    * @return the author
    */
   public String getAuthor() {
     return this.author;
-  }
-  
-  /**
-   * @param author
-   *          the author to set
-   */
-  public void setAuthor(final String author) {
-    this.author = author;
-  }
-  
-  /**
-   * @return the author_url
-   */
-  public String getAuthor_url() {
-    return this.author_url;
-  }
-  
-  /**
-   * @param authorUrl
-   *          the author_url to set
-   */
-  public void setAuthor_url(final String authorUrl) {
-    this.author_url = authorUrl;
   }
   
   /**
@@ -227,14 +88,6 @@ public class Comment extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @param authorEmail
-   *          the author_email to set
-   */
-  public void setAuthor_email(final String authorEmail) {
-    this.author_email = authorEmail;
-  }
-  
-  /**
    * @return the author_ip
    */
   public String getAuthor_ip() {
@@ -242,16 +95,71 @@ public class Comment extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @param authorIp
-   *          the author_ip to set
+   * @return the author_url
    */
-  public void setAuthor_ip(final String authorIp) {
-    this.author_ip = authorIp;
+  public String getAuthor_url() {
+    return this.author_url;
+  }
+  
+  /**
+   * @return the comment_id
+   */
+  public Integer getComment_id() {
+    return this.comment_id;
+  }
+  
+  /**
+   * @return the content
+   */
+  public String getContent() {
+    return this.content;
+  }
+  
+  /**
+   * @return the date_created_gmt
+   */
+  public Date getDate_created_gmt() {
+    return this.date_created_gmt;
+  }
+  
+  /**
+   * @return the link
+   */
+  public String getLink() {
+    return this.link;
+  }
+  
+  /**
+   * @return the parent
+   */
+  public Integer getParent() {
+    return this.parent;
+  }
+  
+  /**
+   * @return the post_id
+   */
+  public Integer getPost_id() {
+    return this.post_id;
+  }
+  
+  /**
+   * @return the post_title
+   */
+  public String getPost_title() {
+    return this.post_title;
+  }
+  
+  /**
+   * @return the status
+   */
+  public String getStatus() {
+    return this.status;
   }
   
   /**
    * (non-Javadoc)
-   * 
+   *
    * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
@@ -265,25 +173,113 @@ public class Comment extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * Creates a comment object from file
-   * 
-   * @param file
-   *          input file
-   * @return new Comment object
-   * @throws FileNotFoundException
-   *           when the file is absent
-   * @throws IOException
-   *           when the file cannot be read
-   * @throws InvalidPostFormatException
-   *           when the file format is invalid
+   * @return the user_id
    */
-  public static Comment fromFile(final File file) throws FileNotFoundException,
-      IOException, InvalidPostFormatException {
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-      final XmlRpcStruct c = FileParser.parseFile(br);
-      final Comment result = new Comment();
-      result.fromXmlRpcStruct(c);
-      return result;
-    }
+  public Integer getUser_id() {
+    return this.user_id;
+  }
+  
+  /**
+   * @param author
+   *          the author to set
+   */
+  public void setAuthor(final String author) {
+    this.author = author;
+  }
+  
+  /**
+   * @param authorEmail
+   *          the author_email to set
+   */
+  public void setAuthor_email(final String authorEmail) {
+    this.author_email = authorEmail;
+  }
+  
+  /**
+   * @param authorIp
+   *          the author_ip to set
+   */
+  public void setAuthor_ip(final String authorIp) {
+    this.author_ip = authorIp;
+  }
+  
+  /**
+   * @param authorUrl
+   *          the author_url to set
+   */
+  public void setAuthor_url(final String authorUrl) {
+    this.author_url = authorUrl;
+  }
+  
+  /**
+   * @param commentId
+   *          the comment_id to set
+   */
+  public void setComment_id(final Integer commentId) {
+    this.comment_id = commentId;
+  }
+  
+  /**
+   * @param content
+   *          the content to set
+   */
+  public void setContent(final String content) {
+    this.content = content;
+  }
+  
+  /**
+   * @param dateCreatedGmt
+   *          the date_created_gmt to set
+   */
+  public void setDate_created_gmt(final Date dateCreatedGmt) {
+    this.date_created_gmt = dateCreatedGmt;
+  }
+  
+  /**
+   * @param link
+   *          the link to set
+   */
+  public void setLink(final String link) {
+    this.link = link;
+  }
+  
+  /**
+   * @param parent
+   *          the parent to set
+   */
+  public void setParent(final Integer parent) {
+    this.parent = parent;
+  }
+  
+  /**
+   * @param postId
+   *          the post_id to set
+   */
+  public void setPost_id(final Integer postId) {
+    this.post_id = postId;
+  }
+  
+  /**
+   * @param postTitle
+   *          the post_title to set
+   */
+  public void setPost_title(final String postTitle) {
+    this.post_title = postTitle;
+  }
+  
+  /**
+   * @param status
+   *          the status to set
+   */
+  public void setStatus(final String status) {
+    this.status = status;
+  }
+  
+  /**
+   * @param userId
+   *          the user_id to set
+   */
+  public void setUser_id(final Integer userId) {
+    this.user_id = userId;
   }
 }

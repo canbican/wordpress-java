@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -17,6 +13,10 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import net.bican.wordpress.configuration.WpCliConfiguration;
 import net.bican.wordpress.exceptions.FileUploadException;
 import net.bican.wordpress.exceptions.InsufficientRightsException;
@@ -24,19 +24,86 @@ import net.bican.wordpress.exceptions.InvalidArgumentsException;
 import net.bican.wordpress.exceptions.InvalidPostFormatException;
 import net.bican.wordpress.exceptions.ObjectNotFoundException;
 import net.bican.wordpress.util.StringHeader;
-
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
 import redstone.xmlrpc.XmlRpcFault;
 
 /**
  * Main Application class for the command line interface.
- * 
+ *
  * @author Can Bican
  */
 public class Main {
+  private static void delete(final Options options,
+      final WpCliConfiguration config, final Wordpress wp, final String opt,
+      final boolean deletePage) throws XmlRpcFault, InsufficientRightsException,
+          ObjectNotFoundException {
+    final Integer post_ID = getInteger(opt, config);
+    if (post_ID != null) {
+      System.out.println(wp.deletePost(post_ID));
+    } else {
+      showHelp(options);
+    }
+  }
+  
+  @SuppressWarnings("nls")
+  private static void deleteComment(final Wordpress wp, final int commentID)
+      throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
+    final boolean result = wp.deleteComment(Integer.valueOf(commentID));
+    if (result) {
+      System.out.println("Comment deleted.");
+    } else {
+      System.out.println("Comment not deleted");
+    }
+  }
+  
+  @SuppressWarnings({ "nls" })
+  private static void edit(final Options options,
+      final WpCliConfiguration config, final Wordpress wp, final String opt,
+      final boolean isPage) throws IOException, InvalidPostFormatException,
+          XmlRpcFault, InsufficientRightsException, InvalidArgumentsException,
+          ObjectNotFoundException {
+    final Integer post_ID = getInteger("postid", config);
+    final Post post = Post.fromFile(new File(config.getOptionValue(opt)));
+    if (post_ID != null) {
+      System.out.println(wp.editPost(post_ID, post));
+    } else {
+      showHelp(options);
+    }
+  }
+  
+  @SuppressWarnings({ "nls", "boxing" })
+  private static void editComment(final Wordpress wp, final String fileName,
+      final String operation) throws XmlRpcFault, FileNotFoundException,
+          IOException, InvalidPostFormatException, InsufficientRightsException,
+          ObjectNotFoundException, InvalidArgumentsException {
+    final Comment comment = Comment.fromFile(new File(fileName));
+    System.err.println(comment.getPost_id());
+    System.err.println(comment.getContent());
+    if (operation.equals("newcomment")) {
+      final Integer r = wp.newComment(comment.getPost_id(), comment.getParent(),
+          comment.getContent(), comment.getAuthor(), comment.getAuthor_url(),
+          comment.getAuthor_email());
+      System.err.println("Comment ID: " + r);
+    } else if (operation.equals("editcomment")) {
+      final Boolean r = wp.editComment(comment);
+      if (r) {
+        System.err.println("Comment edited.");
+      } else {
+        System.err.println("Comment not edited.");
+      }
+    }
+  }
+  
+  private static Integer getInteger(final String c,
+      final WpCliConfiguration config) {
+    Integer post_ID = null;
+    try {
+      post_ID = Integer.valueOf(config.getOptionValue(c));
+    } catch (final NumberFormatException e) {
+      // leave it null
+    }
+    return post_ID;
+  }
+  
   /**
    * @param args
    *          execute with "-?" for an explanation of args
@@ -157,8 +224,8 @@ public class Main {
                 overwrite = Boolean.TRUE;
               }
               try (FileInputStream fis = new FileInputStream(file)) {
-                final MediaItemUploadResult result = wp.uploadFile(fis, fileName,
-                    overwrite);
+                final MediaItemUploadResult result = wp.uploadFile(fis,
+                    fileName, overwrite);
                 if (result != null) {
                   System.out.println(result);
                 }
@@ -190,7 +257,8 @@ public class Main {
             } else if (config.hasOption("getcomments")) {
               final Integer postID = Integer
                   .valueOf(config.getOptionValue("getcomments"));
-              final String commentStatus = config.getOptionValue("commentstatus");
+              final String commentStatus = config
+                  .getOptionValue("commentstatus");
               Integer commentOffset;
               try {
                 commentOffset = Integer
@@ -230,9 +298,16 @@ public class Main {
     }
   }
   
+  private static void printComment(final Wordpress wp, final Integer commentID)
+      throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
+    final Comment r = wp.getComment(commentID);
+    System.out.println(r);
+  }
+  
   @SuppressWarnings("nls")
   private static void printComments(final Wordpress wp, final Integer postID,
-      final String commentStatus, final Integer commentOffset, final Integer commentNumber)
+      final String commentStatus, final Integer commentOffset,
+      final Integer commentNumber)
           throws XmlRpcFault, InsufficientRightsException {
     final List<Comment> r = wp.getComments(commentStatus, postID, commentNumber,
         commentOffset);
@@ -243,111 +318,14 @@ public class Main {
     }
   }
   
-  private static void printComment(final Wordpress wp, final Integer commentID)
-      throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
-    final Comment r = wp.getComment(commentID);
-    System.out.println(r);
-  }
-  
-  @SuppressWarnings("nls")
-  private static void deleteComment(final Wordpress wp, final int commentID)
-      throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
-    final boolean result = wp.deleteComment(Integer.valueOf(commentID));
-    if (result) {
-      System.out.println("Comment deleted.");
-    } else {
-      System.out.println("Comment not deleted");
-    }
-  }
-  
-  @SuppressWarnings({ "nls", "boxing" })
-  private static void editComment(final Wordpress wp, final String fileName,
-      final String operation) throws XmlRpcFault, FileNotFoundException, IOException,
-          InvalidPostFormatException, InsufficientRightsException,
-          ObjectNotFoundException, InvalidArgumentsException {
-    final Comment comment = Comment.fromFile(new File(fileName));
-    System.err.println(comment.getPost_id());
-    System.err.println(comment.getContent());
-    if (operation.equals("newcomment")) {
-      final Integer r = wp.newComment(comment.getPost_id(), comment.getParent(),
-          comment.getContent(), comment.getAuthor(), comment.getAuthor_url(),
-          comment.getAuthor_email());
-      System.err.println("Comment ID: " + r);
-    } else if (operation.equals("editcomment")) {
-      final Boolean r = wp.editComment(comment);
-      if (r) {
-        System.err.println("Comment edited.");
-      } else {
-        System.err.println("Comment not edited.");
-      }
-    }
-  }
-  
-  @SuppressWarnings("nls")
-  private static void showCommentCount(final WpCliConfiguration config, final Wordpress wp)
-      throws InsufficientRightsException {
-    final Integer post_ID = getInteger("commentcount", config);
-    try {
-      final CommentCount result = wp.getCommentsCount(post_ID);
-      System.out.println(result);
-    } catch (final XmlRpcFault e) {
-      final String reason = e.getLocalizedMessage();
-      System.err.println("Operation failed, reason is: " + reason);
-    }
-  }
-  
-  private static void showCommentStatus(final Wordpress wp) throws XmlRpcFault {
-    printItem(wp.getCommentStatusList(), CommentStatusList.class);
-  }
-  
-  private static void delete(final Options options, final WpCliConfiguration config,
-      final Wordpress wp, final String opt, final boolean deletePage) throws XmlRpcFault,
-          InsufficientRightsException, ObjectNotFoundException {
-    final Integer post_ID = getInteger(opt, config);
-    if (post_ID != null) {
-      System.out.println(wp.deletePost(post_ID));
-    } else {
-      showHelp(options);
-    }
-  }
-  
-  @SuppressWarnings({ "nls" })
-  private static void edit(final Options options, final WpCliConfiguration config,
-      final Wordpress wp, final String opt, final boolean isPage) throws IOException,
-          InvalidPostFormatException, XmlRpcFault, InsufficientRightsException,
-          InvalidArgumentsException, ObjectNotFoundException {
-    final Integer post_ID = getInteger("postid", config);
-    final Post post = Post.fromFile(new File(config.getOptionValue(opt)));
-    if (post_ID != null) {
-      System.out.println(wp.editPost(post_ID, post));
-    } else {
-      showHelp(options);
-    }
-  }
-  
-  private static Integer getInteger(final String c, final WpCliConfiguration config) {
-    Integer post_ID = null;
-    try {
-      post_ID = Integer.valueOf(config.getOptionValue(c));
-    } catch (final NumberFormatException e) {
-      // leave it null
-    }
-    return post_ID;
-  }
-  
-  @SuppressWarnings("nls")
-  private static void showHelp(final Options options) {
-    final HelpFormatter help = new HelpFormatter();
-    help.printHelp(" ", options);
-  }
-  
   private static void printItem(final Object o, final Class<?> cl) {
     cl.cast(o);
     System.out.println(((StringHeader) o).getStringHeader());
     System.out.println(o);
   }
   
-  private static void printList(final List<?> r, final Class<?> cl, final boolean oneLiner) {
+  private static void printList(final List<?> r, final Class<?> cl,
+      final boolean oneLiner) {
     boolean headerPrinted = false;
     for (final Object o : r) {
       cl.cast(o);
@@ -363,5 +341,28 @@ public class Main {
         System.out.println(o);
       }
     }
+  }
+  
+  @SuppressWarnings("nls")
+  private static void showCommentCount(final WpCliConfiguration config,
+      final Wordpress wp) throws InsufficientRightsException {
+    final Integer post_ID = getInteger("commentcount", config);
+    try {
+      final CommentCount result = wp.getCommentsCount(post_ID);
+      System.out.println(result);
+    } catch (final XmlRpcFault e) {
+      final String reason = e.getLocalizedMessage();
+      System.err.println("Operation failed, reason is: " + reason);
+    }
+  }
+  
+  private static void showCommentStatus(final Wordpress wp) throws XmlRpcFault {
+    printItem(wp.getCommentStatusList(), CommentStatusList.class);
+  }
+  
+  @SuppressWarnings("nls")
+  private static void showHelp(final Options options) {
+    final HelpFormatter help = new HelpFormatter();
+    help.printHelp(" ", options);
   }
 }

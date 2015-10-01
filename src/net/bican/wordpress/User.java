@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -16,26 +12,89 @@ import net.bican.wordpress.util.StringHeader;
 
 /**
  * Class that keeps user information from blogger style calls
- * 
+ *
  * @author Can Bican
  */
 public class User extends XmlRpcMapped implements StringHeader {
-  Integer user_id;
-  String username;
+  String bio;
+  String display_name;
+  String email;
   String first_name;
   String last_name;
-  String bio;
-  String email;
-  String nickname;
   String nicename;
-  String url;
-  String display_name;
+  String nickname;
   Date registered;
   List<String> roles;
+  String url;
+  Integer user_id;
+  String username;
+  
+  /**
+   * @return the bio
+   */
+  public final String getBio() {
+    return this.bio;
+  }
+  
+  /**
+   * @return the display_name
+   */
+  public final String getDisplay_name() {
+    return this.display_name;
+  }
+  
+  /**
+   * @return the email
+   */
+  public final String getEmail() {
+    return this.email;
+  }
+  
+  /**
+   * @return the first_name
+   */
+  public final String getFirst_name() {
+    return this.first_name;
+  }
+  
+  /**
+   * @return the last_name
+   */
+  public final String getLast_name() {
+    return this.last_name;
+  }
+  
+  /**
+   * @return the nicename
+   */
+  public final String getNicename() {
+    return this.nicename;
+  }
+  
+  /**
+   * @return the nickname
+   */
+  public final String getNickname() {
+    return this.nickname;
+  }
+  
+  /**
+   * @return the registered
+   */
+  public final Date getRegistered() {
+    return this.registered;
+  }
+  
+  /**
+   * @return the roles
+   */
+  public final List<String> getRoles() {
+    return this.roles;
+  }
   
   /**
    * (non-Javadoc)
-   * 
+   *
    * @see net.bican.wordpress.util.StringHeader#getStringHeader()
    */
   @Override
@@ -47,6 +106,13 @@ public class User extends XmlRpcMapped implements StringHeader {
   }
   
   /**
+   * @return the url
+   */
+  public final String getUrl() {
+    return this.url;
+  }
+  
+  /**
    * @return the user_id
    */
   public final Integer getUser_id() {
@@ -54,63 +120,10 @@ public class User extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @param user_id
-   *          the user_id to set
-   */
-  public final void setUser_id(final Integer user_id) {
-    this.user_id = user_id;
-  }
-  
-  /**
    * @return the username
    */
   public final String getUsername() {
     return this.username;
-  }
-  
-  /**
-   * @param username
-   *          the username to set
-   */
-  public final void setUsername(final String username) {
-    this.username = username;
-  }
-  
-  /**
-   * @return the first_name
-   */
-  public final String getFirst_name() {
-    return this.first_name;
-  }
-  
-  /**
-   * @param first_name
-   *          the first_name to set
-   */
-  public final void setFirst_name(final String first_name) {
-    this.first_name = first_name;
-  }
-  
-  /**
-   * @return the last_name
-   */
-  public final String getLast_name() {
-    return this.last_name;
-  }
-  
-  /**
-   * @param last_name
-   *          the last_name to set
-   */
-  public final void setLast_name(final String last_name) {
-    this.last_name = last_name;
-  }
-  
-  /**
-   * @return the bio
-   */
-  public final String getBio() {
-    return this.bio;
   }
   
   /**
@@ -122,10 +135,11 @@ public class User extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @return the email
+   * @param display_name
+   *          the display_name to set
    */
-  public final String getEmail() {
-    return this.email;
+  public final void setDisplay_name(final String display_name) {
+    this.display_name = display_name;
   }
   
   /**
@@ -137,25 +151,19 @@ public class User extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @return the nickname
+   * @param first_name
+   *          the first_name to set
    */
-  public final String getNickname() {
-    return this.nickname;
+  public final void setFirst_name(final String first_name) {
+    this.first_name = first_name;
   }
   
   /**
-   * @param nickname
-   *          the nickname to set
+   * @param last_name
+   *          the last_name to set
    */
-  public final void setNickname(final String nickname) {
-    this.nickname = nickname;
-  }
-  
-  /**
-   * @return the nicename
-   */
-  public final String getNicename() {
-    return this.nicename;
+  public final void setLast_name(final String last_name) {
+    this.last_name = last_name;
   }
   
   /**
@@ -167,40 +175,11 @@ public class User extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @return the url
+   * @param nickname
+   *          the nickname to set
    */
-  public final String getUrl() {
-    return this.url;
-  }
-  
-  /**
-   * @param url
-   *          the url to set
-   */
-  public final void setUrl(final String url) {
-    this.url = url;
-  }
-  
-  /**
-   * @return the display_name
-   */
-  public final String getDisplay_name() {
-    return this.display_name;
-  }
-  
-  /**
-   * @param display_name
-   *          the display_name to set
-   */
-  public final void setDisplay_name(final String display_name) {
-    this.display_name = display_name;
-  }
-  
-  /**
-   * @return the registered
-   */
-  public final Date getRegistered() {
-    return this.registered;
+  public final void setNickname(final String nickname) {
+    this.nickname = nickname;
   }
   
   /**
@@ -212,17 +191,34 @@ public class User extends XmlRpcMapped implements StringHeader {
   }
   
   /**
-   * @return the roles
-   */
-  public final List<String> getRoles() {
-    return this.roles;
-  }
-  
-  /**
    * @param roles
    *          the roles to set
    */
   public final void setRoles(final List<String> roles) {
     this.roles = roles;
+  }
+  
+  /**
+   * @param url
+   *          the url to set
+   */
+  public final void setUrl(final String url) {
+    this.url = url;
+  }
+  
+  /**
+   * @param user_id
+   *          the user_id to set
+   */
+  public final void setUser_id(final Integer user_id) {
+    this.user_id = user_id;
+  }
+  
+  /**
+   * @param username
+   *          the username to set
+   */
+  public final void setUsername(final String username) {
+    this.username = username;
   }
 }

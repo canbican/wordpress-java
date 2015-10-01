@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,7 +9,7 @@ import net.bican.wordpress.util.StringHeader;
 
 /**
  * Author object for a blog.
- * 
+ *
  * @author Can Bican
  */
 public class Author extends XmlRpcMapped implements StringHeader {
@@ -25,7 +21,7 @@ public class Author extends XmlRpcMapped implements StringHeader {
   
   /**
    * Display Name of the author.
-   * 
+   *
    * @return the display_name
    */
   public String getDisplay_name() {
@@ -33,8 +29,19 @@ public class Author extends XmlRpcMapped implements StringHeader {
   }
   
   /**
+   * (non-Javadoc)
+   *
+   * @see net.bican.wordpress.util.StringHeader#getStringHeader()
+   */
+  @Override
+  @SuppressWarnings("nls")
+  public String getStringHeader() {
+    return "User_id:User_login:display_name";
+  }
+  
+  /**
    * User id of the author.
-   * 
+   *
    * @return the user_id
    */
   public Integer getUser_id() {
@@ -43,7 +50,7 @@ public class Author extends XmlRpcMapped implements StringHeader {
   
   /**
    * Login name of the author.
-   * 
+   *
    * @return the user_login
    */
   public String getUser_login() {
@@ -52,7 +59,7 @@ public class Author extends XmlRpcMapped implements StringHeader {
   
   /**
    * Display name of the author.
-   * 
+   *
    * @param display_name
    *          the display_name to set
    */
@@ -62,7 +69,7 @@ public class Author extends XmlRpcMapped implements StringHeader {
   
   /**
    * User id of the author.
-   * 
+   *
    * @param user_id
    *          the user_id to set
    */
@@ -72,22 +79,11 @@ public class Author extends XmlRpcMapped implements StringHeader {
   
   /**
    * Login name of the author.
-   * 
+   *
    * @param user_login
    *          the user_login to set
    */
   public void setUser_login(final String user_login) {
     this.user_login = user_login;
-  }
-  
-  /**
-   * (non-Javadoc)
-   * 
-   * @see net.bican.wordpress.util.StringHeader#getStringHeader()
-   */
-  @Override
-  @SuppressWarnings("nls")
-  public String getStringHeader() {
-    return "User_id:User_login:display_name";
   }
 }

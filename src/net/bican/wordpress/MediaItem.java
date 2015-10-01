@@ -1,11 +1,7 @@
 /*
- * 
- * Wordpress-java
- * https://github.com/canbican/wordpress-java/
- * 
- * Copyright 2012-2015 Can Bican <can@bican.net>
- * See the file 'COPYING' in the distribution for licensing terms.
- * 
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
+ * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
+ * distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -13,25 +9,81 @@ import java.util.Date;
 
 /**
  * Class for an media item object for a blog
- * 
+ *
  * @author Can Bican
  */
 public class MediaItem extends XmlRpcMapped {
   Integer attachment_id;
-  Date date_created_gmt;
-  Integer parent;
-  String link;
-  String title;
   String caption;
+  Date date_created_gmt;
   String description;
+  String link;
   MediaItemMetadata metadata;
+  Integer parent;
   String thumbnail;
+  String title;
   
   /**
    * @return the attachment_id
    */
   public final Integer getAttachment_id() {
     return this.attachment_id;
+  }
+  
+  /**
+   * @return the caption
+   */
+  public final String getCaption() {
+    return this.caption;
+  }
+  
+  /**
+   * @return the date_created_gmt
+   */
+  public final Date getDate_created_gmt() {
+    return this.date_created_gmt;
+  }
+  
+  /**
+   * @return the description
+   */
+  public final String getDescription() {
+    return this.description;
+  }
+  
+  /**
+   * @return the link
+   */
+  public final String getLink() {
+    return this.link;
+  }
+  
+  /**
+   * @return the metadata
+   */
+  public final MediaItemMetadata getMetadata() {
+    return this.metadata;
+  }
+  
+  /**
+   * @return the parent
+   */
+  public final Integer getParent() {
+    return this.parent;
+  }
+  
+  /**
+   * @return the thumbnail
+   */
+  public final String getThumbnail() {
+    return this.thumbnail;
+  }
+  
+  /**
+   * @return the title
+   */
+  public final String getTitle() {
+    return this.title;
   }
   
   /**
@@ -43,10 +95,11 @@ public class MediaItem extends XmlRpcMapped {
   }
   
   /**
-   * @return the date_created_gmt
+   * @param caption
+   *          the caption to set
    */
-  public final Date getDate_created_gmt() {
-    return this.date_created_gmt;
+  public final void setCaption(final String caption) {
+    this.caption = caption;
   }
   
   /**
@@ -58,25 +111,11 @@ public class MediaItem extends XmlRpcMapped {
   }
   
   /**
-   * @return the parent
+   * @param description
+   *          the description to set
    */
-  public final Integer getParent() {
-    return this.parent;
-  }
-  
-  /**
-   * @param parent
-   *          the parent to set
-   */
-  public final void setParent(final Integer parent) {
-    this.parent = parent;
-  }
-  
-  /**
-   * @return the link
-   */
-  public final String getLink() {
-    return this.link;
+  public final void setDescription(final String description) {
+    this.description = description;
   }
   
   /**
@@ -88,58 +127,6 @@ public class MediaItem extends XmlRpcMapped {
   }
   
   /**
-   * @return the title
-   */
-  public final String getTitle() {
-    return this.title;
-  }
-  
-  /**
-   * @param title
-   *          the title to set
-   */
-  public final void setTitle(final String title) {
-    this.title = title;
-  }
-  
-  /**
-   * @return the caption
-   */
-  public final String getCaption() {
-    return this.caption;
-  }
-  
-  /**
-   * @param caption
-   *          the caption to set
-   */
-  public final void setCaption(final String caption) {
-    this.caption = caption;
-  }
-  
-  /**
-   * @return the description
-   */
-  public final String getDescription() {
-    return this.description;
-  }
-  
-  /**
-   * @param description
-   *          the description to set
-   */
-  public final void setDescription(final String description) {
-    this.description = description;
-  }
-  
-  /**
-   * @return the metadata
-   */
-  public final MediaItemMetadata getMetadata() {
-    return this.metadata;
-  }
-  
-  /**
    * @param metadata
    *          the metadata to set
    */
@@ -148,10 +135,11 @@ public class MediaItem extends XmlRpcMapped {
   }
   
   /**
-   * @return the thumbnail
+   * @param parent
+   *          the parent to set
    */
-  public final String getThumbnail() {
-    return this.thumbnail;
+  public final void setParent(final Integer parent) {
+    this.parent = parent;
   }
   
   /**
@@ -160,5 +148,13 @@ public class MediaItem extends XmlRpcMapped {
    */
   public final void setThumbnail(final String thumbnail) {
     this.thumbnail = thumbnail;
+  }
+  
+  /**
+   * @param title
+   *          the title to set
+   */
+  public final void setTitle(final String title) {
+    this.title = title;
   }
 }

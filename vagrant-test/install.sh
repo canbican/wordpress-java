@@ -1,4 +1,7 @@
 INSTALLED=$(dpkg -l|grep apache2)
+mkdir -p ~/.wp-cli
+rm -f ~/.wp-cli/config.yml
+ln -s /var/www/wp-cli.yml ~/.wp-cli/config.yml
 if [ -z "$INSTALLED" ]
 then
   sudo apt-get update

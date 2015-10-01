@@ -5,7 +5,10 @@
  */
 package net.bican.wordpress.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,32 +37,8 @@ public class PostTest extends AbstractWordpressTest {
   }
   
   @Test
-  public void testGetPostTypesWithFilter() throws Exception {
-    Map<String, Object> filter = new HashMap<>();
-    filter.put("hierarchical", Boolean.TRUE);
-    List<PostType> r = WP.getPostTypes(filter);
-    assertNotNull(r);
-    assertEquals(1, r.size());
-  }
-  
-  @Test
-  public void testGetPostTypes() throws Exception {
-    List<PostType> r = WP.getPostTypes();
-    assertNotNull(r);
-    assertEquals(3, r.size());
-    PostType r1 = null;
-    for (PostType s : r) {
-      if (s.getName().equals("post")) {
-        r1 = s;
-        break;
-      }
-    }
-    assertNotNull(r1);
-  }
-  
-  @Test
   public void getPostType() throws Exception {
-    PostType r = WP.getPostType("post");
+    final PostType r = WP.getPostType("post");
     assertNotNull(r);
     assertEquals(r.getCap().getDelete_posts(), "delete_posts");
     assertEquals(r.getLabel(), "Posts");
@@ -69,27 +48,6 @@ public class PostTest extends AbstractWordpressTest {
     assertEquals(r.getName(), "post");
     assertTrue(r.getSupports().isCustomFields().booleanValue());
     assertEquals(r.getTaxonomies().size(), 3);
-  }
-  
-  @Test
-  public void testGetPostFormats() throws Exception {
-    final Map<String, String> pf = WP.getPostFormats();
-    assertNotNull(pf);
-    assertTrue(pf.containsKey("standard"));
-    assertNotNull(pf.get("standard"));
-    final Map<String, String> pf2 = WP.getPostFormats(true);
-    assertNotNull(pf2);
-    assertFalse(pf2.containsKey("standard"));
-    assertTrue(pf2.containsKey("link"));
-    assertNotNull(pf2.get("link"));
-  }
-  
-  @Test
-  public void testGetPostStatusList() throws Exception {
-    final Map<String, String> r = WP.getPostStatusList();
-    assertNotNull(r);
-    assertTrue(r.containsKey("private"));
-    assertNotNull(r.get("private"));
   }
   
   @Test
@@ -146,8 +104,53 @@ public class PostTest extends AbstractWordpressTest {
   }
   
   @Test
+  public void testGetPostFormats() throws Exception {
+    final Map<String, String> pf = WP.getPostFormats();
+    assertNotNull(pf);
+    assertTrue(pf.containsKey("standard"));
+    assertNotNull(pf.get("standard"));
+    final Map<String, String> pf2 = WP.getPostFormats(true);
+    assertNotNull(pf2);
+    assertFalse(pf2.containsKey("standard"));
+    assertTrue(pf2.containsKey("link"));
+    assertNotNull(pf2.get("link"));
+  }
+  
+  @Test
+  public void testGetPostStatusList() throws Exception {
+    final Map<String, String> r = WP.getPostStatusList();
+    assertNotNull(r);
+    assertTrue(r.containsKey("private"));
+    assertNotNull(r.get("private"));
+  }
+  
+  @Test
+  public void testGetPostTypes() throws Exception {
+    final List<PostType> r = WP.getPostTypes();
+    assertNotNull(r);
+    assertEquals(3, r.size());
+    PostType r1 = null;
+    for (final PostType s : r) {
+      if (s.getName().equals("post")) {
+        r1 = s;
+        break;
+      }
+    }
+    assertNotNull(r1);
+  }
+  
+  @Test
+  public void testGetPostTypesWithFilter() throws Exception {
+    final Map<String, Object> filter = new HashMap<>();
+    filter.put("hierarchical", Boolean.TRUE);
+    final List<PostType> r = WP.getPostTypes(filter);
+    assertNotNull(r);
+    assertEquals(1, r.size());
+  }
+  
+  @Test
   public void testPosts() throws Exception {
-    List<Post> r = WP.getPosts();
+    final List<Post> r = WP.getPosts();
     assertNotNull(r);
     assertTrue(r.size() > 0);
   }
@@ -155,11 +158,11 @@ public class PostTest extends AbstractWordpressTest {
   @Test
   public void testPostsWithFilter() throws Exception {
     final Integer p = WP.newPost(post);
-    List<Post> r = WP.getPosts();
-    FilterPost filter = new FilterPost();
-    Integer number = Integer.valueOf(r.size() - 1);
+    final List<Post> r = WP.getPosts();
+    final FilterPost filter = new FilterPost();
+    final Integer number = Integer.valueOf(r.size() - 1);
     filter.setNumber(number);
-    List<Post> rf = WP.getPosts(filter);
+    final List<Post> rf = WP.getPosts(filter);
     assertNotNull(rf);
     assertEquals(number.intValue(), rf.size());
     WP.deletePost(p);
@@ -167,15 +170,15 @@ public class PostTest extends AbstractWordpressTest {
   
   @Test
   public void testSetCategory() throws Exception {
-    List<Term> terms = WP.getTerms("category");
-    Term term = new Term();
+    final List<Term> terms = WP.getTerms("category");
+    final Term term = new Term();
     term.setName("test category1");
     term.setTaxonomy("category");
     Integer termId = null;
     try {
       termId = WP.newTerm(term);
-    } catch (Exception e) {
-      for (Term t : terms) {
+    } catch (final Exception e) {
+      for (final Term t : terms) {
         if (t.getName().equals("test category1")) {
           termId = t.getTerm_id();
           break;
@@ -187,21 +190,21 @@ public class PostTest extends AbstractWordpressTest {
     Integer termId2 = null;
     try {
       termId2 = WP.newTerm(term);
-    } catch (Exception e) {
-      for (Term t : terms) {
+    } catch (final Exception e) {
+      for (final Term t : terms) {
         if (t.getName().equals("test category2")) {
           termId2 = t.getTerm_id();
           break;
         }
       }
     }
-    Term term1 = WP.getTerm("category", termId);
-    Term term2 = WP.getTerm("category", termId2);
+    final Term term1 = WP.getTerm("category", termId);
+    final Term term2 = WP.getTerm("category", termId2);
     Post pp = new Post();
     pp.setPost_title("test");
     pp.setPost_excerpt("test test");
     pp.setTerms(Arrays.asList(new Term[] { term1, term2 }));
-    Integer pId = WP.newPost(pp);
+    final Integer pId = WP.newPost(pp);
     pp = WP.getPost(pId);
     assertNotNull(pp);
     assertNotNull(pp.getTerms());
@@ -212,4 +215,14 @@ public class PostTest extends AbstractWordpressTest {
     WP.deleteTerm("category", termId);
     WP.deleteTerm("category", termId2);
   }
+  
+  // public void testPostWithThumbnail() {
+  // List<MediaItem> post_thumbnail = new ArrayList<>();
+  // MediaItem thumbnail = new MediaItem();
+  // thumbnail.setAttachment_id(attachment_id);
+  // thumbnail.setCaption("test caption");
+  // thumbnail.setDescription("test description");
+  // thumbnail.set
+  // post.setPost_thumbnail(post_thumbnail);
+  // }
 }
