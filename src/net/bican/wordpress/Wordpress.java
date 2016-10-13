@@ -1502,7 +1502,7 @@ public class Wordpress {
       tempFile.deleteOnExit();
       Files.copy(media, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
       final String mimeType = new MimetypesFileTypeMap()
-          .getContentType(tempFile);
+          .getContentType(fileName);
       final ByteArrayOutputStream out = new ByteArrayOutputStream();
       final byte[] buffer = new byte[1024];
       try (InputStream mediaTemp = new FileInputStream(tempFile)) {
