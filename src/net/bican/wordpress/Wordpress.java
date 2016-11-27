@@ -83,16 +83,16 @@ public class Wordpress {
   private PingbackBridge pingback = null;
   private PingbackExtensionsBridge pingbackExt = null;
   private String username = null;
-  
+
   private WordpressBridge wp = null;
-  
+
   private String xmlRpcUrl = null;
-  
+
   @SuppressWarnings("unused")
   private Wordpress() {
     // no default constructor - class needs username, password and url
   }
-  
+
   /**
    * @param username
    *          User name
@@ -110,7 +110,7 @@ public class Wordpress {
     this.xmlRpcUrl = xmlRpcUrl;
     this.initMetaWebLog();
   }
-  
+
   /**
    * @param commentID
    *          comment id to delete
@@ -141,7 +141,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param postId
    *          post id to delete
@@ -170,7 +170,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param taxonomy
    *          taxonomy name
@@ -202,7 +202,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param comment
    *          edited form of the comment object
@@ -239,7 +239,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param postId
    *          post id to edit
@@ -277,9 +277,26 @@ public class Wordpress {
       throws InsufficientRightsException, InvalidArgumentsException,
       ObjectNotFoundException, XmlRpcFault {
     try {
-      final Boolean r = this.wp.editPost(BLOGID, this.username, this.password,
-          postId, post.toXmlRpcStruct());
-      return r.booleanValue();
+        final List<Term> oldTerms = post.getTerms();
+        final XmlRpcStruct postX = post.toXmlRpcStruct();
+        if (oldTerms != null) {
+            final XmlRpcStruct newTerms = new XmlRpcStruct();
+            for (final Term term : post.getTerms()) {
+                final XmlRpcArray ts = (XmlRpcArray) newTerms.get(term.getTaxonomy());
+                if (ts == null) {
+                    final XmlRpcArray tXs = new XmlRpcArray();
+                    tXs.add(term.getTerm_id());
+                    newTerms.put(term.getTaxonomy(), tXs);
+                } else {
+                    ts.add(term.getTerm_id());
+                }
+            }
+            postX.put("terms", newTerms); //$NON-NLS-1$
+        }
+
+        final Boolean r = this.wp.editPost(BLOGID, this.username, this.password,
+                postId, postX);
+        return r;
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
       switch (err) {
@@ -294,7 +311,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param user
    *          contents of the edited fields
@@ -340,7 +357,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param termId
    *          term id
@@ -392,7 +409,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the list of authors
    * @throws InsufficientRightsException
@@ -416,7 +433,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param comment_id
    *          comment_id to fetch
@@ -448,7 +465,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param status
    *          One of "approve", "hold", or "spam". Or, null to show all.
@@ -495,7 +512,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param postId
    *          Blog Post ID
@@ -528,7 +545,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the comment status list
    * @throws XmlRpcFault
@@ -541,7 +558,7 @@ public class Wordpress {
     result.fromXmlRpcStruct(csl);
     return result;
   }
-  
+
   /**
    * @param attachmentId
    *          the attachment id
@@ -573,7 +590,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the list of media items
    * @throws InsufficientRightsException
@@ -585,7 +602,7 @@ public class Wordpress {
       throws InsufficientRightsException, XmlRpcFault {
     return this.getMediaLibrary(null);
   }
-  
+
   /**
    * @param filter
    *          the filter
@@ -630,7 +647,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param optionName
    *          option name to get
@@ -642,7 +659,7 @@ public class Wordpress {
     final List<Option> result = this.getOptions(optionName, null);
     return result == null || result.size() == 0 ? null : result.get(0);
   }
-  
+
   /**
    * @return the list of options
    * @throws XmlRpcFault
@@ -651,7 +668,7 @@ public class Wordpress {
   public List<Option> getOptions() throws XmlRpcFault {
     return this.getOptions(null, null);
   }
-  
+
   /**
    * @param optionNames
    *          options to retrieve
@@ -676,7 +693,7 @@ public class Wordpress {
         : this.wp.getOptions(BLOGID, this.username, this.password);
     return structToOptions(r);
   }
-  
+
   /**
    * @param url
    *          Url of the page queried
@@ -698,7 +715,7 @@ public class Wordpress {
     }
     return result;
   }
-  
+
   /**
    * @param postId
    *          post id to retrieve
@@ -730,7 +747,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the list of post formats
    * @throws InsufficientRightsException
@@ -742,7 +759,7 @@ public class Wordpress {
       throws InsufficientRightsException, XmlRpcFault {
     return this.getPostFormats(false);
   }
-  
+
   /**
    * @param showSupported
    *          true if only supported types are to be listed
@@ -797,7 +814,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the list of posts
    * @throws XmlRpcFault
@@ -806,7 +823,7 @@ public class Wordpress {
   public List<Post> getPosts() throws XmlRpcFault {
     return this.getPosts(null);
   }
-  
+
   /**
    * @param filter
    *          filter for resulting posts
@@ -824,7 +841,7 @@ public class Wordpress {
     }
     return fillFromXmlRpcArray(r, Post.class, new Post());
   }
-  
+
   /**
    * @return the post statuses
    * @throws InsufficientRightsException
@@ -855,7 +872,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param postTypeName
    *          name of the post type
@@ -886,10 +903,10 @@ public class Wordpress {
         default:
           throw e;
       }
-      
+
     }
   }
-  
+
   /**
    * @return list of post types
    * @throws XmlRpcFault
@@ -898,7 +915,7 @@ public class Wordpress {
   public List<PostType> getPostTypes() throws XmlRpcFault {
     return this.getPostTypes(null);
   }
-  
+
   /**
    * @param filter
    *          filter for results, @see <a href=
@@ -934,7 +951,7 @@ public class Wordpress {
     }
     return result;
   }
-  
+
   /**
    * @return the user profile of the current user
    * @throws InsufficientRightsException
@@ -959,7 +976,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the taxonomies
    * @throws XmlRpcFault
@@ -970,7 +987,7 @@ public class Wordpress {
         this.password);
     return fillFromXmlRpcArray(r, Taxonomy.class, new Taxonomy());
   }
-  
+
   /**
    * @param taxonomy
    *          taxonomy to get
@@ -1003,7 +1020,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param taxonomy
    *          taxonomy name
@@ -1042,7 +1059,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param taxonomy
    *          taxonomy name
@@ -1059,7 +1076,7 @@ public class Wordpress {
       XmlRpcFault {
     return this.getTerms(taxonomy, null);
   }
-  
+
   /**
    * @param taxonomy
    *          taxonomy name
@@ -1094,7 +1111,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param userId
    *          user id to get info
@@ -1126,7 +1143,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the list users
    * @throws InsufficientRightsException
@@ -1140,7 +1157,7 @@ public class Wordpress {
       InvalidArgumentsException, XmlRpcFault {
     return this.getUsers(null);
   }
-  
+
   /**
    * @param filter
    *          filter for limiting the result
@@ -1179,7 +1196,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @return the list of blogs user is registered to
    * @throws XmlRpcFault
@@ -1189,7 +1206,7 @@ public class Wordpress {
     final XmlRpcArray r = this.wp.getUsersBlogs(this.username, this.password);
     return fillFromXmlRpcArray(r, UserBlog.class, new UserBlog());
   }
-  
+
   @SuppressWarnings("nls")
   private void initMetaWebLog() throws MalformedURLException {
     final URL url = new URL(this.xmlRpcUrl);
@@ -1201,7 +1218,7 @@ public class Wordpress {
         "pingback.extensions", new Class[] { PingbackExtensionsBridge.class },
         true);
   }
-  
+
   /**
    * @param post_id
    *          Post to attach the comment to.
@@ -1260,7 +1277,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param post
    *          new post contents
@@ -1328,7 +1345,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param term
    *          new term
@@ -1358,7 +1375,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param pagelinkedfrom
    *          Source
@@ -1372,7 +1389,7 @@ public class Wordpress {
       throws XmlRpcFault {
     return this.pingback.ping(pagelinkedfrom, pagelinkedto);
   }
-  
+
   /**
    * @param option
    *          option to set
@@ -1387,7 +1404,7 @@ public class Wordpress {
     final List<Option> r = this.setOptions(option);
     return r == null || r.size() == 0 ? null : r.get(0);
   }
-  
+
   /**
    * @param options
    *          options to set
@@ -1423,7 +1440,7 @@ public class Wordpress {
       }
     }
   }
-  
+
   /**
    * @param media
    *          file data
@@ -1445,7 +1462,7 @@ public class Wordpress {
           FileUploadException, XmlRpcFault, IOException {
     return this.uploadFile(media, fileName, null);
   }
-  
+
   /**
    * @param media
    *          file data
@@ -1470,7 +1487,7 @@ public class Wordpress {
           IOException {
     return this.uploadFile(media, fileName, overwrite, null);
   }
-  
+
   /**
    * @param media
    *          file data
