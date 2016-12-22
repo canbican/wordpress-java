@@ -1515,7 +1515,7 @@ public class Wordpress {
           IOException {
     try {
       final XmlRpcStruct data = new XmlRpcStruct();
-      final File tempFile = File.createTempFile("mediauploadwpj", null); //$NON-NLS-1$
+      final File tempFile = File.createTempFile("mediauploadwpj", fileName); //$NON-NLS-1$
       tempFile.deleteOnExit();
       Files.copy(media, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
       final String mimeType = new MimetypesFileTypeMap()
