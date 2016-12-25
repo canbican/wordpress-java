@@ -88,7 +88,6 @@ public class Wordpress {
 
   private String xmlRpcUrl = null;
 
-  @SuppressWarnings("unused")
   private Wordpress() {
     // no default constructor - class needs username, password and url
   }
