@@ -146,6 +146,12 @@ usage:
 
  * Jorge Valdivia added the missing featured image support.
 
+ * Commandoser (github username) provided patches for enabling correct mime types.
+
+ * Aliaksei Zhuk fixed the problem of passing incorrect data to editPost().
+
+ * Bruno Candido Volpato da Cunha changed uploadFile() to pass the file name to the server.
+
  []
 
  Please let me know if I am missing any code contributions.
