@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.bican</groupId>
 	<artifactId>jwordpress</artifactId>
-	<version>0.6.4</version>
+	<version>0.6.5</version>
 	<name>wordpress-java</name>
 	<description>This is a small client library and a command line interface for interacting with the xmlrpc interface of wordpress.</description>
 	<developers>
