@@ -18,6 +18,7 @@ import net.bican.wordpress.Comment;
 import net.bican.wordpress.CommentCount;
 import net.bican.wordpress.CommentStatusList;
 import net.bican.wordpress.Post;
+import redstone.xmlrpc.XmlRpcFault;
 
 @SuppressWarnings({ "static-method", "javadoc", "nls", "boxing" })
 public class CommentTest extends AbstractWordpressTest {
@@ -29,6 +30,7 @@ public class CommentTest extends AbstractWordpressTest {
     post.setPost_content("test content");
     post.setPost_title("test post title");
     post.setPost_excerpt("test post excerpt");
+    post.setComment_status("open");
   }
   
   @Test

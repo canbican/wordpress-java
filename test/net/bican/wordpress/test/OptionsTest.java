@@ -36,9 +36,7 @@ public class OptionsTest extends AbstractWordpressTest {
   public void testGetOptions() throws Exception {
     final List<Option> options = WP.getOptions();
     assertNotNull(options);
-    assertEquals(27, options.size()); // This is epic, I chose 27 before
-                                      // counting. Marking the day I am lucky in
-                                      // the most useless sense: 2015/06/28
+    assertEquals(29, options.size());
   }
   
   @Test

@@ -7,7 +7,6 @@ package net.bican.wordpress.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -41,8 +40,7 @@ public class MediaTest extends AbstractWordpressTest {
       assertEquals(Integer.valueOf(0), r.getParent());
       assertNotNull(r.getThumbnail());
       assertEquals(TEST_IMAGE, r.getTitle());
-      assertNull(r.getMetadata()); // it seems that this one does not get
-                                   // updated via xmlrpc
+      assertNotNull(r.getMetadata());
       WP.deletePost(mediaUploaded.getId());
     }
   }
@@ -63,7 +61,7 @@ public class MediaTest extends AbstractWordpressTest {
       assertNotNull(r);
       assertEquals(TEST_IMAGE, r.getFile());
       assertNotNull(r.getId());
-      assertEquals("application/octet-stream", r.getType());
+      assertEquals("image/jpeg", r.getType());
       assertNotNull(r.getUrl());
       WP.deletePost(r.getId()); // it seems that this is how you
                                 // delete a file

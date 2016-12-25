@@ -51,7 +51,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
         assertEquals("All Categories", t.getLabels().getAll_items());
         assertNotNull(t.getCap());
         assertNotNull(t.getCap().getAssign_terms());
-        assertEquals("edit_posts", t.getCap().getAssign_terms());
+        assertEquals("assign_categories", t.getCap().getAssign_terms());
         assertNotNull(t.getObject_type());
         assertEquals(1, t.getObject_type().size());
         assertEquals("post", t.getObject_type().get(0));
