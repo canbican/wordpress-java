@@ -1,7 +1,6 @@
 /*
- * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
- * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
- * distribution for licensing terms.
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright 2012-2015 Can Bican
+ * <can@bican.net> See the file 'COPYING' in the distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -32,10 +31,9 @@ import redstone.xmlrpc.XmlRpcFault;
  * @author Can Bican
  */
 public class Main {
-  private static void delete(final Options options,
-      final WpCliConfiguration config, final Wordpress wp, final String opt,
-      final boolean deletePage) throws XmlRpcFault, InsufficientRightsException,
-          ObjectNotFoundException {
+  private static void delete(final Options options, final WpCliConfiguration config,
+      final Wordpress wp, final String opt, final boolean deletePage)
+      throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
     final Integer post_ID = getInteger(opt, config);
     if (post_ID != null) {
       System.out.println(wp.deletePost(post_ID));
@@ -43,7 +41,7 @@ public class Main {
       showHelp(options);
     }
   }
-  
+
   @SuppressWarnings("nls")
   private static void deleteComment(final Wordpress wp, final int commentID)
       throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
@@ -54,13 +52,12 @@ public class Main {
       System.out.println("Comment not deleted");
     }
   }
-  
-  @SuppressWarnings({ "nls" })
-  private static void edit(final Options options,
-      final WpCliConfiguration config, final Wordpress wp, final String opt,
-      final boolean isPage) throws IOException, InvalidPostFormatException,
-          XmlRpcFault, InsufficientRightsException, InvalidArgumentsException,
-          ObjectNotFoundException {
+
+  @SuppressWarnings({"nls"})
+  private static void edit(final Options options, final WpCliConfiguration config,
+      final Wordpress wp, final String opt, final boolean isPage)
+      throws IOException, InvalidPostFormatException, XmlRpcFault, InsufficientRightsException,
+      InvalidArgumentsException, ObjectNotFoundException {
     final Integer post_ID = getInteger("postid", config);
     final Post post = Post.fromFile(new File(config.getOptionValue(opt)));
     if (post_ID != null) {
@@ -69,19 +66,18 @@ public class Main {
       showHelp(options);
     }
   }
-  
-  @SuppressWarnings({ "nls", "boxing" })
-  private static void editComment(final Wordpress wp, final String fileName,
-      final String operation) throws XmlRpcFault, FileNotFoundException,
-          IOException, InvalidPostFormatException, InsufficientRightsException,
-          ObjectNotFoundException, InvalidArgumentsException {
+
+  @SuppressWarnings({"nls", "boxing"})
+  private static void editComment(final Wordpress wp, final String fileName, final String operation)
+      throws XmlRpcFault, FileNotFoundException, IOException, InvalidPostFormatException,
+      InsufficientRightsException, ObjectNotFoundException, InvalidArgumentsException {
     final Comment comment = Comment.fromFile(new File(fileName));
     System.err.println(comment.getPost_id());
     System.err.println(comment.getContent());
     if (operation.equals("newcomment")) {
-      final Integer r = wp.newComment(comment.getPost_id(), comment.getParent(),
-          comment.getContent(), comment.getAuthor(), comment.getAuthor_url(),
-          comment.getAuthor_email());
+      final Integer r =
+          wp.newComment(comment.getPost_id(), comment.getParent(), comment.getContent(),
+              comment.getAuthor(), comment.getAuthor_url(), comment.getAuthor_email());
       System.err.println("Comment ID: " + r);
     } else if (operation.equals("editcomment")) {
       final Boolean r = wp.editComment(comment);
@@ -92,35 +88,27 @@ public class Main {
       }
     }
   }
-  
-  private static Integer getInteger(final String c,
-      final WpCliConfiguration config) {
+
+  private static Integer getInteger(final String c, final WpCliConfiguration config) {
     Integer post_ID = null;
     try {
       post_ID = Integer.valueOf(config.getOptionValue(c));
-    } catch (final NumberFormatException e) {
+    } catch (@SuppressWarnings("unused") final NumberFormatException e) {
       // leave it null
     }
     return post_ID;
   }
-  
+
   /**
-   * @param args
-   *          execute with "-?" for an explanation of args
-   * @throws ParseException
-   *           When the command line options cannot be parsed
-   * @throws InvalidArgumentsException
-   *           thrown from a wordpress call
-   * @throws InsufficientRightsException
-   *           thrown from a wordpress call
-   * @throws ObjectNotFoundException
-   *           thrown from a wordpress call
-   * @throws FileUploadException
-   *           thrown from a wordpress call
+   * @param args execute with "-?" for an explanation of args
+   * @throws ParseException When the command line options cannot be parsed
+   * @throws InvalidArgumentsException thrown from a wordpress call
+   * @throws InsufficientRightsException thrown from a wordpress call
+   * @throws ObjectNotFoundException thrown from a wordpress call
+   * @throws FileUploadException thrown from a wordpress call
    */
-  @SuppressWarnings({ "nls", "boxing" })
-  public static void main(final String[] args)
-      throws ParseException, InsufficientRightsException,
+  @SuppressWarnings({"nls", "boxing"})
+  public static void main(final String[] args) throws ParseException, InsufficientRightsException,
       InvalidArgumentsException, ObjectNotFoundException, FileUploadException {
     try {
       final Options options = new Options();
@@ -133,24 +121,18 @@ public class Main {
       options.addOption("pi", "parentid", true, "Parent id for categories");
       options.addOption("oi", "postid", true, "Post id for posts");
       options.addOption("c", "categories", false, "Get category list");
-      options.addOption("cn", "newcategory", true,
-          "New category (uses --slug and --parentid)");
-      options.addOption("cr", "deletecategory", true,
-          "Delete category <category_id>");
+      options.addOption("cn", "newcategory", true, "New category (uses --slug and --parentid)");
+      options.addOption("cr", "deletecategory", true, "Delete category <category_id>");
       options.addOption("us", "userinfo", false, "Get user information");
       options.addOption("or", "recentposts", true, "Get recent posts");
       options.addOption("os", "getpost", true, "Get post");
       options.addOption("on", "newpost", true, "New post from file <arg>");
       options.addOption("oe", "editpost", true, "Edit post (needs --postid)");
       options.addOption("od", "deletepost", true, "Delete post");
-      options.addOption("mn", "newmedia", true,
-          "New media file (uses --overwrite)");
-      options.addOption("ov", "overwrite", false,
-          "Allow overwrite in uploading new media");
-      options.addOption("so", "supportedstatus", false,
-          "Print supported post status values");
-      options.addOption("cs", "commentstatus", false,
-          "Print comment status names for the blog");
+      options.addOption("mn", "newmedia", true, "New media file (uses --overwrite)");
+      options.addOption("ov", "overwrite", false, "Allow overwrite in uploading new media");
+      options.addOption("so", "supportedstatus", false, "Print supported post status values");
+      options.addOption("cs", "commentstatus", false, "Print comment status names for the blog");
       options.addOption("cc", "commentcount", true,
           "Get comment count for a post (-1 for all posts)");
       options.addOption("ca", "newcomment", true, "New comment from file");
@@ -158,15 +140,11 @@ public class Main {
       options.addOption("ce", "editcomment", true, "Edit comment from file");
       options.addOption("cg", "getcomment", true, "Get comment");
       options.addOption("ct", "getcomments", true, "Get comments for the post");
-      options.addOption("cs", "commentstatus", true,
-          "Comment status (for --getcomments)");
-      options.addOption("co", "commentoffset", true,
-          "Comment offset # (for --getcomments)");
-      options.addOption("cm", "commentnumber", true,
-          "Comment # (for --getcomments)");
+      options.addOption("cs", "commentstatus", true, "Comment status (for --getcomments)");
+      options.addOption("co", "commentoffset", true, "Comment offset # (for --getcomments)");
+      options.addOption("cm", "commentnumber", true, "Comment # (for --getcomments)");
       try {
-        final WpCliConfiguration config = new WpCliConfiguration(args, options,
-            Main.class);
+        final WpCliConfiguration config = new WpCliConfiguration(args, options, Main.class);
         if (config.hasOption("help")) {
           showHelp(options);
         } else if (!config.hasOption("url") || !config.hasOption("user")
@@ -181,8 +159,7 @@ public class Main {
             } else if (config.hasOption("categories")) {
               printList(wp.getTerms("category"), Term.class, true);
             } else if (config.hasOption("deletecategory")) {
-              final Integer category_id = Integer
-                  .valueOf(config.getOptionValue("deletecategory"));
+              final Integer category_id = Integer.valueOf(config.getOptionValue("deletecategory"));
               final boolean r = wp.deleteTerm("category", category_id);
               System.out.println(r);
             } else if (config.hasOption("newcategory")) {
@@ -214,8 +191,8 @@ public class Main {
             } else if (config.hasOption("deletepost")) {
               delete(options, config, wp, "deletepost", false);
             } else if (config.hasOption("newpost")) {
-              System.out.println(wp.newPost(
-                  Post.fromFile(new File(config.getOptionValue("newpost")))));
+              System.out
+                  .println(wp.newPost(Post.fromFile(new File(config.getOptionValue("newpost")))));
             } else if (config.hasOption("newmedia")) {
               final String fileName = config.getOptionValue("newmedia");
               final File file = new File(fileName);
@@ -224,8 +201,7 @@ public class Main {
                 overwrite = Boolean.TRUE;
               }
               try (FileInputStream fis = new FileInputStream(file)) {
-                final MediaItemUploadResult result = wp.uploadFile(fis,
-                    fileName, overwrite);
+                final MediaItemUploadResult result = wp.uploadFile(fis, fileName, overwrite);
                 if (result != null) {
                   System.out.println(result);
                 }
@@ -241,40 +217,30 @@ public class Main {
             } else if (config.hasOption("commentcount")) {
               showCommentCount(config, wp);
             } else if (config.hasOption("newcomment")) {
-              editComment(wp, config.getOptionValue("newcomment"),
-                  "newcomment");
+              editComment(wp, config.getOptionValue("newcomment"), "newcomment");
             } else if (config.hasOption("editcomment")) {
-              editComment(wp, config.getOptionValue("editcomment"),
-                  "editcomment");
+              editComment(wp, config.getOptionValue("editcomment"), "editcomment");
             } else if (config.hasOption("deletecomment")) {
-              System.err.println(
-                  Integer.valueOf(config.getOptionValue("deletecomment")));
-              deleteComment(wp,
-                  Integer.valueOf(config.getOptionValue("deletecomment")));
+              System.err.println(Integer.valueOf(config.getOptionValue("deletecomment")));
+              deleteComment(wp, Integer.valueOf(config.getOptionValue("deletecomment")));
             } else if (config.hasOption("getcomment")) {
-              printComment(wp,
-                  Integer.valueOf(config.getOptionValue("getcomment")));
+              printComment(wp, Integer.valueOf(config.getOptionValue("getcomment")));
             } else if (config.hasOption("getcomments")) {
-              final Integer postID = Integer
-                  .valueOf(config.getOptionValue("getcomments"));
-              final String commentStatus = config
-                  .getOptionValue("commentstatus");
+              final Integer postID = Integer.valueOf(config.getOptionValue("getcomments"));
+              final String commentStatus = config.getOptionValue("commentstatus");
               Integer commentOffset;
               try {
-                commentOffset = Integer
-                    .valueOf(config.getOptionValue("commentoffset"));
-              } catch (final NumberFormatException e) {
+                commentOffset = Integer.valueOf(config.getOptionValue("commentoffset"));
+              } catch (@SuppressWarnings("unused") final NumberFormatException e) {
                 commentOffset = null;
               }
               Integer commentNumber;
               try {
-                commentNumber = Integer
-                    .valueOf(config.getOptionValue("commentnumber"));
-              } catch (final Exception e) {
+                commentNumber = Integer.valueOf(config.getOptionValue("commentnumber"));
+              } catch (@SuppressWarnings("unused") final Exception e) {
                 commentNumber = null;
               }
-              printComments(wp, postID, commentStatus, commentOffset,
-                  commentNumber);
+              printComments(wp, postID, commentStatus, commentOffset, commentNumber);
             } else {
               showHelp(options);
             }
@@ -282,50 +248,46 @@ public class Main {
             System.err.println("URL \"" + config.getOptionValue("url")
                 + "\" is invalid, reason is: " + e.getLocalizedMessage());
           } catch (final IOException e) {
-            System.err.println(
-                "Can't read from file, reason is: " + e.getLocalizedMessage());
-          } catch (final InvalidPostFormatException e) {
+            System.err.println("Can't read from file, reason is: " + e.getLocalizedMessage());
+          } catch (@SuppressWarnings("unused") final InvalidPostFormatException e) {
             System.err.println("Input format is invalid.");
           }
         }
       } catch (final ParseException e) {
-        System.err.println("Can't process command line arguments, reason is: "
-            + e.getLocalizedMessage());
+        System.err
+            .println("Can't process command line arguments, reason is: " + e.getLocalizedMessage());
       }
     } catch (final XmlRpcFault e) {
       final String reason = e.getLocalizedMessage();
       System.err.println("Operation failed, reason is: " + reason);
     }
   }
-  
+
   private static void printComment(final Wordpress wp, final Integer commentID)
       throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
     final Comment r = wp.getComment(commentID);
     System.out.println(r);
   }
-  
+
   @SuppressWarnings("nls")
   private static void printComments(final Wordpress wp, final Integer postID,
-      final String commentStatus, final Integer commentOffset,
-      final Integer commentNumber)
-          throws XmlRpcFault, InsufficientRightsException {
-    final List<Comment> r = wp.getComments(commentStatus, postID, commentNumber,
-        commentOffset);
+      final String commentStatus, final Integer commentOffset, final Integer commentNumber)
+      throws XmlRpcFault, InsufficientRightsException {
+    final List<Comment> r = wp.getComments(commentStatus, postID, commentNumber, commentOffset);
     for (final Comment comment : r) {
       System.out.println("--- BEGIN COMMENT");
       System.out.println(comment);
       System.out.println("--- END COMMENT");
     }
   }
-  
+
   private static void printItem(final Object o, final Class<?> cl) {
     cl.cast(o);
     System.out.println(((StringHeader) o).getStringHeader());
     System.out.println(o);
   }
-  
-  private static void printList(final List<?> r, final Class<?> cl,
-      final boolean oneLiner) {
+
+  private static void printList(final List<?> r, final Class<?> cl, final boolean oneLiner) {
     boolean headerPrinted = false;
     for (final Object o : r) {
       cl.cast(o);
@@ -342,10 +304,10 @@ public class Main {
       }
     }
   }
-  
+
   @SuppressWarnings("nls")
-  private static void showCommentCount(final WpCliConfiguration config,
-      final Wordpress wp) throws InsufficientRightsException {
+  private static void showCommentCount(final WpCliConfiguration config, final Wordpress wp)
+      throws InsufficientRightsException {
     final Integer post_ID = getInteger("commentcount", config);
     try {
       final CommentCount result = wp.getCommentsCount(post_ID);
@@ -355,11 +317,11 @@ public class Main {
       System.err.println("Operation failed, reason is: " + reason);
     }
   }
-  
+
   private static void showCommentStatus(final Wordpress wp) throws XmlRpcFault {
     printItem(wp.getCommentStatusList(), CommentStatusList.class);
   }
-  
+
   @SuppressWarnings("nls")
   private static void showHelp(final Options options) {
     final HelpFormatter help = new HelpFormatter();
