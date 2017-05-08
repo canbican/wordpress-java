@@ -235,7 +235,10 @@ public abstract class XmlRpcMapped {
         if (!Modifier.isStatic(field.getModifiers())) {
           final Object o = field.get(this);
           if (o != null) {
-            result.put(field.getName(), o);
+            if (field.getName().equals("post_thumbnail"))
+              result.put(field.getName(), ((MediaItem)o).getAttachment_id());
+            else
+              result.put(field.getName(), o);
           }
         }
       } catch (final IllegalAccessException e) {
