@@ -36,7 +36,7 @@ public class Cap extends XmlRpcMapped implements StringHeader {
    * @return edit terms
    */
   public String getEdit_terms() {
-    return this.edit_terms;
+    return this.edit_terms+ " ";
   }
   
   /**
