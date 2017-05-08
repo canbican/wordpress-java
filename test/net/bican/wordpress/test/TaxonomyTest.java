@@ -1,7 +1,6 @@
 /*
- * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
- * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
- * distribution for licensing terms.
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright 2012-2015 Can Bican
+ * <can@bican.net> See the file 'COPYING' in the distribution for licensing terms.
  */
 package net.bican.wordpress.test;
 
@@ -18,7 +17,7 @@ import net.bican.wordpress.Taxonomy;
 import net.bican.wordpress.Term;
 import net.bican.wordpress.TermFilter;
 
-@SuppressWarnings({ "nls", "static-method", "javadoc" })
+@SuppressWarnings({"nls", "static-method", "javadoc"})
 public class TaxonomyTest extends AbstractWordpressTest {
   @SuppressWarnings("boxing")
   @Test
@@ -26,9 +25,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
     Term term = WP.getTerm("category", 1);
     final String oldName = term.getName();
     term.setName("newnamedeneme");
-    final Term editTerm = new Term();
-    editTerm.setTaxonomy("category");
-    editTerm.setName("newnamedeneme");
+    final Term editTerm = Term.builder().taxonomy("category").name("newnamedeneme").build();
     assertTrue(WP.editTerm(term.getTerm_id(), editTerm));
     term = WP.getTerm("category", 1);
     assertEquals("newnamedeneme", term.getName());
@@ -37,7 +34,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
     term = WP.getTerm("category", 1);
     assertEquals(oldName, term.getName());
   }
-  
+
   @Test
   public void testGetTaxonomies() throws Exception {
     final List<Taxonomy> taxonomies = WP.getTaxonomies();
@@ -59,14 +56,14 @@ public class TaxonomyTest extends AbstractWordpressTest {
       }
     }
   }
-  
+
   @Test
   public void testGetTaxonomy() throws Exception {
     final Taxonomy taxonomy = WP.getTaxonomy("category");
     assertNotNull(taxonomy);
     assertEquals("category", taxonomy.getName());
   }
-  
+
   @Test
   public void testGetTerm() throws Exception {
     @SuppressWarnings("boxing")
@@ -74,7 +71,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
     assertNotNull(term);
     assertEquals("Uncategorized", term.getName());
   }
-  
+
   @Test
   public void testGetTerms() throws Exception {
     final List<Term> terms = WP.getTerms("category");
@@ -84,7 +81,7 @@ public class TaxonomyTest extends AbstractWordpressTest {
     assertNotNull(term);
     assertEquals("Uncategorized", term.getName());
   }
-  
+
   @Test
   public void testGetTermsWithFilter() throws Exception {
     final TermFilter filter = new TermFilter();
@@ -97,12 +94,10 @@ public class TaxonomyTest extends AbstractWordpressTest {
     assertNotNull(terms);
     assertEquals(1, terms.size());
   }
-  
+
   @Test
   public void testNewDeleteTerm() throws Exception {
-    final Term term = new Term();
-    term.setName("denemeterm");
-    term.setTaxonomy("category");
+    final Term term = Term.builder().name("denemeterm").taxonomy("category").build();
     final Integer termId = WP.newTerm(term);
     assertNotNull(termId);
     assertTrue(termId.intValue() > 0);

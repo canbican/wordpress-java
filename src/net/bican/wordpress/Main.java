@@ -171,10 +171,8 @@ public class Main {
               if (parentId == null) {
                 parentId = 0;
               }
-              final Term term = new Term();
-              term.setSlug(slug);
-              term.setParent(parentId);
-              term.setName(config.getOptionValue("newcategory"));
+              final Term term = Term.builder().slug(slug).parent(parentId)
+                  .name(config.getOptionValue("newcategory")).build();
               System.out.println(wp.newTerm(term));
             } else if (config.hasOption("userinfo")) {
               final FilterUser filter = new FilterUser();

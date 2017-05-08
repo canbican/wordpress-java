@@ -58,10 +58,10 @@ public class Wordpress {
       }
     } catch (final InstantiationException e) {
       logger.error("cannot instantiate {}: {}", //$NON-NLS-1$
-          cl.getCanonicalName(), e.getLocalizedMessage());
+          cl.getCanonicalName(), e);
     } catch (final IllegalAccessException e) {
       logger.error("cannot access constructor of {}: {}", //$NON-NLS-1$
-          cl.getCanonicalName(), e.getLocalizedMessage());
+          cl.getCanonicalName(), e);
     }
     return result;
   }
@@ -234,6 +234,7 @@ public class Wordpress {
    *         attachment with that post_thumbnail ID exists
    * @throws XmlRpcFault if there is a generic error during request
    */
+  @SuppressWarnings("unchecked")
   public boolean editPost(final Integer postId, final Post post) throws InsufficientRightsException,
       InvalidArgumentsException, ObjectNotFoundException, XmlRpcFault {
     try {
@@ -255,7 +256,7 @@ public class Wordpress {
       }
 
       final Boolean r = this.wp.editPost(BLOGID, this.username, this.password, postId, postX);
-      return r;
+      return r.booleanValue();
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
       switch (err) {
@@ -615,7 +616,7 @@ public class Wordpress {
     for (final Object rec : r) {
       try {
         result.add(new URL((String) rec));
-      } catch (final MalformedURLException e) {
+      } catch (@SuppressWarnings("unused") final MalformedURLException e) {
         logger.error("malformed url for pingback: {}", //$NON-NLS-1$
             rec);
       }
@@ -906,7 +907,7 @@ public class Wordpress {
     try {
       final XmlRpcStruct r =
           this.wp.getTerm(BLOGID, this.username, this.password, taxonomy, termId);
-      final Term t = new Term();
+      final Term t = Term.builder().build();
       t.fromXmlRpcStruct(r);
       return t;
     } catch (final XmlRpcFault e) {
@@ -953,7 +954,7 @@ public class Wordpress {
           ? this.wp.getTerms(BLOGID, this.username, this.password, taxonomy,
               filter.toXmlRpcStruct())
           : this.wp.getTerms(BLOGID, this.username, this.password, taxonomy);
-      return fillFromXmlRpcArray(r, Term.class, new Term());
+      return fillFromXmlRpcArray(r, Term.class, Term.builder().build());
     } catch (final XmlRpcFault e) {
       final int err = e.getErrorCode();
       switch (err) {
@@ -1184,7 +1185,7 @@ public class Wordpress {
         case 401:
           throw new InsufficientRightsException(e);
         case 403:
-          throw new InvalidArgumentsException(term.getTaxonomy());
+          throw new InvalidArgumentsException(e);
         default:
           throw e;
       }
