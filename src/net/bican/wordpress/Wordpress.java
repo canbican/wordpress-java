@@ -1133,6 +1133,9 @@ public class Wordpress {
   @SuppressWarnings("unchecked")
   public Integer newPost(final Post post) throws InsufficientRightsException,
       InvalidArgumentsException, ObjectNotFoundException, XmlRpcFault {
+    if (post.getPost_thumbnail() != null) {
+
+    }
     try {
       final List<Term> oldTerms = post.getTerms();
       final XmlRpcStruct postX = post.toXmlRpcStruct();

@@ -7,8 +7,13 @@ package net.bican.wordpress.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +23,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import net.bican.wordpress.FilterPost;
+import net.bican.wordpress.MediaItem;
+import net.bican.wordpress.MediaItemUploadResult;
 import net.bican.wordpress.Post;
 import net.bican.wordpress.PostType;
 import net.bican.wordpress.Taxonomy;
 import net.bican.wordpress.Term;
+import net.bican.wordpress.exceptions.FileUploadException;
 import net.bican.wordpress.exceptions.InsufficientRightsException;
 import net.bican.wordpress.exceptions.InvalidArgumentsException;
 import net.bican.wordpress.exceptions.ObjectNotFoundException;
@@ -29,7 +37,7 @@ import redstone.xmlrpc.XmlRpcFault;
 
 @SuppressWarnings({"static-method", "javadoc", "nls"})
 public class PostTest extends AbstractWordpressTest {
-
+  private static final String TEST_IMAGE = "test.jpg";
   private static final Post post = new Post();
 
   @BeforeClass
@@ -38,6 +46,42 @@ public class PostTest extends AbstractWordpressTest {
     post.setPost_content("test content");
     post.setPost_title("test post title");
     post.setPost_excerpt("test post excerpt");
+  }
+
+  @Test
+  public void testPostThumbnailNew() throws InsufficientRightsException, FileUploadException,
+      XmlRpcFault, IOException, ObjectNotFoundException, InvalidArgumentsException {
+    try (InputStream media = new FileInputStream(new File("test/" + TEST_IMAGE))) {
+      final String fileName = TEST_IMAGE;
+      final MediaItemUploadResult mediaUploaded = WP.uploadFile(media, fileName);
+      final MediaItem r = WP.getMediaItem(mediaUploaded.getId());
+      post.setPost_thumbnail(r);
+      Integer p = WP.newPost(post);
+      Post post2 = WP.getPost(p);
+      assertNotNull(post2);
+      assertNotNull(post2.getPost_thumbnail());
+      WP.deletePost(p);
+    }
+  }
+
+  @Test
+  public void testPostThumbnailEdit() throws InsufficientRightsException, FileUploadException,
+      XmlRpcFault, IOException, ObjectNotFoundException, InvalidArgumentsException {
+    try (InputStream media = new FileInputStream(new File("test/" + TEST_IMAGE))) {
+      final String fileName = TEST_IMAGE;
+      final MediaItemUploadResult mediaUploaded = WP.uploadFile(media, fileName);
+      final MediaItem r = WP.getMediaItem(mediaUploaded.getId());
+      post.setPost_thumbnail(null);
+      Integer p = WP.newPost(post);
+      Post post2 = WP.getPost(p);
+      assertNull(post2.getPost_thumbnail());
+      post2.setPost_thumbnail(r);
+      assertTrue(WP.editPost(p, post2));
+      Post post3 = WP.getPost(p);
+      assertNotNull(post3.getPost_thumbnail());
+      assertEquals(post3.getPost_thumbnail().getAttachment_id(), r.getAttachment_id());
+      WP.deletePost(p);
+    }
   }
 
   @Test
