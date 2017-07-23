@@ -20,7 +20,7 @@ public class AbstractWordpressTest {
   static final String SITE_TAGLINE = "Site Tagline"; //$NON-NLS-1$
   static final String TEST_SITE = "test site"; //$NON-NLS-1$
   static final String TEST_SITE_TITLE = "test site title"; //$NON-NLS-1$
-  public static String TOPURL = "http://wordpressjava-test.local.";
+  public static String TOPURL = "http://wordpressjavatest.dev";
   public static String USERNAME = "admin";
   public static Wordpress WP;
   public static String XMLRPCURL = null;

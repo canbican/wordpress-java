@@ -55,7 +55,7 @@ java -jar target/jwordpress-<version>-cli.jar --user <user> --pass <pass> --url 
  For example, here is how to get a list of users in the Wordpress installation:
 
 +---------------------
-$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -a
+$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjavatest.local/xmlrpc.php -a
 User_id:User_login:display_name
 admin:1:admin
 testuser:2:testuser
@@ -64,7 +64,7 @@ testuser:2:testuser
  You can get a list of all options using <<<-?>>> option:
 
 +---------------------
-$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjava-test.local/xmlrpc.php -?
+$ java -jar target/jwordpress-0.6-cli.jar --user admin --pass admin --url http://wordpressjavatest.local/xmlrpc.php -?
 usage:
  -?,--help                    Print usage information
  -a,--authors                 Get author list

@@ -1,0 +1,23 @@
+path: /var/www/html
+url: wordpressjavatest.dev
+user: admin
+color: false
+
+# Subcommand defaults (e.g. `wp config create`)
+config create:
+    dbuser: root
+    dbpass: root
+    dbname: blog
+    extra-php: |
+        define( 'WP_DEBUG', true );
+        define( 'WP_POST_REVISIONS', 50 );
+
+core install:
+    title: WordpressJavaTest
+    admin_user: admin
+    admin_password: admin
+    admin_email: none@test.coc.co.c
+    skip-email:
+
+_:
+    merge: true

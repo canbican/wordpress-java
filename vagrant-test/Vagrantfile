@@ -9,5 +9,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", type: "dhcp"
   config.vm.provision :shell, :path => "install.sh"
   config.vm.synced_folder ".", "/var/www", owner: "www-data", group: "www-data"
-  config.vm.hostname = "wordpressjava-test"
+  config.vm.hostname = "wordpressjavatest"
 end

@@ -36,7 +36,7 @@ public class Main {
       wp = new Wordpress(username, password, xmlRpcUrl);
     } else {
       wp = new Wordpress("admin", "admin",
-          "http://wordpressjava-test.local/xmlrpc.php");
+          "http://wordpressjavatest.local/xmlrpc.php");
     }
     final FilterPost filter = new FilterPost();
     filter.setNumber(10);

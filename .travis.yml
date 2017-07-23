@@ -1,0 +1,59 @@
+dist: trusty
+sudo: required
+language: php
+php:
+  - 5.6
+
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+    - VHOST_FILE=.travis.vhost
+    - VHOST_CONF=travis.conf
+    - VHOST_URL=wordpressjavatest.dev
+    - SOURCE_DIR=src
+    - VDIR=/var/www/html
+
+services:
+  - mysql
+
+install:
+  - sudo mkdir -p ${VDIR}
+  - sudo chown -Rh www-data:travis ${VDIR}
+  - sudo chmod -R a+rwx $VDIR
+  - mysqladmin -u root password root
+  - export PATH="/usr/local/bin:$PATH"
+  - sudo apt-get -qq -y --force-yes install apache2 libapache2-mod-fastcgi php5-cli php5 php5-gd php5-mcrypt php5-readline php5-mysql php5-xdebug nullmailer
+  - mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  - phpenv config-rm xdebug.ini
+  - sudo cp -f $VHOST_FILE /etc/apache2/sites-available/$VHOST_CONF
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/$VHOST_CONF
+  - sudo sed -e "s?%VHOST_URL%?$VHOST_URL?g" --in-place /etc/apache2/sites-available/$VHOST_CONF
+  - echo "127.0.0.1       $VHOST_URL" | sudo tee -a /etc/hosts
+  - sudo a2enmod rewrite
+  - sudo a2ensite $VHOST_CONF
+  - sudo service apache2 restart
+  - mkdir -p ~/.wp-cli
+  - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  - chmod +x wp-cli.phar
+  - sudo mv wp-cli.phar /usr/local/bin/wp
+  - wp core download
+  - wp --info
+  - wp core config
+  - wp db create
+  - wp core install
+  - wp user create testuser testuser@example.com.cox
+  - wp plugin install wordpress-importer --activate
+  - wp media import $TRAVIS_BUILD_DIR/vagrant-test/Lenna.jpg
+  - sudo chmod -R a+rwx $VDIR
+
+script:
+  - mvn test -B

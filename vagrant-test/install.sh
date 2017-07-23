@@ -10,13 +10,12 @@ then
   sudo apt-get install -y vim curl python-software-properties
   sudo add-apt-repository -y ppa:ondrej/php5
   sudo apt-get update
-  sudo apt-get install -y php5 apache2 libapache2-mod-php5 php5-curl php5-gd php5-mcrypt php5-readline mysql-server-5.5 php5-mysql git-core php5-xdebug avahi-daemon nullmailer
+  sudo apt-get install -y apache2 libapache2-mod-fastcgi oracle-java8-set-default maven php5 php5-gd php5-mcrypt php5-readline mysql-server-5.5 php5-mysql php5-xdebug nullmailer
   cat << EOF | sudo tee -a /etc/php5/mods-available/xdebug.ini
 xdebug.scream=1
 xdebug.cli_color=1
 xdebug.show_local_vars=1
 EOF
-  sudo a2enmod rewrite
   sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
   sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/apache2/php.ini
   sed -i "s/disable_functions = .*/disable_functions = /" /etc/php5/cli/php.ini
@@ -46,7 +45,7 @@ rm -f /var/www/html/wp-config.php
 sudo -u www-data -- bash -c "cd /var/www/html; wp core config --dbuser=root --dbpass=root --dbname=blog"
 sudo -u www-data -- bash -c "cd /var/www/html; wp db drop --yes"
 sudo -u www-data -- bash -c "cd /var/www/html; wp db create"
-sudo -u www-data -- bash -c "cd /var/www/html; wp core install --url=wordpressjava-test.local --title=WordpressJavaTest --admin_user=admin --admin_password=admin --admin_email=nowhere@none.co.coco"
+sudo -u www-data -- bash -c "cd /var/www/html; wp core install --url=wordpressjavatest.local --title=WordpressJavaTest --admin_user=admin --admin_password=admin --admin_email=nowhere@none.co.coco"
 sudo -u www-data -- bash -c "cd /var/www/html; wp user create testuser testuser@example.com.cox"
 sudo -u www-data -- bash -c "cd /var/www/html; wp plugin install wordpress-importer --activate"
 sudo -u www-data -- bash -c "cd /var/www/html; wp media import /var/www/Lenna.jpg"

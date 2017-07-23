@@ -19,7 +19,7 @@ mvn package :
     This will create target zip and jar files under the 'target' directory.
 
     You need to setup a dummy wordpress installation at
-    http://wordpressjava-test.local. A Vagrant configuration is provided
+    http://wordpressjavatest.local. A Vagrant configuration is provided
     in vagrant-test/ directory
 
     DO NOT USE A PRODUCTION BLOG FOR TESTING. Tests are destructive.
