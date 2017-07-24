@@ -14,7 +14,7 @@ env:
     - JAVA_HOME=/usr/lib/jvm/java-8-oracle
     - VHOST_FILE=.travis.vhost
     - VHOST_CONF=travis.conf
-    - VHOST_URL=wordpressjavatest.dev
+    - VHOST_URL=wordpressjavatest.local
     - SOURCE_DIR=src
     - VDIR=/var/www/html
 

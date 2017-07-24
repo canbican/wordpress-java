@@ -1,5 +1,5 @@
 path: /var/www/html
-url: wordpressjavatest.dev
+url: wordpressjavatest.local
 user: admin
 color: false
 
