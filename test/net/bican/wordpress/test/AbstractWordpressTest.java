@@ -1,7 +1,6 @@
 /*
- * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
- * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
- * distribution for licensing terms.
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright 2012-2015 Can Bican
+ * <can@bican.net> See the file 'COPYING' in the distribution for licensing terms.
  */
 package net.bican.wordpress.test;
 
@@ -10,7 +9,7 @@ import java.util.Map;
 
 import net.bican.wordpress.Wordpress;
 
-@SuppressWarnings({ "nls", "javadoc" })
+@SuppressWarnings({"nls", "javadoc"})
 public class AbstractWordpressTest {
   static final String BLOG_TAGLINE = "blog_tagline"; //$NON-NLS-1$
   static final String BLOG_TITLE = "blog_title"; //$NON-NLS-1$
@@ -20,16 +19,22 @@ public class AbstractWordpressTest {
   static final String SITE_TAGLINE = "Site Tagline"; //$NON-NLS-1$
   static final String TEST_SITE = "test site"; //$NON-NLS-1$
   static final String TEST_SITE_TITLE = "test site title"; //$NON-NLS-1$
-  public static String TOPURL = "http://wordpressjavatest.dev";
+  public static String TOPURL;
   public static String USERNAME = "admin";
   public static Wordpress WP;
   public static String XMLRPCURL = null;
-  
+
   {
     try {
       final Map<String, String> env = System.getenv();
       if (env.containsKey("TOPURL")) {
         TOPURL = env.get("TOPURL");
+      } else {
+        if (env.containsKey("travis") && env.get("travis").equalsIgnoreCase("true")) {
+          TOPURL = "http://wordpressjavatest.dev";
+        } else {
+          TOPURL = "http://wordpressjavatest.local";
+        }
       }
       if (env.containsKey("USERNAME")) {
         USERNAME = env.get("USERNAME");
@@ -47,5 +52,5 @@ public class AbstractWordpressTest {
       e.printStackTrace();
     }
   }
-  
+
 }

@@ -1,51 +1,41 @@
-INSTALLED=$(dpkg -l|grep apache2)
+#!/bin/bash
+
+WHO=ubuntu
+WHOG=ubuntu
+VDIR=/var/www/html
+
+export PATH="/usr/local/bin:$PATH"
+sudo mkdir -p ${VDIR}
+
+sudo apt-get install software-properties-common
+sudo add-apt-repository -y ppa:ondrej/php
+sudo apt update
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+sudo apt-get -qq -y --force-yes install apache2 libapache2-mod-fastcgi php5.6-cli php5.6 php5.6-gd php5.6-mcrypt php5.6-readline php5.6-mysql php5.6-xdebug mysql-server php5.6-mysql avahi-daemon php5.6-xml
+sudo a2enmod rewrite actions fastcgi alias
+
 mkdir -p ~/.wp-cli
-rm -f ~/.wp-cli/config.yml
-ln -s /var/www/wp-cli.yml ~/.wp-cli/config.yml
-if [ -z "$INSTALLED" ]
+if [ ! -e /usr/local/bin/wp ]
 then
-  sudo apt-get update
-  sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
-  sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
-  sudo apt-get install -y vim curl python-software-properties
-  sudo add-apt-repository -y ppa:ondrej/php5
-  sudo apt-get update
-  sudo apt-get install -y apache2 libapache2-mod-fastcgi oracle-java8-set-default maven php5 php5-gd php5-mcrypt php5-readline mysql-server-5.5 php5-mysql php5-xdebug nullmailer
-  cat << EOF | sudo tee -a /etc/php5/mods-available/xdebug.ini
-xdebug.scream=1
-xdebug.cli_color=1
-xdebug.show_local_vars=1
-EOF
-  sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
-  sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/apache2/php.ini
-  sed -i "s/disable_functions = .*/disable_functions = /" /etc/php5/cli/php.ini
-  sudo service apache2 restart
-fi
-
-if [ ! -f /usr/local/bin/composer ]
-then
-  curl -sS https://getcomposer.org/installer | php
-  sudo mv composer.phar /usr/local/bin/composer
-fi
-
-if [ ! -f /usr/local/bin/wp ]
-then
-  curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  curl -s -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
   chmod +x wp-cli.phar
-  mv wp-cli.phar /usr/local/bin/wp
+  sudo mv wp-cli.phar /usr/local/bin/wp
 fi
-if [ ! -d /var/www/html/wp-admin ]
-then
-  rm -rf /var/www/html
-  mkdir -p /var/www/html
-  chown www-data:www-data /var/www/html
-  sudo -u www-data -- bash -c "cd /var/www/html; wp core download"
-fi
-rm -f /var/www/html/wp-config.php
-sudo -u www-data -- bash -c "cd /var/www/html; wp core config --dbuser=root --dbpass=root --dbname=blog"
-sudo -u www-data -- bash -c "cd /var/www/html; wp db drop --yes"
-sudo -u www-data -- bash -c "cd /var/www/html; wp db create"
-sudo -u www-data -- bash -c "cd /var/www/html; wp core install --url=wordpressjavatest.local --title=WordpressJavaTest --admin_user=admin --admin_password=admin --admin_email=nowhere@none.co.coco"
-sudo -u www-data -- bash -c "cd /var/www/html; wp user create testuser testuser@example.com.cox"
-sudo -u www-data -- bash -c "cd /var/www/html; wp plugin install wordpress-importer --activate"
-sudo -u www-data -- bash -c "cd /var/www/html; wp media import /var/www/Lenna.jpg"
+
+cp /vagrant/wp-cli.yml ~
+cd ~
+wp --info
+sudo rm -rf ${VDIR}/*
+sudo chown -Rh ${WHO}:${WHOG} ${VDIR}
+sudo chmod -R a+rwx $VDIR
+echo 'drop database blog' | mysql -uroot -proot
+wp core download
+wp core config
+wp db create
+wp core install
+wp user create testuser testuser@example.com.cox
+#wp plugin install wordpress-importer --activate
+wp media import /vagrant/Lenna.jpg
+sudo chmod -R a+rwx $VDIR
+sudo service apache2 restart
