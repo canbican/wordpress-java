@@ -1,5 +1,6 @@
 /target/
 /vagrant-test/html/
+/vagrant-test/*.log
 /vagrant-test/.vagrant/
 /bin/
 /.classpath

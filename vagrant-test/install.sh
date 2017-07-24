@@ -25,17 +25,16 @@ fi
 
 cp /vagrant/wp-cli.yml ~
 cd ~
-wp --info
 sudo rm -rf ${VDIR}/*
 sudo chown -Rh ${WHO}:${WHOG} ${VDIR}
 sudo chmod -R a+rwx $VDIR
 echo 'drop database blog' | mysql -uroot -proot
-wp core download
-wp core config
-wp db create
-wp core install
-wp user create testuser testuser@example.com.cox
+sudo -u $WHO -i -- wp core download
+sudo -u $WHO -i -- wp core config
+sudo -u $WHO -i -- wp db create
+sudo -u $WHO -i -- wp core install
+sudo -u $WHO -i -- wp user create testuser testuser@example.com.cox
 #wp plugin install wordpress-importer --activate
-wp media import /vagrant/Lenna.jpg
+sudo -u $WHO -i -- wp media import /vagrant/Lenna.jpg
 sudo chmod -R a+rwx $VDIR
 sudo service apache2 restart
