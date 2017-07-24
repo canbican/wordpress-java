@@ -19,7 +19,7 @@ public class AbstractWordpressTest {
   static final String SITE_TAGLINE = "Site Tagline"; //$NON-NLS-1$
   static final String TEST_SITE = "test site"; //$NON-NLS-1$
   static final String TEST_SITE_TITLE = "test site title"; //$NON-NLS-1$
-  public static String TOPURL;
+  public static String TOPURL = "http://wordpressjavatest.local";
   public static String USERNAME = "admin";
   public static Wordpress WP;
   public static String XMLRPCURL = null;
@@ -29,12 +29,6 @@ public class AbstractWordpressTest {
       final Map<String, String> env = System.getenv();
       if (env.containsKey("TOPURL")) {
         TOPURL = env.get("TOPURL");
-      } else {
-        if (env.containsKey("travis") && env.get("travis").equalsIgnoreCase("true")) {
-          TOPURL = "http://wordpressjavatest.dev";
-        } else {
-          TOPURL = "http://wordpressjavatest.local";
-        }
       }
       if (env.containsKey("USERNAME")) {
         USERNAME = env.get("USERNAME");
