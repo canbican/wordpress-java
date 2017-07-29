@@ -43,7 +43,7 @@ public class Wordpress {
 
   @SuppressWarnings("unchecked")
   private static <T extends XmlRpcMapped> List<T> fillFromXmlRpcArray(final XmlRpcArray r,
-      final Class<T> cl, final T item) {
+      final Class<T> cl, @SuppressWarnings("unused") final T item) {
     List<T> result = null;
     try {
       result = new ArrayList<>();
@@ -87,6 +87,7 @@ public class Wordpress {
 
   private String xmlRpcUrl = null;
 
+  @SuppressWarnings("unused")
   private Wordpress() {
     // no default constructor - class needs username, password and url
   }
@@ -1133,9 +1134,6 @@ public class Wordpress {
   @SuppressWarnings("unchecked")
   public Integer newPost(final Post post) throws InsufficientRightsException,
       InvalidArgumentsException, ObjectNotFoundException, XmlRpcFault {
-    if (post.getPost_thumbnail() != null) {
-
-    }
     try {
       final List<Term> oldTerms = post.getTerms();
       final XmlRpcStruct postX = post.toXmlRpcStruct();

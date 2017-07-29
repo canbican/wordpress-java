@@ -5,58 +5,18 @@
  */
 package net.bican.wordpress;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Enclosure data in a post
  *
  * @author Can Bican
  */
+@Getter
+@Setter
 public class Enclosure extends XmlRpcMapped {
   Integer length;
   String type;
   String url;
-  
-  /**
-   * @return the length
-   */
-  public final Integer getLength() {
-    return this.length;
-  }
-  
-  /**
-   * @return the type
-   */
-  public final String getType() {
-    return this.type;
-  }
-  
-  /**
-   * @return the url
-   */
-  public final String getUrl() {
-    return this.url;
-  }
-  
-  /**
-   * @param length
-   *          the length to set
-   */
-  public final void setLength(final Integer length) {
-    this.length = length;
-  }
-  
-  /**
-   * @param type
-   *          the type to set
-   */
-  public final void setType(final String type) {
-    this.type = type;
-  }
-  
-  /**
-   * @param url
-   *          the url to set
-   */
-  public final void setUrl(final String url) {
-    this.url = url;
-  }
 }

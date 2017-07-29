@@ -1,10 +1,11 @@
 /*
- * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
- * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
- * distribution for licensing terms.
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright 2012-2015 Can Bican
+ * <can@bican.net> See the file 'COPYING' in the distribution for licensing terms.
  */
 package net.bican.wordpress;
 
+import lombok.Getter;
+import lombok.Setter;
 import redstone.xmlrpc.XmlRpcStruct;
 
 /**
@@ -12,6 +13,8 @@ import redstone.xmlrpc.XmlRpcStruct;
  *
  * @author Can Bican
  */
+@Getter
+@Setter
 public class FilterUser {
   Integer number;
   Integer offset;
@@ -19,7 +22,7 @@ public class FilterUser {
   String orderby;
   String role;
   String who;
-  
+
   /**
    * @return only with non-null values
    */
@@ -45,95 +48,5 @@ public class FilterUser {
       r.put("order", this.order); //$NON-NLS-1$
     }
     return r;
-  }
-  
-  /**
-   * @return the number
-   */
-  public final Integer getNumber() {
-    return this.number;
-  }
-  
-  /**
-   * @return the offset
-   */
-  public final Integer getOffset() {
-    return this.offset;
-  }
-  
-  /**
-   * @return the order
-   */
-  public final String getOrder() {
-    return this.order;
-  }
-  
-  /**
-   * @return the orderby
-   */
-  public final String getOrderby() {
-    return this.orderby;
-  }
-  
-  /**
-   * @return the role
-   */
-  public final String getRole() {
-    return this.role;
-  }
-  
-  /**
-   * @return the who
-   */
-  public final String getWho() {
-    return this.who;
-  }
-  
-  /**
-   * @param number
-   *          the number to set
-   */
-  public final void setNumber(final Integer number) {
-    this.number = number;
-  }
-  
-  /**
-   * @param offset
-   *          the offset to set
-   */
-  public final void setOffset(final Integer offset) {
-    this.offset = offset;
-  }
-  
-  /**
-   * @param order
-   *          the order to set
-   */
-  public final void setOrder(final String order) {
-    this.order = order;
-  }
-  
-  /**
-   * @param orderby
-   *          the orderby to set
-   */
-  public final void setOrderby(final String orderby) {
-    this.orderby = orderby;
-  }
-  
-  /**
-   * @param role
-   *          the role to set
-   */
-  public final void setRole(final String role) {
-    this.role = role;
-  }
-  
-  /**
-   * @param who
-   *          the who to set
-   */
-  public final void setWho(final String who) {
-    this.who = who;
   }
 }

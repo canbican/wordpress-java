@@ -1,7 +1,6 @@
 /*
- * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can
- * Bican <can@bican.net> See the file 'COPYING' in the distribution for
- * licensing terms.
+ * Wordpress-java http://code.google.com/p/wordpress-java/ Copyright 2012 Can Bican <can@bican.net>
+ * See the file 'COPYING' in the distribution for licensing terms.
  */
 package net.bican.wordpress.configuration;
 
@@ -16,9 +15,9 @@ import org.apache.commons.configuration.BaseConfiguration;
 public class PreferencesConfiguration extends BaseConfiguration {
 
   /**
-   * @param cl
-   *          Calling class
+   * @param cl Calling class
    */
+  @SuppressWarnings("unused")
   public PreferencesConfiguration(final Class<?> cl) {
     try {
       final Preferences p = Preferences.userNodeForPackage(cl);

@@ -1,7 +1,6 @@
 /*
- * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright
- * 2012-2015 Can Bican <can@bican.net> See the file 'COPYING' in the
- * distribution for licensing terms.
+ * Wordpress-java https://github.com/canbican/wordpress-java/ Copyright 2012-2015 Can Bican
+ * <can@bican.net> See the file 'COPYING' in the distribution for licensing terms.
  */
 package net.bican.wordpress;
 
@@ -23,24 +22,21 @@ import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcStruct;
 
 /**
- * An abstract class for an object that has the capabilites of converting
- * to/from <code>XmlRpcStruct</code>.
+ * An abstract class for an object that has the capabilites of converting to/from
+ * <code>XmlRpcStruct</code>.
  *
  * @author Can Bican
  */
 public abstract class XmlRpcMapped {
-  
-  private static final Logger logger = LoggerFactory
-      .getLogger(XmlRpcMapped.class);
+
+  private static final Logger logger = LoggerFactory.getLogger(XmlRpcMapped.class);
   @SuppressWarnings("nls")
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(
-      "yyyyMMdd'T'HH:mm:ss");
-      
+  private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
+
   /**
-   * @param x
-   *          XmlRpcStruct to create the object from
+   * @param x XmlRpcStruct to create the object from
    */
-  @SuppressWarnings({ "nls", "unchecked" })
+  @SuppressWarnings({"nls", "unchecked"})
   public void fromXmlRpcStruct(final XmlRpcStruct x) {
     final Field[] f = this.getClass().getDeclaredFields();
     String k = null;
@@ -55,7 +51,7 @@ public abstract class XmlRpcMapped {
             final XmlRpcMapped object = (XmlRpcMapped) kType.newInstance();
             object.fromXmlRpcStruct((XmlRpcStruct) v);
             field.set(this, object);
-          } catch (InstantiationException | ClassCastException e) {
+          } catch (@SuppressWarnings("unused") InstantiationException | ClassCastException e) {
             if (kType == List.class) {
               final XmlRpcArray vList = (XmlRpcArray) v;
               @SuppressWarnings("rawtypes")
@@ -63,11 +59,10 @@ public abstract class XmlRpcMapped {
               if (vList.size() > 0) {
                 final Class<? extends Object> gType = vList.get(0).getClass();
                 Class<? extends XmlRpcMapped> clList;
-                final String[] typeStr = ((ParameterizedType) field
-                    .getGenericType()).getActualTypeArguments()[0].toString()
-                        .split(" ");
-                final String[] typeStrSub = Arrays.copyOfRange(typeStr, 1,
-                    typeStr.length);
+                final String[] typeStr =
+                    ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]
+                        .toString().split(" ");
+                final String[] typeStrSub = Arrays.copyOfRange(typeStr, 1, typeStr.length);
                 final StringBuilder typeB = new StringBuilder();
                 for (int i = 0, il = typeStrSub.length; i < il; i++) {
                   if (i > 0) {
@@ -77,8 +72,8 @@ public abstract class XmlRpcMapped {
                 }
                 final String type = typeB.toString();
                 try {
-                  clList = (Class<? extends XmlRpcMapped>) Class.forName(type,
-                      false, this.getClass().getClassLoader());
+                  clList = (Class<? extends XmlRpcMapped>) Class.forName(type, false,
+                      this.getClass().getClassLoader());
                   @SuppressWarnings("rawtypes")
                   final Iterator it = vList.iterator();
                   while (it.hasNext()) {
@@ -92,15 +87,13 @@ public abstract class XmlRpcMapped {
                         clList.cast(itemToInsert);
                         itemToInsert.fromXmlRpcStruct(item);
                         result.add(itemToInsert);
-                      } catch (final InstantiationException e1) {
-                        logger.warn(
-                            "field {} contains invalid types in response, skipping",
-                            k);
+                      } catch (@SuppressWarnings("unused") final InstantiationException e1) {
+                        logger.warn("field {} contains invalid types in response, skipping", k);
                       }
                     }
                   }
                   field.set(this, result);
-                } catch (final ClassNotFoundException e2) {
+                } catch (@SuppressWarnings("unused") final ClassNotFoundException e2) {
                   logger.error("cannot find class {}", type);
                 }
               }
@@ -146,40 +139,31 @@ public abstract class XmlRpcMapped {
         }
       } catch (final IllegalArgumentException e) {
         try {
-          if ((v != null) && (v instanceof XmlRpcArray)
-              && (((XmlRpcArray) v).size() != 0)) { // ugly hack but it will
-                                                    // eventually change into
-                                                    // another ugly hack
-            logger.warn(
-                "value {} is invalid for {}, setting it to null (while parsing {})",
-                v, k, field.getName());
+          if ((v != null) && (v instanceof XmlRpcArray) && (((XmlRpcArray) v).size() != 0)) {
+            logger.warn("value {} is invalid for {}, setting it to null (while parsing {})", v, k,
+                field.getName());
           }
           field.set(this, null);
-        } catch (final IllegalAccessException e1) {
-          logger.error("cannot set the field to null: {}",
-              e.getLocalizedMessage());
+        } catch (@SuppressWarnings("unused") final IllegalAccessException e1) {
+          logger.error("cannot set the field to null: {}", e.getLocalizedMessage());
         }
       } catch (final IllegalAccessException e) {
-        logger.error("illegal access to object constructor: {}",
-            e.getLocalizedMessage());
+        logger.error("illegal access to object constructor: {}", e.getLocalizedMessage());
       }
     }
   }
-  
+
   /**
    * (non-Javadoc)
    *
-   * @param recordDelimiter
-   *          How to delimit records
-   * @param fieldDelimiter
-   *          How to delimit the key/value pairs
-   * @param showFieldName
-   *          Whether to show field name or not
+   * @param recordDelimiter How to delimit records
+   * @param fieldDelimiter How to delimit the key/value pairs
+   * @param showFieldName Whether to show field name or not
    * @see java.lang.Object#toString()
    */
   @SuppressWarnings("nls")
-  private String toGenericString(final String recordDelimiter,
-      final String fieldDelimiter, final boolean showFieldName) {
+  private String toGenericString(final String recordDelimiter, final String fieldDelimiter,
+      final boolean showFieldName) {
     String result = null;
     try {
       result = "";
@@ -198,12 +182,12 @@ public abstract class XmlRpcMapped {
           result += recordDelimiter;
         }
       }
-    } catch (final IllegalAccessException e) {
+    } catch (@SuppressWarnings("unused") final IllegalAccessException e) {
       // ignore and skip output
     }
     return result;
   }
-  
+
   /**
    * @return Something similar to toString() but in one line
    */
@@ -211,7 +195,7 @@ public abstract class XmlRpcMapped {
   public String toOneLinerString() {
     return this.toGenericString(":", "", false).replaceAll(":$", "");
   }
-  
+
   /**
    * (non-Javadoc)
    *
@@ -222,7 +206,7 @@ public abstract class XmlRpcMapped {
   public String toString() {
     return this.toGenericString("\n", ":", true);
   }
-  
+
   /**
    * @return An XmlRpcStruct that represents the object.
    */

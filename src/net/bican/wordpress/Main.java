@@ -32,7 +32,7 @@ import redstone.xmlrpc.XmlRpcFault;
  */
 public class Main {
   private static void delete(final Options options, final WpCliConfiguration config,
-      final Wordpress wp, final String opt, final boolean deletePage)
+      final Wordpress wp, final String opt, @SuppressWarnings("unused") final boolean deletePage)
       throws XmlRpcFault, InsufficientRightsException, ObjectNotFoundException {
     final Integer post_ID = getInteger(opt, config);
     if (post_ID != null) {
@@ -55,7 +55,7 @@ public class Main {
 
   @SuppressWarnings({"nls"})
   private static void edit(final Options options, final WpCliConfiguration config,
-      final Wordpress wp, final String opt, final boolean isPage)
+      final Wordpress wp, final String opt, @SuppressWarnings("unused") final boolean isPage)
       throws IOException, InvalidPostFormatException, XmlRpcFault, InsufficientRightsException,
       InvalidArgumentsException, ObjectNotFoundException {
     final Integer post_ID = getInteger("postid", config);
