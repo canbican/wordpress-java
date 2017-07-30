@@ -28,6 +28,6 @@ public class Author extends XmlRpcMapped implements StringHeader {
   @Override
   @SuppressWarnings("nls")
   public String getStringHeader() {
-    return "User_id:User_login:display_name";
+    return "display_name:User_id:User_login";
   }
 }

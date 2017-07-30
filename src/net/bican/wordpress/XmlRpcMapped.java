@@ -153,39 +153,32 @@ public abstract class XmlRpcMapped {
     }
   }
 
-  /**
-   * (non-Javadoc)
-   *
-   * @param recordDelimiter How to delimit records
-   * @param fieldDelimiter How to delimit the key/value pairs
-   * @param showFieldName Whether to show field name or not
-   * @see java.lang.Object#toString()
-   */
   @SuppressWarnings("nls")
   private String toGenericString(final String recordDelimiter, final String fieldDelimiter,
       final boolean showFieldName) {
-    String result = null;
-    try {
-      result = "";
-      final Field[] f = this.getClass().getDeclaredFields();
-      for (final Field field : f) {
-        if (!Modifier.isStatic(field.getModifiers())) {
-          final Class<?> fType = field.getType();
-          if (showFieldName) {
-            result += field.getName() + fieldDelimiter;
+    StringBuffer result = new StringBuffer();
+    Arrays.stream(this.getClass().getDeclaredFields())
+        .sorted((a, b) -> a.getName().compareTo(b.getName())).forEach(field -> {
+          if (!Modifier.isStatic(field.getModifiers())) {
+            final Class<?> fType = field.getType();
+            if (showFieldName) {
+              result.append(field.getName());
+              result.append(fieldDelimiter);
+            }
+            try {
+              if (fType == Date.class) {
+                result.append(sdf.format(field.get(this)));
+              } else {
+                result.append(field.get(this));
+              }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+            result.append(recordDelimiter);
           }
-          if (fType == Date.class) {
-            result += sdf.format(field.get(this));
-          } else {
-            result += field.get(this);
-          }
-          result += recordDelimiter;
-        }
-      }
-    } catch (@SuppressWarnings("unused") final IllegalAccessException e) {
-      // ignore and skip output
-    }
-    return result;
+        });
+    return result.toString();
   }
 
   /**
@@ -196,11 +189,6 @@ public abstract class XmlRpcMapped {
     return this.toGenericString(":", "", false).replaceAll(":$", "");
   }
 
-  /**
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#toString()
-   */
   @SuppressWarnings("nls")
   @Override
   public String toString() {
